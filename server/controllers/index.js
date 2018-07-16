@@ -4,8 +4,7 @@ const parser = require('body-parser');
 
 const app = express();
 
-// app.use(directory that the React index is in)
-
+app.use(express.static(__dirname + '/../../client'))
 app.use(parser.json());
 
 const port = process.env.PORT || 8080
