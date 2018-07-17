@@ -57,15 +57,20 @@ class Search extends React.Components {
   }
 
   search(){
-    axios.search('/search', {
-      location: this.state.location,
-      coffee: this.state.coffee,
-      atmosphere: this.state.atmosphere,
-      comfort: this.state.comfort,
-      food: this.state.food
+    axios.get('/search', {
+      params: {
+        location: this.state.location,
+        coffee: this.state.coffee,
+        atmosphere: this.state.atmosphere,
+        comfort: this.state.comfort,
+        food: this.state.food
+      }
     })
-    .then(res => {
+    .then((res) => {
       console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err);
     })
   }
   
