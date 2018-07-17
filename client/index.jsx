@@ -2,12 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
-<<<<<<< HEAD
 
 import Header from './components/header.jsx';
 import Display from './components/Display.jsx';
-=======
->>>>>>> dev
 
 class App extends React.Component {
   constructor(props) {
@@ -19,13 +16,10 @@ class App extends React.Component {
       <div>
         <Header />
         <Search />
-<<<<<<< HEAD
         
         <div>
           <Display />
         </div>
-=======
->>>>>>> dev
       </div>
     )
   }
