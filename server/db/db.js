@@ -4,6 +4,7 @@ const db = mysql.createConnection({
   password: 'password',
   database: 'greenfield'
 });
+
 db.connect( (err) => {
   if (err) {
     console.error('Error connecting to mySQL', err);

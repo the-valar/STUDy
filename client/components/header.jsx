@@ -20,7 +20,10 @@ class Header extends React.Component {
   }
 
   loginUser() {
-    axios.get('/login')
+    axios.get('/login', {
+      username: this.state.username,
+      password: this.state.password
+    })
       .then((response) => {
 
       })
