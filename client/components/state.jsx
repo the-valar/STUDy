@@ -18,10 +18,13 @@ class State extends React.Components {
     axios.get('state', {
       state: state
     })
-    then(res => {
+    .then(res => {
       this.setState({
         parksTrails: res
       })
+    })
+    .catch(err => {
+      console.log('getParksTrailsByState ERR', err)
     })
   }
   
