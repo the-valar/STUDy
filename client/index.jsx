@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Display from './components/Display.jsx';
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -9,7 +11,7 @@ class App extends React.Component {
   render() {
     return(
       <div>
-        Hello World
+        <Display />
       </div>
     )
   }
