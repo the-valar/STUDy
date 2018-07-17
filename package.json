@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lin-erik/greenfield.git"
+    "url": "git+https://github.com/the-valar/greenfield.git"
   },
   "keywords": [],
   "author": "The Valar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lin-erik/greenfield/issues"
+    "url": "https://github.com/the-valar/greenfield/issues"
   },
-  "homepage": "https://github.com/lin-erik/greenfield#readme",
+  "homepage": "https://github.com/the-valar/greenfield#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "babel-core": "^6.23.1",
@@ -30,6 +30,10 @@
     "nodemon": "^1.18.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "style-loader": "^0.21.0",
     "webpack": "^2.7.0"
+  },
+  "devDependencies": {
+    "css-loader": "^1.0.0"
   }
 }
