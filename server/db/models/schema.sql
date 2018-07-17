@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS rating (
   comfort INT,
   food INT,
   location INT,
-  FOREIGN KEY 'location' REFERENCES location(id)
+  FOREIGN KEY (location) REFERENCES location(id)
 );
 
 CREATE TABLE users (
