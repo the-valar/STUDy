@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-class Search extends React.Components {
+class Search extends React.Component {
   constructor(props){
     super(props)
 
@@ -31,33 +31,34 @@ class Search extends React.Components {
   saveCoffee(e){
     e.preventDefault();
     this.setState({
-      saveCoffee: e.target.value
+      coffee: e.target.value
     })
   }
 
   saveAtmosphere(e){
     e.preventDefault();
     this.setState({
-      saveAtmosphere: e.target.value
+      atmosphere: e.target.value
     })
   }
 
   saveComfort(e){
     e.preventDefault();
     this.setState({
-      saveComfort: e.target.value
+      comfort: e.target.value
     })
   }
 
   saveFood(e){
     e.preventDefault();
     this.setState({
-      saveFood: e.target.value
+      food: e.target.value
     })
   }
 
   search(){
     axios.get('/search', {
+<<<<<<< HEAD
       params: {
         location: this.state.location,
         coffee: this.state.coffee,
@@ -65,6 +66,13 @@ class Search extends React.Components {
         comfort: this.state.comfort,
         food: this.state.food
       }
+=======
+      location: this.state.location,
+      coffee: this.state.coffee,
+      atmosphere: this.state.atmosphere,
+      comfort: this.state.comfort,
+      food: this.state.food
+>>>>>>> a7542f0705bd5322838f8adbf064e9093cf0caa6
     })
     .then((res) => {
       console.log(res.data)
@@ -77,13 +85,16 @@ class Search extends React.Components {
   render() {
     return(
       <div>
-        <input type='search' id='location-search' name='search' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a study spot...'/>
-        <h2> Rate By Importance (1 - 4) </h2>
-        <input type='text' id='coffee' name='coffee' value={this.state.coffee} onChange={this.saveCoffee}/><h4>Coffee</h4>
-        <input type='text' id='atmosphere' name='atmosphere' value={this.state.atmosphere} onChange={this.saveAtmosphere}/><h4>Atmosphere</h4>
-        <input type='text' id='comfort' name='comfort' value={this.state.comfort} onChange={this.saveComfort}/><h4>Comfort</h4>
-        <input type='text' id='food' name='food' value={this.state.food} onChange={this.saveFood}/><h4>Food</h4>
-        <button onClick={this.search}> Search </button>
+        <br/><br/><br/><br/><br/>
+        <textarea rows="2" cols="55" type='text' id='location-search' name='search' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a study spot...'/>
+        <h4> Rate By Importance (1 - 4) </h4>
+        <form>
+        <input size="2" maxLength="1" type='text' id='coffee' name='coffee' value={this.state.coffee} onChange={this.saveCoffee}/> <h6>Coffee</h6>
+        <input size="2" maxLength="1" type='text' id='atmosphere' name='atmosphere' value={this.state.atmosphere} onChange={this.saveAtmosphere}/> <h6>Atmosphere</h6>
+        <input size="2" maxLength="1" type='text' id='comfort' name='comfort' value={this.state.comfort} onChange={this.saveComfort}/> <h6>Comfort</h6>
+        <input size="2" maxLength="1" type='text' id='food' name='food' value={this.state.food} onChange={this.saveFood}/> <h6>Food</h6>
+        <button onClick={this.search}> Show Me Study Spots</button>
+        </form>
       </div>
     )
   }
