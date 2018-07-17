@@ -4,7 +4,7 @@ import { Navbar, NavItem, Nav, NavDropdown, MenuItem, Button, FormGroup, FormCon
 const Header = (props) => {
   return(
     <div>
-      <Navbar inverse fixedTop>
+      <Navbar inverse>
         
         <Navbar.Header>
           <Navbar.Brand>
