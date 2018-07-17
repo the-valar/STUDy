@@ -24,7 +24,7 @@ class State extends React.Components {
       })
     })
     .catch(err => {
-      console.log('getParksTrailsByState ERR', err)
+      console.log('getParksTrailsByState in State.jsx ERR', err)
     })
   }
   
