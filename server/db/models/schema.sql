@@ -2,23 +2,20 @@ CREATE DATABASE IF NOT EXISTS greenfield;
 
 USE greenfield;
 
-CREATE TABLE state (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  state VARCHAR(255)
-);
-
-CREATE TABLE parks (
+CREATE TABLE location (
   id INT PRIMARY KEY,
+  name VARCHAR(255),
   city VARCHAR(255),
   state VARCHAR(255),
-  name VARCHAR(255),
-  lat INT,
-  lon INT,
-  description VARCHAR(255),
-  rating INT
+  address VARCHAR(255)
 );
 
-CREATE TABLE users (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(255)
+CREATE TABLE rating (
+  id INT PRIMARY KEY,
+  coffeeTea INT,
+  atmostphere INT,
+  comfort INT,
+  food INT,
+  location INT,
+  FOREIGN KEY location REFERENCES location(id)
 );
