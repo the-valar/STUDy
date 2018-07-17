@@ -24,12 +24,12 @@ const Header = (props) => {
           </Navbar.Form>
           
           <Nav pullRight>
-            <NavItem eventKey={1} href="#">
+            {/* <NavItem eventKey={1} href="#">
               EXPLORE
             </NavItem>
             <NavItem eventKey={2} href="#">
               TOP 
-            </NavItem>
+            </NavItem> */}
           </Nav>
 
         </Navbar.Collapse>
