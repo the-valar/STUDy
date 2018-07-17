@@ -68,7 +68,9 @@ class Search extends React.Component {
       }
     })
     .then((res) => {
-      console.log(res.data)
+      // Set state of cafes to data retrieved from Yelp
+      // Use function passed down from index.jsx (handleYelp)
+      this.props.handleYelp(res.data.businesses);
     })
     .catch((err) => {
       console.log(err);
