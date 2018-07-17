@@ -2,8 +2,6 @@ CREATE DATABASE IF NOT EXISTS greenfield;
 
 USE greenfield;
 
--- DROP TABLE IF EXISTS location;
-
 CREATE TABLE location (
   id INT PRIMARY KEY,
   name VARCHAR(255),
@@ -21,8 +19,3 @@ CREATE TABLE rating (
   location INT,
   FOREIGN KEY location REFERENCES location(id)
 );
-
--- CREATE TABLE users (
---   id INT PRIMARY KEY AUTO_INCREMENT,
---   username VARCHAR(255)
--- );
