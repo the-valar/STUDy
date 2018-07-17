@@ -58,7 +58,6 @@ class Search extends React.Component {
 
   search(){
     axios.get('/search', {
-<<<<<<< HEAD
       params: {
         location: this.state.location,
         coffee: this.state.coffee,
@@ -66,13 +65,6 @@ class Search extends React.Component {
         comfort: this.state.comfort,
         food: this.state.food
       }
-=======
-      location: this.state.location,
-      coffee: this.state.coffee,
-      atmosphere: this.state.atmosphere,
-      comfort: this.state.comfort,
-      food: this.state.food
->>>>>>> a7542f0705bd5322838f8adbf064e9093cf0caa6
     })
     .then((res) => {
       console.log(res.data)
