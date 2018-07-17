@@ -21,6 +21,13 @@ app.get('/search', (req, res) => {
   });
 })
 
+app.get('/login', (req, res) => {
+  console.log(req.body)
+  checkUserInfo(req.body.username, (err, result) => {
+    
+  })
+});
+
 const port = process.env.PORT || 8080
 
 app.listen(port, () => {

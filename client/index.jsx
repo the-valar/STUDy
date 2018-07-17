@@ -8,16 +8,28 @@ import Display from './components/Display.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      cafes: []
+    }
+
+    this.handleYelp = this.handleYelp.bind(this);
+  }
+
+  handleYelp(data) {
+    this.setState({
+      cafes: data
+    });
   }
 
   render() {
     return(
       <div>
         <Header />
-        <Search />
+        <Search handleYelp={this.handleYelp} />
         
         <div>
-          <Display />
+          <Display cafes={this.state.cafes} />
         </div>
       </div>
     )
