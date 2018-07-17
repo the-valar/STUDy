@@ -16,7 +16,7 @@ class Display extends React.Component {
       </div>
 
         <div className='col-md-4 mb-10'>
-          <Media align='center'>
+          <Media>
             <Media.Left align='top'>
               <img width={64} height={64} />
             </Media.Left>
