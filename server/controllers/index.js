@@ -7,6 +7,10 @@ const app = express();
 app.use(express.static(__dirname + '/../../client'))
 app.use(parser.json());
 
+app.get('/login', (req, res) => {
+  
+});
+
 const port = process.env.PORT || 8080
 
 app.listen(port, () => {
