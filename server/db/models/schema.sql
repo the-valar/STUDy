@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS greenfield;
 
 USE greenfield;
 
-CREATE TABLE location (
+CREATE TABLE IF NOT EXISTS location (
   id INT PRIMARY KEY,
   name VARCHAR(255),
   city VARCHAR(255),
@@ -10,7 +10,7 @@ CREATE TABLE location (
   address VARCHAR(255)
 );
 
-CREATE TABLE rating (
+CREATE TABLE IF NOT EXISTS rating (
   id INT PRIMARY KEY,
   coffeeTea INT,
   atmostphere INT,
@@ -24,4 +24,5 @@ CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL,
   password VARCHAR(32) NOT NULL,
+  FOREIGN KEY (location) REFERENCES location(id)
 );
