@@ -91,7 +91,8 @@ class Header extends React.Component {
           <Nav pullRight>
             <NavItem onClick={this.showLogin}> Login </NavItem>
             <NavItem onClick={this.showSignup}> Register </NavItem>
-
+          </Nav>
+          
             <Modal show={this.state.showLogin} onHide={this.closeLogin}>
               <Modal.Body>
                 <FormGroup>
@@ -113,9 +114,6 @@ class Header extends React.Component {
                 <Button type="submit" value="Submit" onClick={this.handleClick}> Register </Button>
               </Modal.Body>
             </Modal>
-
-
-          </Nav>
 
           </Navbar.Collapse>
 

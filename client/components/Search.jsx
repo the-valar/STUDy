@@ -80,7 +80,7 @@ class Search extends React.Component {
   
   render() {
     return(
-      <div class="form-row text-center">
+      <div className="form-row text-center">
         <br/><br/><br/><br/><br/>
         <FormControl type='text' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a STUD(y) spot...'/>
         <h4 align="center"> Rate By Importance (1 - 4) </h4>
@@ -99,7 +99,7 @@ class Search extends React.Component {
             </Col>
         </Grid>
         <br/>
-        <Button class="center" onClick={this.search}> Search STUD(y) Spots </Button>
+        <Button className="center" onClick={this.search}> Search STUD(y) Spots </Button>
       </div>
     )
   }
