@@ -1,4 +1,4 @@
-const db = require('./config.js');
+const db = require('../config.js');
 
 module.exports = {
     // Database interactions

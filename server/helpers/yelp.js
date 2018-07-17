@@ -1,5 +1,5 @@
 const axios = require('axios');
-const YELPAPI = require('../../config.js');
+const YELPAPI = require('../db/config.js');
 
 let getClosestWithinRadius = (loc, radius) => {
   let options = {
