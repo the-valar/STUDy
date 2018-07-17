@@ -14,7 +14,7 @@ app.get('/search', (req, res) => {
   getClosestWithinRadius(params.location, 4000)
   .then((studySpotList) => {
     // TODO: Format Yelp API response to return truncated response array
-    res.send(studySpotList);
+    res.send(studySpotList.data);
   })
   .catch((err) => {
     console.log('Error searching for location: ' + err);

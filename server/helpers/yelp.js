@@ -1,11 +1,10 @@
 const axios = require('axios');
-const YELPAPI = require('../db/config.js');
+const config = require('../../config.js');
 
 let getClosestWithinRadius = (loc, radius) => {
   let options = {
     headers: {
-      'User-Agent': 'request',
-      Authorization: 'Bearer ' + YELPAPI
+      'Authorization': `Bearer ${config.YELPAPI}`
     },
     params: {
       term: 'study spots',

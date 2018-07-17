@@ -56,7 +56,8 @@ class Search extends React.Component {
     })
   }
 
-  search(){
+  search(e){
+    e.preventDefault();
     axios.get('/search', {
       params: {
         location: this.state.location,
