@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS greenfield;
 
 USE greenfield;
 
-CREATE TABLE state (
+CREATE TABLE  (
   id INT PRIMARY KEY AUTO_INCREMENT,
   state VARCHAR(255)
 );
