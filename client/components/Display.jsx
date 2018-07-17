@@ -11,13 +11,48 @@ class Display extends React.Component {
   render() {
     return(
     <div>
-      <div align='center'>
+      <div align='center' style={{marginBottom:50}}>
         <img src='http://fsbcemmanuel.org/wp-content/uploads/2014/10/500x500-placeholder.png' />
       </div>
 
-        <Grid style={{marginTop: 50}}>
-          <Row>
-            <Col md={6} className='pull-left'>
+        <div className='col-md-4 mb-10'>
+          <Media align='center'>
+            <Media.Left align='top'>
+              <img width={64} height={64} />
+            </Media.Left>
+
+            <Media.Body>
+              <Media.Heading>Cafe</Media.Heading>
+            </Media.Body>
+          </Media>
+        </div>
+
+        <div className='col-md-4 mb-10'>
+          <Media>
+            <Media.Left align='top'>
+              <img width={64} height={64} />
+            </Media.Left>
+
+            <Media.Body>
+              <Media.Heading>Cafe</Media.Heading>
+            </Media.Body>
+          </Media>
+        </div>
+
+        <div className='col-md-4 mb-10'>
+          <Media>
+            <Media.Left align='top'>
+              <img width={64} height={64} />
+            </Media.Left>
+
+            <Media.Body>
+              <Media.Heading>Cafe</Media.Heading>
+            </Media.Body>
+          </Media>
+        </div>
+
+        {/* <Grid style={{marginTop: 50}}>
+            <Col md={6}>
               <Media>
                 <Media.Left align='top'>
                   <img width={64} height={64} />
@@ -29,7 +64,7 @@ class Display extends React.Component {
               </Media>
             </Col>
           </Row>
-        </Grid>
+        </Grid> */}
     </div>
     )
   }
