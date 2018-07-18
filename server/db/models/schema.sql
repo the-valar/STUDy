@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS ratings (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(255),
+  id INT PRIMARY KEY AUTO_INCREMENT
   coffeeTea INT,
   atmosphere INT,
   comfort INT,
@@ -36,7 +35,6 @@ CREATE TABLE IF NOT EXISTS users_locations (
 
 CREATE TABLE IF NOT EXISTS comments (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(255),
   text VARCHAR(255),
   user_id INT,
   FOREIGN KEY (user_id) REFERENCES users(id) 
