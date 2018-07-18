@@ -1,5 +1,11 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Grid, Row, Col, Media, Well, Thumbnail, Carousel } from 'react-bootstrap';
+=======
+
+import { Grid, Row, Col, Media, Well, Thumbnail, Button } from 'react-bootstrap';
+import StackGrid from "react-stack-grid";
+>>>>>>> 4e62c962ff44aed5d066cf70b12d8de55cbc8040
 
 class Display extends React.Component {
   constructor(props) {
@@ -92,6 +98,29 @@ class Display extends React.Component {
               })}
             </Row>
           </Grid>
+            <img src={this.props.cafes[0].image_url} style={{maxHeight:500}} />
+            <h3>Cafe</h3>
+            <span>Location</span>
+          </div>
+
+          <StackGrid columnWidth={300} monitorImagesLoaded={true}>
+
+            {this.props.cafes.map(cafe => {
+              return (
+                <div key={cafe.id}>
+                  <Thumbnail src={cafe.image_url} height='250'>
+                    <h3>{cafe.name}</h3>
+                    <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.zip_code}</p>
+                    <p>
+                      <Button bsStyle="primary">Button</Button>&nbsp;
+                  <Button bsStyle="default">Button</Button>
+                    </p>
+                  </Thumbnail>
+                </div>
+              )
+            })}
+
+          </StackGrid>
         </div>
       )
     }
