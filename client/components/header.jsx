@@ -14,7 +14,9 @@ class Header extends React.Component {
 
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
+    
     this.loginUser = this.loginUser.bind(this);
+    this.registerUser = this.registerUser.bind(this);
 
     this.showLogin = this.showLogin.bind(this);
     this.closeLogin = this.closeLogin.bind(this);
@@ -23,55 +25,68 @@ class Header extends React.Component {
     this.closeSignup = this.closeSignup.bind(this);
   }
 
-  componentDidMount() {
-    this.loginUser()
-  }
-
-  loginUser() {
-    axios.get('/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
-      .then((response) => {
-
-      })
-  }
-
   handleUser(username) {
     this.setState({
       username: username.target.value
-    })
-
+    });
   }
 
   handlePassword(password) {
     this.setState({
       password: password.target.value
-    })
+    });
   }
 
   closeLogin() {
     this.setState({
       showLogin: false
-    })
+    });
   }
 
   showLogin() {
     this.setState({
       showLogin: true
-    })
+    });
   }
 
   closeSignup() {
     this.setState({
       showSignup: false
-    })
+    });
   }
 
   showSignup() {
     this.setState({
       showSignup: true
+    });
+  }
+
+  loginUser() {
+    axios.get('/login', {
+      params: {
+        username: this.state.username,
+        password: this.state.password
+      }
     })
+      .then(response => {
+        console.log('Processing login', response.data);
+      })
+      .catch(err => {
+        console.error('Error logging in', err);
+      });
+  }
+
+  registerUser() {
+    axios.post('/register', {
+      username: this.state.username,
+      password: this.state.password
+    })
+      .then(response => {
+        console.log('Processing register', response.data);
+      })
+      .catch(err => {
+        console.error('Error registering', err);
+      });
   }
 
   render() {
@@ -100,7 +115,7 @@ class Header extends React.Component {
                   <FormControl type="password" placeholder="password" value={this.state.password} onChange={(e) => {this.handlePassword(e)}} />
                 </FormGroup>
                 
-                <Button type="submit" value="Submit" onClick={this.handleClick}>Log In</Button>
+                <Button type="submit" value="Submit" onClick={this.loginUser}> Log In </Button>
               </Modal.Body>
             </Modal>
 
@@ -111,7 +126,7 @@ class Header extends React.Component {
                   <FormControl type="password" placeholder="password" value={this.state.password} onChange={(e) => {this.handlePassword(e)}} />
                 </FormGroup>
                 
-                <Button type="submit" value="Submit" onClick={this.handleClick}> Register </Button>
+                <Button type="submit" value="Submit" onClick={this.registerUser}> Register </Button>
               </Modal.Body>
             </Modal>
 
