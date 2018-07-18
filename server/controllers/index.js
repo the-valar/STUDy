@@ -22,11 +22,11 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   
-  checkUserInfo(req.body.username, (err, result) => {
+  // checkUserInfo(req.body.username, (err, result) => {
     
-  })
+  // })
 });
 
 const port = process.env.PORT || 8080
