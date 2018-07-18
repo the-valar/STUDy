@@ -25,8 +25,8 @@ app.get('/login', (req, res) => {
 
   models.login(req.query, (err, data) => {
     if (err) {
-      res.send();
-    } else {
+      next(err);
+    } else if (data[0]) {
       res.send(JSON.stringify(data[0].id));
     }
   });
@@ -35,9 +35,9 @@ app.get('/login', (req, res) => {
 app.post('/register', (req ,res) => {
   models.register(req.body, (err, data) => {
     if (err) {
-      res.send('Username is taken');
+      console.error('Username is taken');
     } else {
-      res.send(data.insertId);
+      res.send(JSON.stringify(data.insertId));
     }
   });
 });
