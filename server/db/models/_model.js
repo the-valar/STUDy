@@ -61,11 +61,11 @@ let getRating = function({location_id}, cb) {
   var command = `SELECT coffeeTea, atmosphere, comfort, food
                  FROM ratings
                  JOIN locations ON ratings.location=locations.id
-                 WHERE locations.id=${location_id}`;
+                 WHERE locations.id=?`;
 
-  db.query(command, (err, results) => {
+  db.query(command, location_id, (err, results) => {
     if (err) {
-      console.error('Error getting location ratings', err);
+      console.error('Error getting location ratings', location_id, err);
     } else {
       console.log('Retrieved all location ratings', results);
       // Return location ratings for use in cb
@@ -75,7 +75,9 @@ let getRating = function({location_id}, cb) {
 };
 
 let addFavorite = function({user_id, location_id}, cb) {
-  db.query(`INSERT INTO users_locations (${user_id}, ${location_id}`, (err, results) => {
+  var params = [user_id, location_id];
+
+  db.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
     if (err) {
       console.error('Error inserting into favorites', err);
     } else {
@@ -117,9 +119,9 @@ let getComment = function({location_id}) {
   var command = `SELECT text, user_id
                  FROM comments
                  JOIN locations ON comments.location=locations.id
-                 WHERE locations.id=${location_id}`
+                 WHERE locations.id=?`
 
-  db.query(command, (err, results) => {
+  db.query(command, location_id, (err, results) => {
     if (err) {
       console.error('Error getting location comments', err);
     } else {
