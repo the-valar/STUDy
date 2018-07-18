@@ -4,7 +4,7 @@ USE greenfield;
 
 CREATE TABLE IF NOT EXISTS users (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(32) NOT NULL
 );
 
