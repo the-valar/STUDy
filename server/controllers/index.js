@@ -90,6 +90,18 @@ app.post('/addComment', (req, res) => {
   });
 });
 
+app.get('/getComment', (req, res) => {
+  // req.query should have location_id as a key
+
+  models.getComment(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
 const port = process.env.PORT || 8080
 
 app.listen(port, () => {

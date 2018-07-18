@@ -115,7 +115,7 @@ let addComment = function({user_id, location_id, text}, cb) {
   });
 };
 
-let getComment = function({location_id}) {
+let getComment = function({location_id}, cb) {
   var command = `SELECT text, user_id
                  FROM comments
                  JOIN locations ON comments.location=locations.id
