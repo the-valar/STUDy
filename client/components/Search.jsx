@@ -1,65 +1,126 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
+import { Grid, Col, FormControl, Button, Collapse } from 'react-bootstrap';
 
 class Search extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       location: '',
-      coffee: '',
-      atmosphere: '',
-      comfort: '',
-      food: ''
-    }
-    
-    this.saveLocation = this.saveLocation.bind(this)
-    this.saveCoffee = this.saveCoffee.bind(this)
-    this.saveAtmosphere = this.saveAtmosphere.bind(this)
-    this.saveComfort = this.saveComfort.bind(this)
-    this.saveFood = this.saveFood.bind(this)
-    this.search = this.search.bind(this)
+      prefs: [],
+      advanced: false
+    };
+
+    this.saveLocation = this.saveLocation.bind(this);
+    this.getOrderOfPref = this.getOrderOfPref.bind(this);
+    this.savePref = this.savePref.bind(this);
+    this.isSelected = this.isSelected.bind(this);
+    this.showAdvanced = this.showAdvanced.bind(this);
+    this.search = this.search.bind(this);
   }
 
-  saveLocation(e){
+  saveLocation(e) {
     e.preventDefault();
     this.setState({
       location: e.target.value
-    })
+    });
   }
 
-  saveCoffee(e){
-    e.preventDefault();
-    this.setState({
-      coffee: e.target.value
-    })
+  getCurrentPref() {
+    return (
+      <div>
+        <h4>Pick Your Preferences in Order:</h4>
+      </div>
+    );
   }
 
-  saveAtmosphere(e){
-    e.preventDefault();
-    this.setState({
-      atmosphere: e.target.value
-    })
+  getOrderOfPref(item) {
+    if (this.state.prefs.indexOf(item) === -1) {
+      return item;
+    } else {
+      return this.state.prefs.indexOf(item) + 1 + `. ${item}`;
+    }
   }
 
-  saveComfort(e){
-    e.preventDefault();
-    this.setState({
-      comfort: e.target.value
-    })
+  savePref(e) {
+    var newPrefs = this.state.prefs;
+    if (this.state.prefs.indexOf(e.target.value) === -1) {
+      newPrefs.push(e.target.value);
+      this.setState({ prefs: newPrefs });
+    } else {
+      newPrefs.splice(newPrefs.indexOf(e.target.value), 1);
+      this.setState({ prefs: newPrefs });
+    }
   }
 
-  saveFood(e){
-    e.preventDefault();
-    this.setState({
-      food: e.target.value
-    })
+  isSelected(item) {
+    if (this.state.prefs.indexOf(item) > -1) {
+      return 'success';
+    }
   }
 
-  search(e){
+  showAdvanced(e) {
     e.preventDefault();
-    axios.get('/search', {
+    this.setState({ advanced: !this.state.advanced });
+  }
+
+  renderAdvancedSearch() {
+    return (
+      <Collapse in={this.state.advanced}>
+        <div>
+          {this.getCurrentPref()}
+          <Grid>
+            <Col sm={6} md={3}>
+              <Button
+                value="Coffee"
+                onClick={this.savePref}
+                bsStyle={this.isSelected('Coffee')}
+                block
+              >
+                {this.getOrderOfPref('Coffee')}
+              </Button>
+            </Col>
+            <Col sm={6} md={3}>
+              <Button
+                value="Atmosphere"
+                onClick={this.savePref}
+                bsStyle={this.isSelected('Atmosphere')}
+                block
+              >
+                {this.getOrderOfPref('Atmosphere')}
+              </Button>
+            </Col>
+            <Col sm={6} md={3}>
+              <Button
+                value="Comfort"
+                onClick={this.savePref}
+                bsStyle={this.isSelected('Comfort')}
+                block
+              >
+                {this.getOrderOfPref('Comfort')}
+              </Button>
+            </Col>
+            <Col sm={6} md={3}>
+              <Button
+                value="Food"
+                onClick={this.savePref}
+                bsStyle={this.isSelected('Food')}
+                block
+              >
+                {this.getOrderOfPref('Food')}
+              </Button>
+            </Col>
+          </Grid>
+        </div>
+      </Collapse>
+    );
+  }
+
+  search(e) {
+    e.preventDefault();
+    axios
+    .get('/search', {
       params: {
         location: this.state.location,
         coffee: this.state.coffee,
@@ -75,33 +136,33 @@ class Search extends React.Component {
     })
     .catch((err) => {
       console.log(err);
-    })
+    });
   }
-  
+
   render() {
-    return(
-      <div className="form-row text-center">
-        <br/><br/><br/><br/><br/>
-        <FormControl type='text' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a STUD(y) spot...'/>
-        <h4 align="center"> Rate By Importance (1 - 4) </h4>
-        <Grid>
-            <Col sm={6} md={3}>
-              <input size="2" maxLength="1" type='text' id='coffee' name='coffee' value={this.state.coffee} onChange={this.saveCoffee}/> <h6>Coffee</h6>
-            </Col>
-            <Col sm={6} md={3}>
-              <input size="2" maxLength="1" type='text' id='atmosphere' name='atmosphere' value={this.state.atmosphere} onChange={this.saveAtmosphere}/> <h6>Atmosphere</h6>
-            </Col>
-            <Col sm={6} md={3}>
-              <input size="2" maxLength="1" type='text' id='comfort' name='comfort' value={this.state.comfort} onChange={this.saveComfort}/> <h6>Comfort</h6>
-            </Col>
-            <Col sm={6} md={3}>
-              <input size="2" maxLength="1" type='text' id='food' name='food' value={this.state.food} onChange={this.saveFood}/> <h6>Food</h6>
-            </Col>
-        </Grid>
-        <br/>
-        <Button className="center" onClick={this.search}> Search STUD(y) Spots </Button>
+    return (
+      <div className="form-row text-center" style={{ marginTop: '20%' }}>
+        <FormControl
+          type="text"
+          value={this.state.location}
+          onChange={this.saveLocation}
+          placeholder="Enter your address to find a STUD(y) spot..."
+        />
+        <a href="" align="center" onClick={this.showAdvanced}>
+          {this.state.advanced ? 'Hide Advanced Search' : 'Advanced Search'}
+        </a>
+        {this.renderAdvancedSearch()}
+        <div>
+          <Button
+            className="center"
+            onClick={this.search}
+            style={{ marginTop: '2%' }}
+          >
+            Search STUD(y) Spots
+          </Button>
+        </div>
       </div>
-    )
+    );
   }
 }
 
