@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/the-valar/greenfield#readme",
   "dependencies": {
+    "@jongleberry/react-stars": "^2.4.0",
     "axios": "^0.18.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
