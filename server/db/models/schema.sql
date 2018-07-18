@@ -20,8 +20,10 @@ CREATE TABLE IF NOT EXISTS ratings (
   FOREIGN KEY (location) REFERENCES locations(id)
 );
 
-CREATE TABLE users (
+CREATE TABLE  IF NOT EXISTS users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL,
-  password VARCHAR(32) NOT NULL
+  password VARCHAR(32) NOT NULL,
+  location INT,
+  FOREIGN KEY (location) REFERENCES location(id)
 );
