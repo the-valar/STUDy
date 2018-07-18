@@ -82,7 +82,7 @@ class Display extends React.Component {
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250'>
+                  <Thumbnail src={cafe.image_url} height='250' onClick={ () => this.cafeView(cafe)}>
                     <h3>{cafe.name}</h3>
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.zip_code}</p>
                     <p>
