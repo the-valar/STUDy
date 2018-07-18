@@ -1,11 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-import { Grid, Row, Col, Media, Well, Thumbnail, Carousel } from 'react-bootstrap';
-=======
-
-import { Grid, Row, Col, Media, Well, Thumbnail, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Media, Well, Thumbnail, Button, Carousel } from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
->>>>>>> 4e62c962ff44aed5d066cf70b12d8de55cbc8040
 
 class Display extends React.Component {
   constructor(props) {
@@ -86,6 +81,7 @@ class Display extends React.Component {
           </Grid>
           </div>
         <br/><br/>
+        <div>
           <Grid>
             <Row>
               {this.props.cafes.map((cafe, i) => {
