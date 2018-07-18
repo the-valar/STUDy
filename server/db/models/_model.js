@@ -24,7 +24,7 @@ let login = function({username, password}, cb) {
       cb(err);
     } else {
       console.log('Found user', result);
-      // Return user id
+        // Return user id
       cb(null, result);
     }
   });

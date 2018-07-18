@@ -9,7 +9,8 @@ class Header extends React.Component {
       username: '',
       password: '',
       showLogin: false,
-      showSignup: false
+      showSignup: false,
+      loggedIn: false
     }
 
     this.handleUser = this.handleUser.bind(this);
@@ -39,6 +40,8 @@ class Header extends React.Component {
 
   closeLogin() {
     this.setState({
+      username: '',
+      password: '',
       showLogin: false
     });
   }
@@ -51,6 +54,8 @@ class Header extends React.Component {
 
   closeSignup() {
     this.setState({
+      username: '',
+      password: '',
       showSignup: false
     });
   }
@@ -70,9 +75,13 @@ class Header extends React.Component {
     })
       .then(response => {
         console.log('Processing login', response.data);
+
+        this.setState({
+          loggedIn: true
+        });
       })
       .catch(err => {
-        console.error('Username or password is incorrect');
+        console.error('Username or password is incorrect', err);
       });
   }
 
@@ -83,6 +92,11 @@ class Header extends React.Component {
     })
       .then(response => {
         console.log('Processing register', response.data);
+
+        this.setState({
+          loggedIn: true
+        });
+
       })
       .catch(err => {
         console.error('Error registering', err);
@@ -90,6 +104,31 @@ class Header extends React.Component {
   }
 
   render() {
+    if (this.state.loggedIn) {
+    return (
+      <div>
+        <Navbar inverse fixedTop>
+          
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href='/'>STUD(y)</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+
+          <Nav pullRight>
+            <NavDropdown title='Profile' id="basic-nav-dropdown">
+              <MenuItem>Signed in as {this.state.username}</MenuItem>
+              <MenuItem>Favorites</MenuItem>
+              <MenuItem divider />
+              <MenuItem href='/'>Logout</MenuItem>
+            </NavDropdown>
+          </Nav>
+        </Navbar>
+      </div>
+    )
+    } else {
+
     return (
       <div>
         <Navbar inverse fixedTop>
@@ -102,9 +141,9 @@ class Header extends React.Component {
           </Navbar.Header>
           
           <Navbar.Collapse>
-          
+
           <Nav pullRight>
-            <NavItem onClick={this.showLogin}> Login </NavItem>
+            <NavItem show='false' onClick={this.showLogin}> Login </NavItem>
             <NavItem onClick={this.showSignup}> Register </NavItem>
           </Nav>
           
@@ -135,6 +174,7 @@ class Header extends React.Component {
         </Navbar>
       </div>
     )
+  }
   }
 
 }
