@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 
 class Search extends React.Component {
   constructor(props){
@@ -79,17 +80,26 @@ class Search extends React.Component {
   
   render() {
     return(
-      <div>
+      <div className="form-row text-center">
         <br/><br/><br/><br/><br/>
-        <textarea rows="2" cols="55" type='text' id='location-search' name='search' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a study spot...'/>
-        <h4> Rate By Importance (1 - 4) </h4>
-        <form>
-        <input size="2" maxLength="1" type='text' id='coffee' name='coffee' value={this.state.coffee} onChange={this.saveCoffee}/> <h6>Coffee</h6>
-        <input size="2" maxLength="1" type='text' id='atmosphere' name='atmosphere' value={this.state.atmosphere} onChange={this.saveAtmosphere}/> <h6>Atmosphere</h6>
-        <input size="2" maxLength="1" type='text' id='comfort' name='comfort' value={this.state.comfort} onChange={this.saveComfort}/> <h6>Comfort</h6>
-        <input size="2" maxLength="1" type='text' id='food' name='food' value={this.state.food} onChange={this.saveFood}/> <h6>Food</h6>
-        <button onClick={this.search}> Show Me Study Spots</button>
-        </form>
+        <FormControl type='text' value={this.state.location} onChange={this.saveLocation} placeholder='Enter your address to find a STUD(y) spot...'/>
+        <h4 align="center"> Rate By Importance (1 - 4) </h4>
+        <Grid>
+            <Col sm={6} md={3}>
+              <input size="2" maxLength="1" type='text' id='coffee' name='coffee' value={this.state.coffee} onChange={this.saveCoffee}/> <h6>Coffee</h6>
+            </Col>
+            <Col sm={6} md={3}>
+              <input size="2" maxLength="1" type='text' id='atmosphere' name='atmosphere' value={this.state.atmosphere} onChange={this.saveAtmosphere}/> <h6>Atmosphere</h6>
+            </Col>
+            <Col sm={6} md={3}>
+              <input size="2" maxLength="1" type='text' id='comfort' name='comfort' value={this.state.comfort} onChange={this.saveComfort}/> <h6>Comfort</h6>
+            </Col>
+            <Col sm={6} md={3}>
+              <input size="2" maxLength="1" type='text' id='food' name='food' value={this.state.food} onChange={this.saveFood}/> <h6>Food</h6>
+            </Col>
+        </Grid>
+        <br/>
+        <Button className="center" onClick={this.search}> Search STUD(y) Spots </Button>
       </div>
     )
   }

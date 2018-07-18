@@ -13,7 +13,7 @@ app.get('/search', (req, res) => {
   var params = req.query;
   getClosestWithinRadius(params.location, 4000)
   .then((studySpotList) => {
-    // TODO: Format Yelp API response to return truncated response array
+    saveSpots(studySpotList.data);
     res.send(studySpotList.data);
   })
   .catch((err) => {
@@ -22,7 +22,8 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
+  
   checkUserInfo(req.body.username, (err, result) => {
     
   })
