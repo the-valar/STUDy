@@ -17,18 +17,28 @@ let saveSpots = function(studySpotList) {
 };
 
 let login = function({username, password}, cb) {
-  db.query(`SELECT id FROM users WHERE username=${username} AND password=${password}`, (err, result) => {
-
+  var params = [username, password];
+  
+  db.query(`SELECT id FROM users WHERE username=? AND password=?`, params, (err, result) => {
+    if (err) {
+      cb(err);
+    } else {
+      console.log('Found user', result);
+      // Return user id
+      cb(null, result);
+    }
   });
 };
 
 let register = function({username, password}, cb) {
-  db.query(`INSERT INTO users (username, password) VALUES (${username}, ${password}`, (err, result) => {
+  var params = [username, password];
+
+  db.query(`INSERT INTO users (username, password) VALUES (?, ?)`, params, (err, result) => {
     if (err) {
-      console.error('Error inserting user', err);
+      cb(err);
     } else {
       console.log('Registered', result);
-      // Return user id for use in ratings, etc
+      // Return user id
       cb(null, result);
     }
   });
