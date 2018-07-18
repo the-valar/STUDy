@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS locations (
-  id VARCHAR(255) PRIMARY KEY,
+  id VARCHAR(255) PRIMARY KEY UNIQUE,
   name VARCHAR(255),
   city VARCHAR(255),
   state VARCHAR(255),
@@ -37,5 +37,7 @@ CREATE TABLE IF NOT EXISTS comments (
   id INT PRIMARY KEY AUTO_INCREMENT,
   text VARCHAR(255),
   user_id INT,
-  FOREIGN KEY (user_id) REFERENCES users(id) 
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  location VARCHAR(255),
+  FOREIGN KEY (location) REFERENCES locations(id) 
 );
