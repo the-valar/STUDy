@@ -72,7 +72,7 @@ class Header extends React.Component {
         console.log('Processing login', response.data);
       })
       .catch(err => {
-        console.error('Error logging in', err);
+        console.error('Username or password is incorrect');
       });
   }
 

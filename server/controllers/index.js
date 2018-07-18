@@ -21,9 +21,11 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
+  // both login and register req.query should have [username, password] as keys
+
   models.login(req.query, (err, data) => {
     if (err) {
-      res.send('Username or password is incorrect');
+      res.send();
     } else {
       res.send(JSON.stringify(data[0].id));
     }
@@ -36,6 +38,66 @@ app.post('/register', (req ,res) => {
       res.send('Username is taken');
     } else {
       res.send(data.insertId);
+    }
+  });
+});
+
+app.post('/addRating', (req, res) => {
+  // req.body should have [user_id, location_id, coffeeTea, atmosphere, comfort, food] as keys
+
+  models.addRating(req.body, (err, data) => {
+    res.send();
+  });
+});
+
+app.get('/getRating', (req, res) => {
+  // req.query should have location_id as a key
+
+  models.getRating(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
+app.post('/addFavorite', (req, res) => {
+  // req.body should have user_id and location_id as keys
+
+  models.addFavorite(req.body, (err, data) => {
+    res.send();
+  });
+});
+
+app.get('/getFavorite', (req, res) => {
+  // req.query should have user_id as a key
+
+  models.getFavorite(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
+app.post('/addComment', (req, res) => {
+  // req.body should have user_id, location_id, text as keys
+
+  models.addComment(req.body, (err, data) => {
+    res.send();
+  });
+});
+
+app.get('/getComment', (req, res) => {
+  // req.query should have location_id as a key
+
+  models.getComment(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
     }
   });
 });
