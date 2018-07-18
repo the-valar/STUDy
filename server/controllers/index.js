@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const parser = require('body-parser');
 const { getClosestWithinRadius } = require('../helpers/yelp.js');
 const models = require('../db/models/_model.js');
@@ -22,18 +21,24 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  console.log(req.body);
-  
-  checkUserInfo(req.body.username, (err, result) => {
-    
-  })
+  models.login(req.query, (err, data) => {
+    if (err) {
+      res.send('Username or password is incorrect');
+    } else {
+      res.send(JSON.stringify(data[0].id));
+    }
+  });
 });
 
 app.post('/register', (req ,res) => {
-  models.register()
+  models.register(req.body, (err, data) => {
+    if (err) {
+      res.send('Username is taken');
+    } else {
+      res.send(data.insertId);
+    }
+  });
 });
-
-
 
 const port = process.env.PORT || 8080
 
