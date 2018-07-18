@@ -8,9 +8,9 @@ let saveSpots = function(studySpotList) {
 
     db.query(command, params, (err, result) => {
         if (err) {
-          console.error('Error inserting locations into mySQL', err);
+          console.error('Error inserting locations into mySQL');
         } else {
-          console.log('Inserted locations into mySQL', result);
+          console.log('Inserted locations into mySQL');
         }
       });
   };
