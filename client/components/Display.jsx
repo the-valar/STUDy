@@ -25,10 +25,6 @@ class Display extends React.Component {
 
 
   render() {
-    // console.log(this.props.cafes)
-
-    // this.props.cafes
-
     if (!this.props.cafes.length) {
       return(<div>Hello</div>)
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
@@ -79,24 +75,6 @@ class Display extends React.Component {
               </Col>
             </Row>
           </Grid>
-          </div>
-        <br/><br/>
-        <div>
-          <Grid>
-            <Row>
-              {this.props.cafes.map((cafe, i) => {
-                return <Col xs={6} md={4} key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250' onClick={ () => this.cafeView(cafe)}>
-                    <h3>{cafe.name}</h3>
-                    <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.zip_code}</p>
-                  </Thumbnail>
-                </Col>
-              })}
-            </Row>
-          </Grid>
-            <img src={this.props.cafes[0].image_url} style={{maxHeight:500}} />
-            <h3>Cafe</h3>
-            <span>Location</span>
           </div>
 
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
