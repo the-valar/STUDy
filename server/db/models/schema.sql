@@ -8,24 +8,24 @@ CREATE TABLE IF NOT EXISTS users (
   password VARCHAR(32) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS ratings (
-  id INT PRIMARY KEY AUTO_INCREMENT
-  coffeeTea INT,
-  atmosphere INT,
-  comfort INT,
-  food INT,
-  user_id INT,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
 CREATE TABLE IF NOT EXISTS locations (
   id VARCHAR(255) PRIMARY KEY,
   name VARCHAR(255),
   city VARCHAR(255),
   state VARCHAR(255),
-  address VARCHAR(255),
-  rating_id INT,
-  FOREIGN KEY (rating_id) REFERENCES ratings(id)
+  address VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS ratings (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  coffeeTea INT,
+  atmosphere INT,
+  comfort INT,
+  food INT,
+  location VARCHAR(255),
+  FOREIGN KEY (location) REFERENCES locations(id),
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS users_locations (
