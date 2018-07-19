@@ -122,10 +122,12 @@ class Header extends React.Component {
   componentWillMount() {
     axios.get('/session')
          .then(response => {
-           this.setState({
-             username: response.data.username,
-             loggedIn: response.data.login
-           });
+           if (response.data.username) {
+             this.setState({
+               username: response.data.username,
+               loggedIn: response.data.login
+             });
+           }
          });
   }
 

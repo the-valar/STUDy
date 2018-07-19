@@ -1,6 +1,9 @@
 import React from 'react';
 import { Grid, Row, Col, Media, Well, Thumbnail, Button, Carousel, FormControl , FormGroup} from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
+import ScrollToTop from 'react-scroll-up';
+
+import '../style.css';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 
@@ -8,7 +11,6 @@ class Display extends React.Component {
   constructor(props) {
     super(props);
 
-    // sets current cafe to clicked cafe from list
     this.state = {
       currentCafe: {},
       currentCafeReviews: {},
@@ -37,41 +39,80 @@ class Display extends React.Component {
         average: true
       }
     })
+    // gets the stored reviews for the current cafe
     .then((res) => {
-      this.setState({
-        currentCafe: cafe,
-        currentCafeReviews: res.data[0],
-        cafeOn: true
-      });
+      axios.get('/pics', {
+        params: {
+          location_id: cafe.id
+        }
+      })
+      .then((result) => {
+        var newCafe = Object.assign({ pics: result.data.photos }, cafe);
+        this.setState({
+          currentCafe: newCafe,
+          currentCafeReviews: res.data[0],
+          cafeOn: true
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      
     })
     .catch((err) => {
       console.log(err);
     });
+    
   }
 
+  // submits review comment
   submitReview() {
-    axios.post('/comments', {
-      user_id: 1,
-      location_id: this.state.currentCafe.id,
-      text: this.state.review
-    })
-    .catch(err => {
-      console.log('ADD COMMENT ERR', err)
-    })
-    
     axios.post('/ratings', {
       user_id: 1,
-      location: this.state.currentCafe.id,
+      location_id: this.state.currentCafe.id,
       coffeeTea: this.state.coffeeRating,
       atmosphere: this.state.atmosphereRating,
       comfort: this.state.comfortRating,
       food: this.state.foodRating
     })
-    .catch(err => {
-      console.log('ADD RATING ERR', err)
+    .then(() => {
+      // submits review stars
+      axios.post('/comments', {
+        user_id: 1,
+        location_id: this.state.currentCafe.id,
+        text: this.state.review
+      })
+      .then(() => {
+        axios.get('/ratings', {
+          params: {
+            location_id: this.state.currentCafe.id,
+            average: true
+          }
+        })
+        .then((res) => {
+          this.setState({
+            currentCafeReviews: res.data[0],
+            review: '',
+            coffeeRating: 0,
+            atmosphereRating: 0,
+            comfortRating: 0,
+            foodRating: 0
+          })
+        })
+        .catch((err) => {
+          console.log('UPDATE REVIEWS ERR', err);
+        });
+      })
+      .catch(err => {
+        console.log('ADD COMMENT ERR', err);
+      });
     })
+    .catch(err => {
+      console.log('ADD RATING ERR', err);
+    });
   }
 
+  //sets state with review comment entered in textbox
   enterReview(e){
     e.preventDefault();
     this.setState({
@@ -79,24 +120,28 @@ class Display extends React.Component {
     })
   }
 
+  // sets state with star rating for coffee
   coffeeRating(rating){
     this.setState({
       coffeeRating: rating
     })
   }
 
+  // sets state with star rating for atmosphere
   atmosphereRating(rating){
     this.setState({
       atmosphereRating: rating
     })
   }
 
+  // sets state with star rating for comfort
   comfortRating(rating){
     this.setState({
       comfortRating: rating
     })
   }
 
+  // sets state with star rating for food
   foodRating(rating){
     this.setState({
       foodRating: rating
@@ -104,8 +149,10 @@ class Display extends React.Component {
   };
 
   render() {
+    // page shows no search results
     if (!this.props.cafes.length) {
-      return(<div></div>);
+      return null;
+      // page shows search results after successful search
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
         <div>
@@ -120,29 +167,62 @@ class Display extends React.Component {
                 </div>
               )
             })}
-
           </StackGrid>
+
+          <ScrollToTop showUnder={100}>
+            <div>
+              <img src='http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png' height='50' style={{ display: 'block', margin: 'auto' }}/>
+              <div>Back to Top</div>
+            </div>
+          </ScrollToTop>
+
+          <div style={{marginBottom:'5%'}} className='parallax'></div>
+
         </div>
-      )
+        )
     } else if (this.props.cafes.length > 0 && this.state.cafeOn) {
       return(
         <div>
+          {/* current cafe name & picture */}
           <div align='center' style={{marginBottom:50}}>
+          {/* current cafe name & avg star ratings */}
           <h3>{this.state.currentCafe.name}</h3>
+          {this.state.currentCafeReviews.count} Reviews
+          <Grid>
+            <Row>
+            <Col xs={6} md={2}>
+            </Col>
+            <Col xs={6} md={2}>
+            Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            </Col>
+            <Col xs={6} md={2}>
+            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            </Col>
+            <Col xs={6} md={2}>
+            Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            </Col>
+            <Col xs={6} md={2}>
+            Food: <br/><StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            </Col>
+            <Col xs={6} md={2}>
+            </Col>
+            </Row>
+          </Grid>
+
           <Carousel>
             <Carousel.Item>
-              <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+              <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[0]} />
             </Carousel.Item>
             <Carousel.Item>
-            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[1]} />
             </Carousel.Item>
             <Carousel.Item>
-            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[2]} />
             </Carousel.Item>
           </Carousel>
           <br/>
-            {/* <img src={this.props.cafes[0].image_url} style={{maxHeight:500}} /> */}
-            {/* <ReactStars count={5} size={15} edit='false' /> */}
+          
+          {/* info of current cafe */}
           <Grid>
             <Row>
               <Col xs={6} md={4} key={this.state.currentCafe.location.display_address}>
@@ -166,23 +246,24 @@ class Display extends React.Component {
               </Col>
             </Row>
           </Grid>
+
           {/* stars for ratings */}
           <Grid>
             <Row>
             <Col xs={6} md={3}>
-            Coffee: <StarRatings numberOfStars={5} rating={this.state.coffeeRating} changeRating={this.coffeeRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
+            Coffee/Tea:<br/><StarRatings numberOfStars={5} rating={this.state.coffeeRating} changeRating={this.coffeeRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
             </Col>
             <Col xs={6} md={3}>
-            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.atmosphereRating} changeRating={this.atmosphereRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
+            Atmosphere:<br/><StarRatings numberOfStars={5} rating={this.state.atmosphereRating} changeRating={this.atmosphereRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
             </Col>
             <Col xs={6} md={3}>
-            Comfort: <StarRatings numberOfStars={5} rating={this.state.comfortRating} changeRating={this.comfortRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
+            Comfort:<br/><StarRatings numberOfStars={5} rating={this.state.comfortRating} changeRating={this.comfortRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
             </Col>
             <Col xs={6} md={3}>
-            Food: <StarRatings numberOfStars={5} rating={this.state.foodRating} changeRating={this.foodRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
+            Food:<br/><StarRatings numberOfStars={5} rating={this.state.foodRating} changeRating={this.foodRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
             </Col>
             </Row>
-            </Grid>
+          </Grid>
           <br/>
 
           {/* review box */}
@@ -197,6 +278,7 @@ class Display extends React.Component {
           </div>
           </div>
 
+          {/* list of cafes from search */}
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
             {this.props.cafes.map(cafe => {
               return (
@@ -218,11 +300,3 @@ class Display extends React.Component {
 }
 
 export default Display;
-
-// name -- show stars in row __#__ reviews
-// pic -- bootstrap carousel
-// phone number
-// opening/closing hours
-// distance from search location
-// row of star ratings
-// comment box

@@ -48,3 +48,12 @@ body {
   text-align: center;
   color: gray;
 }
+
+.parallax {
+  background-image: url('https://source.unsplash.com/random/featured/?coffee');
+  height: 55%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
