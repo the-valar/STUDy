@@ -31,7 +31,7 @@ let getRelevantFirst = function(
   cb
 ) {
   var arrArr = [];
-  var results = [];
+  var results = {"businesses": []};
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
     db.query(
@@ -58,7 +58,7 @@ let getRelevantFirst = function(
             return b[0] - a[0];
           });
           arrArr.forEach((pair) => {
-            results.push(pair[1]);
+            results["businesses"].push(pair[1]);
           });
           cb(null, results);
         }
