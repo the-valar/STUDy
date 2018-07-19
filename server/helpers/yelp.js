@@ -9,7 +9,8 @@ let getClosestWithinRadius = (loc, radius) => {
     params: {
       term: 'study spots',
       radius: radius,
-      location: loc
+      location: loc,
+      sort_by: "distance"
     }
   };
 
