@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -27,10 +28,13 @@ class App extends React.Component {
       <div>
         <Header />
         <Search handleYelp={this.handleYelp} />
+
+        <br></br>
         
         <div>
           <Display cafes={this.state.cafes} />
         </div>
+        
       </div>
     )
   }
