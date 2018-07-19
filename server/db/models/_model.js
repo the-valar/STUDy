@@ -78,7 +78,7 @@ let login = function({ username, password }, cb) {
         // Return user id
       cb(null, result);
     }
-  );
+  });
 };
 
 let register = function({ username, password }, cb) {
