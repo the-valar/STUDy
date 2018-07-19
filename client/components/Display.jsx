@@ -75,30 +75,41 @@ class Display extends React.Component {
       comfort: this.state.comfortRating,
       food: this.state.foodRating
     })
-    .catch(err => {
-      console.log('ADD RATING ERR', err)
-    })
-
-    axios.post('/comments', {
-      user_id: 1,
-      location_id: this.state.currentCafe.id,
-      text: this.state.review
-    })
     .then(() => {
-      console.log('then after posting comment')
-      this.setState({
-        review: '',
-        coffeeRating: 0,
-        atmosphereRating: 0,
-        comfortRating: 0,
-        foodRating: 0
+      // submits review stars
+      axios.post('/comments', {
+        user_id: 1,
+        location_id: this.state.currentCafe.id,
+        text: this.state.review
       })
+      .then(() => {
+        axios.get('/ratings', {
+          params: {
+            location_id: this.state.currentCafe.id,
+            average: true
+          }
+        })
+        .then((res) => {
+          this.setState({
+            currentCafeReviews: res.data[0],
+            review: '',
+            coffeeRating: 0,
+            atmosphereRating: 0,
+            comfortRating: 0,
+            foodRating: 0
+          })
+        })
+        .catch((err) => {
+          console.log('UPDATE REVIEWS ERR', err);
+        });
+      })
+      .catch(err => {
+        console.log('ADD COMMENT ERR', err);
+      });
     })
     .catch(err => {
-      console.log('ADD COMMENT ERR', err)
-    })
-    // submits review stars
-
+      console.log('ADD RATING ERR', err);
+    });
   }
 
   //sets state with review comment entered in textbox
