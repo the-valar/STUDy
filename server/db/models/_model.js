@@ -14,12 +14,16 @@ let saveSpots = function(studySpotList) {
       currSpot.location.address1
     ];
 
-    db.query(command, params, (err, result) => {
-      if (err) {
-        console.error('Error inserting locations into mySQL');
-      } else {
-        console.log('Inserted locations into mySQL');
-      }
+    db.getConnection( (err, conn) => {
+      db.query(command, params, (err, result) => {
+        if (err) {
+          console.error('Error inserting locations into mySQL');
+        } else {
+          console.log('Inserted locations into mySQL');
+        }
+      });
+
+      conn.release();
     });
   }
 };
@@ -36,69 +40,81 @@ let getRelevantFirst = function(
   var results = { businesses: [] };
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
-    db.query(
-      `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food 
-      FROM ratings 
-      WHERE location=?`,
-      studySpotList[spot]['id'],
-      (err, result) => {
-        let finalScore = 0;
-        var resultObj = JSON.parse(JSON.stringify(result))[0];
-        if (err) {
-          cb(err);
-        } else if (resultObj['CT'] !== null) {
-          finalScore =
-            resultObj['CT'] * coffeeMult +
-            resultObj['A'] * atmosphereMult +
-            resultObj['C'] * comfortMult +
-            resultObj['F'] * foodMult;
+    db.getConnection((err, conn) => {
+      db.query(
+        `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food 
+        FROM ratings 
+        WHERE location=?`,
+        studySpotList[spot]['id'],
+        (err, result) => {
+          let finalScore = 0;
+          var resultObj = JSON.parse(JSON.stringify(result))[0];
+          if (err) {
+            cb(err);
+          } else if (resultObj['CT'] !== null) {
+            finalScore =
+              resultObj['CT'] * coffeeMult +
+              resultObj['A'] * atmosphereMult +
+              resultObj['C'] * comfortMult +
+              resultObj['F'] * foodMult;
+          }
+          arrArr.push([finalScore, studySpotList[spot]]);
+          count++;
+          if (count === studySpotList.length) {
+            arrArr.sort((a, b) => {
+              return b[0] - a[0];
+            });
+            arrArr.forEach((pair) => {
+              results['businesses'].push(pair[1]);
+            });
+            cb(null, results);
+          }
         }
-        arrArr.push([finalScore, studySpotList[spot]]);
-        count++;
-        if (count === studySpotList.length) {
-          arrArr.sort((a, b) => {
-            return b[0] - a[0];
-          });
-          arrArr.forEach((pair) => {
-            results['businesses'].push(pair[1]);
-          });
-          cb(null, results);
-        }
-      }
-    );
+      );
+
+      conn.release();
+    });
   }
 };
 
 let getAveragesAndReviewCount = function({ location_id }, cb) {
-  db.query(
-    `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food, COUNT(id) as count
-      FROM ratings
-      WHERE location=?`,
-    location_id,
-    (err, result) => {
-      if (err) {
-        cb(err);
-      } else {
-        cb(null, JSON.parse(JSON.stringify(result)));
+  db.getConnection((err, conn) => {
+    db.query(
+      `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food, COUNT(id) as count
+        FROM ratings
+        WHERE location=?`,
+      location_id,
+      (err, result) => {
+        if (err) {
+          cb(err);
+        } else {
+          cb(null, JSON.parse(JSON.stringify(result)));
+        }
       }
-    }
-  );
+    );
+
+    conn.release();
+  });
 };
 
 let login = function({ username }, cb) {
-  db.query(
-    `SELECT id, password FROM users WHERE username=?`,
-    username,
-    (err, result) => {
-      if (!result.length) {
-        console.error('Incorrect user or password');
-      } else {
-        console.log('Found user', result);
-        // Return user id
-        cb(null, result);
+  db.getConnection((err, conn) => {
+    db.query(
+      `SELECT id, password FROM users WHERE username=?`,
+      username,
+      (err, result) => {
+        if (!result.length) {
+          console.error('Incorrect user or password');
+        } else {
+          console.log('Found user', result);
+          // Return user id
+          cb(null, result);
+        }
       }
-    }
-  );
+    );
+
+    conn.release();
+  });
 };
 
 let register = function({ username, password }, cb) {
@@ -109,19 +125,23 @@ let register = function({ username, password }, cb) {
     } else {
       var params = [username, hash];
       
-      db.query(
-        `INSERT INTO users (username, password) VALUES (?, ?)`,
-        params,
-        (err, result) => {
-          if (err) {
-            cb(err);
-          } else {
-            console.log('Registered', result);
-            // Return user id
-            cb(null, result);
+      db.getConnection((err, conn) => {
+        db.query(
+          `INSERT INTO users (username, password) VALUES (?, ?)`,
+          params,
+          (err, result) => {
+            if (err) {
+              cb(err);
+            } else {
+              console.log('Registered', result);
+              // Return user id
+              cb(null, result);
+            }
           }
-        }
-      );
+        );
+
+        conn.release();
+      });
     }
   });
 };
@@ -133,13 +153,16 @@ let addRating = function(
   var command = `INSERT INTO ratings (coffeeTea, atmosphere, comfort, food, location, user_id) VALUES (?, ?, ?, ?, ?, ?)`;
   var params = [coffeeTea, atmosphere, comfort, food, location_id, user_id];
 
-  db.query(command, params, (err, results) => {
-    if (err) {
-      console.error('Error inserting ratings', err);
-    } else {
-      console.log('Inserted ratings', results);
-      cb(null, results);
-    }
+  db.getConnection((err, conn) => {
+    db.query(command, params, (err, results) => {
+      if (err) {
+        console.error('Error inserting ratings', err);
+      } else {
+        console.log('Inserted ratings', results);
+        cb(null, results);
+      }
+    });
+    conn.release();
   });
 };
 
@@ -149,27 +172,34 @@ let getRating = function({ location_id }, cb) {
                  JOIN locations ON ratings.location=locations.id
                  WHERE locations.id=?`;
 
-  db.query(command, location_id, (err, results) => {
-    if (err) {
-      console.error('Error getting location ratings', location_id, err);
-    } else {
-      console.log('Retrieved all location ratings', results);
-      // Return location ratings for use in cb
-      cb(null, results);
-    }
+  db.getConnection((err, conn) => {
+    db.query(command, location_id, (err, results) => {
+      if (err) {
+        console.error('Error getting location ratings', location_id, err);
+      } else {
+        console.log('Retrieved all location ratings', results);
+        // Return location ratings for use in cb
+        cb(null, results);
+      }
+    });
+
+    conn.release();
   });
 };
 
 let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
-  db.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
-    if (err) {
-      console.error('Error inserting into favorites', err);
-    } else {
-      console.log('Inserted into favorites', results);
-      cb(null, results);
-    }
+  db.getConnection((err, conn) => {
+    db.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
+      if (err) {
+        console.error('Error inserting into favorites', err);
+      } else {
+        console.log('Inserted into favorites', result);
+        cb(null, results);
+      }
+    });
+    conn.release();
   });
 };
 
@@ -179,32 +209,39 @@ let getFavorite = function({ user_id }, cb) {
                  JOIN locations ON locations.id=users_locations.location_id
                  WHERE users_locations.user_id=${user_id}`;
 
-  db.query(command, (err, results) => {
-    if (err) {
-      console.error('Error getting user favorites', err);
-    } else {
-      console.log('Retrieved all user favorites', results);
-      // Return user favorites for use in cb
-      cb(null, results);
-    }
+  db.getConnection((err, conn) => {
+    db.query(command, (err, results) => {
+      if (err) {
+        console.error('Error getting user favorites', err);
+      } else {
+        console.log('Retrieved all user favorites', results);
+        // Return user favorites for use in cb
+        cb(null, results);
+      }
+    });
+
+    conn.release();
   });
 };
 
 let addComment = function({ user_id, location_id, text }, cb) {
   var params = [text, user_id, location_id];
 
-  db.query(
-    `INSERT INTO comments (text, user_id, location) VALUES (?, ?, ?)`,
-    params,
-    (err, results) => {
-      if (err) {
-        console.error('Error inserting comment', err);
-      } else {
-        console.log('Inserted comment', results);
-        cb(null, results);
+  db.getConnection((err, conn) => {
+    db.query(
+      `INSERT INTO comments (text, user_id, location) VALUES (?, ?, ?)`,
+      params,
+      (err, results) => {
+        if (err) {
+          console.error('Error inserting comment', err);
+        } else {
+          console.log('Inserted comment', results);
+          cb(null, results);
+        }
       }
-    }
-  );
+    );
+    conn.release();
+  });
 };
 
 let getComment = function({ location_id }, cb) {
@@ -212,15 +249,18 @@ let getComment = function({ location_id }, cb) {
                  FROM comments
                  JOIN locations ON comments.location=locations.id
                  WHERE locations.id=?`;
+  db.getConnection((err, conn) => {
+    db.query(command, location_id, (err, results) => {
+      if (err) {
+        console.error('Error getting location comments', err);
+      } else {
+        console.log('Retrieved all location comments', results);
+        // Returns location comments for use in cb
+        cb(null, results);
+      }
+    });
 
-  db.query(command, location_id, (err, results) => {
-    if (err) {
-      console.error('Error getting location comments', err);
-    } else {
-      console.log('Retrieved all location comments', results);
-      // Returns location comments for use in cb
-      cb(null, results);
-    }
+    conn.release();
   });
 };
 

@@ -1,0 +1,1 @@
+module.exports.YELPAPI = KEY HERE;
