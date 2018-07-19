@@ -182,16 +182,16 @@ class Display extends React.Component {
             <Col xs={6} md={2}>
             </Col>
             <Col xs={6} md={2}>
-            Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={2}>
-            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={2}>
-            Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={2}>
-            Food: <br/><StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Food: <br/><StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={2}>
             </Col>
