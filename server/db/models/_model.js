@@ -159,9 +159,9 @@ let addRating = function(
         console.error('Error inserting ratings', err);
       } else {
         console.log('Inserted ratings', results);
+        cb(null, results);
       }
     });
-
     conn.release();
   });
 };
@@ -196,9 +196,9 @@ let addFavorite = function({ user_id, location_id }, cb) {
         console.error('Error inserting into favorites', err);
       } else {
         console.log('Inserted into favorites', result);
+        cb(null, results);
       }
     });
-
     conn.release();
   });
 };
@@ -236,10 +236,10 @@ let addComment = function({ user_id, location_id, text }, cb) {
           console.error('Error inserting comment', err);
         } else {
           console.log('Inserted comment', results);
+          cb(null, results);
         }
       }
     );
-
     conn.release();
   });
 };
