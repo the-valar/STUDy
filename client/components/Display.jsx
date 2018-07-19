@@ -30,14 +30,11 @@ class Display extends React.Component {
       return(
         <div>
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-
-<<<<<<< HEAD
-    if (!this.props.cafes.length) {
-      return(<div>Hello</div>);
-    } else {
-      return(
-        <div>
-=======
+          if (!this.props.cafes.length) {
+            return(<div>Hello</div>);
+          } else {
+            return(
+              <div>
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
@@ -89,7 +86,6 @@ class Display extends React.Component {
           </Grid>
           </div>
 
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
             {this.props.cafes.map(cafe => {
               return (
@@ -116,9 +112,7 @@ class Display extends React.Component {
   }
 }
 
-<<<<<<< HEAD
 export default Display;
-=======
 
 // name -- show stars in row __#__ reviews
 // pic -- bootstrap carousel
@@ -127,8 +121,3 @@ export default Display;
 // distance from search location
 // row of star ratings
 // comment box
-
-
-export default Display;
-
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
