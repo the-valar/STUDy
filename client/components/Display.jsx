@@ -30,7 +30,11 @@ class Display extends React.Component {
       return(
         <div>
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-
+          if (!this.props.cafes.length) {
+            return(<div>Hello</div>);
+          } else {
+            return(
+              <div>
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
@@ -83,7 +87,6 @@ class Display extends React.Component {
           </div>
 
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
@@ -92,20 +95,24 @@ class Display extends React.Component {
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.zip_code}</p>
                     <p>
                       <Button bsStyle="primary">Button</Button>&nbsp;
-                  <Button bsStyle="default">Button</Button>
+                      <Button bsStyle="default">Button</Button>
                     </p>
                   </Thumbnail>
                 </div>
               )
             })}
-
           </StackGrid>
+          <br></br>
+          <br></br>
+          <br></br>
         </div>
+        
       )
     }
   }
 }
 
+export default Display;
 
 // name -- show stars in row __#__ reviews
 // pic -- bootstrap carousel
@@ -114,7 +121,3 @@ class Display extends React.Component {
 // distance from search location
 // row of star ratings
 // comment box
-
-
-export default Display;
-

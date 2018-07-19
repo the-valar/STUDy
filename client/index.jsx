@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Parallax } from 'react-spring';
 
+import { Parallax } from 'react-spring';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
+
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 const Pink = ({ children }) => <span style={{ color: '#FF6AC1' }}>{children}</span>
@@ -95,13 +97,17 @@ class App extends React.Component {
         </Parallax> */}
 
         <div align='center'>
-        <Search handleYelp={this.handleYelp} />
-        </div>
-                <div>
-          <Display cafes={this.state.cafes} />
-        </div>
+          <Search handleYelp={this.handleYelp} />
+<!--           <br></br> -->
 
-      </div>
+          <div>
+            <Display cafes={this.state.cafes} />
+          </div>
+
+          <div>
+            <Display cafes={this.state.cafes} />
+          </div>
+        </div>
     )
   }
 }
