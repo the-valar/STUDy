@@ -1,6 +1,9 @@
 import React from 'react';
 import { Grid, Row, Col, Media, Well, Thumbnail, Button, Carousel, FormControl , FormGroup} from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
+import ScrollToTop from 'react-scroll-up';
+
+import '../style.css';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 
@@ -153,10 +156,19 @@ class Display extends React.Component {
                 </div>
               )
             })}
-
           </StackGrid>
+
+          <ScrollToTop showUnder={100}>
+            <div>
+              <img src='http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png' height='50' style={{ display: 'block', margin: 'auto' }}/>
+              <div>Back to Top</div>
+            </div>
+          </ScrollToTop>
+
+          <div style={{marginBottom:'5%'}} className='parallax'></div>
+
         </div>
-      )
+        )
     } else if (this.props.cafes.length > 0 && this.state.cafeOn) {
       return(
         <div>

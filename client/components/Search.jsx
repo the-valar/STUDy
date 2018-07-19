@@ -147,7 +147,7 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-      <div className="form-row text-center" style={{ marginTop: '20%', width:'50%' }}>
+      <div className="form-row text-center" style={{ marginTop: '5%', width:'50%' }}>
         <FormControl
           type="text"
           value={this.state.location}
