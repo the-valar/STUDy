@@ -2,6 +2,12 @@ import React from 'react';
 import { Navbar, NavItem, Nav, NavDropdown, Well, MenuItem, Button, FormGroup, FormControl, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
+import { Alert } from 'react-alert';
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+
+// import ShowAlert from './ShowAlert.jsx';
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -81,6 +87,7 @@ class Header extends React.Component {
       .catch(err => {
         console.error('Username or password is incorrect', err);
       });
+
   }
 
   registerUser() {
@@ -125,6 +132,16 @@ class Header extends React.Component {
   }
 
   render() {
+    const options = {
+      position: 'top center',
+      timeout: 3000,
+      offset: '400px',
+      transition: 'scale'
+    }
+
+    let username = this.state.username.length;
+    let password = this.state.password.length;
+
     if (this.state.loggedIn) {
     return (
       <div>
@@ -174,7 +191,17 @@ class Header extends React.Component {
                   <FormControl type="password" placeholder="password" value={this.state.password} onChange={(e) => {this.handlePassword(e)}} />
                 </FormGroup>
                 
-                <Button type="submit" value="Submit" onClick={this.loginUser}> Log In </Button>
+                {/* <Button type="submit" value="Submit" onClick={this.loginUser}> Log In </Button> */}
+
+                <AlertProvider template={AlertTemplate} {...options}>
+                  <Alert>
+                    {alert => (
+                      <Button type="submit" value="Submit" onClick={ () => { (!username || !password) ? alert.show('Oh snap! We need a username and a password!') : this.loginUser() } }> Log In </Button>
+                    )}
+                  </Alert>
+                </AlertProvider>
+
+
               </Modal.Body>
             </Modal>
 
