@@ -31,7 +31,7 @@ let getRelevantFirst = function(
   cb
 ) {
   var arrArr = [];
-  var results = {"businesses": []};
+  var results = { businesses: [] };
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
     db.query(
@@ -58,7 +58,7 @@ let getRelevantFirst = function(
             return b[0] - a[0];
           });
           arrArr.forEach((pair) => {
-            results["businesses"].push(pair[1]);
+            results['businesses'].push(pair[1]);
           });
           cb(null, results);
         }
@@ -67,18 +67,38 @@ let getRelevantFirst = function(
   }
 };
 
+let getAveragesAndReviewCount = function({ location_id }, cb) {
+  db.query(
+    `SELECT AVG(coffeeTea) AS CT, AVG(atmosphere) AS A, AVG(comfort) AS C, AVG(food) AS F, COUNT(id) as count
+      FROM ratings
+      WHERE location=?`,
+    location_id,
+    (err, result) => {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null, JSON.parse(JSON.stringify(result)));
+      }
+    }
+  );
+};
+
 let login = function({ username, password }, cb) {
   var params = [username, password];
-  
-  db.query(`SELECT id FROM users WHERE username=? AND password=?`, params, (err, result) => {
-    if (!result.length) {
-      console.error('Incorrect user or password');
-    } else {
-      console.log('Found user', result);
+
+  db.query(
+    `SELECT id FROM users WHERE username=? AND password=?`,
+    params,
+    (err, result) => {
+      if (!result.length) {
+        console.error('Incorrect user or password');
+      } else {
+        console.log('Found user', result);
         // Return user id
-      cb(null, result);
+        cb(null, result);
+      }
     }
-  });
+  );
 };
 
 let register = function({ username, password }, cb) {
@@ -197,6 +217,7 @@ let getComment = function({ location_id }, cb) {
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
+  getAveragesAndReviewCount: getAveragesAndReviewCount,
   login: login,
   register: register,
   addRating: addRating,

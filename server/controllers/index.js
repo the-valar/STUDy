@@ -82,14 +82,24 @@ app.post('/ratings', (req, res) => {
 
 app.get('/ratings', (req, res) => {
   // req.query should have location_id as a key
-
-  models.getRating(req.query, (err, data) => {
-    if (err) {
-      res.send();
-    } else {
-      res.send(JSON.stringify(data));
-    }
-  });
+  // OPTIONAL: if req.query has a key, 'average', will provide average rating and rating count
+  if (req.query.average) {
+    models.getAveragesAndReviewCount(req.query, (err, data) => {
+      if (err) {
+        res.send();
+      } else {
+        res.send(JSON.stringify(data));
+      }
+    })
+  } else {
+    models.getRating(req.query, (err, data) => {
+      if (err) {
+        res.send();
+      } else {
+        res.send(JSON.stringify(data));
+      }
+    });
+  }
 });
 
 app.post('/favorites', (req, res) => {
