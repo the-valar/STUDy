@@ -33,6 +33,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",
     "react-grid-layout": "^0.16.6",
+    "react-spring": "^5.4.0",
     "react-stack-grid": "^0.7.1",
     "react-stars": "^2.2.5",
     "style-loader": "^0.21.0",
