@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { Grid, Row, Col, Thumbnail, Button, Carousel } from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
+import ScrollToTop from 'react-scroll-up';
+
+import '../style.css';
 
 class Display extends React.Component {
   constructor(props) {
@@ -42,8 +45,8 @@ class Display extends React.Component {
       return(<div></div>);
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
-              <div>
-            <StackGrid>
+        <div>
+          <StackGrid columnWidth={300} monitorImagesLoaded={true}>
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
@@ -54,10 +57,19 @@ class Display extends React.Component {
                 </div>
               )
             })}
-
           </StackGrid>
+
+          <ScrollToTop showUnder={100}>
+            <div>
+              <img src='http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png' height='50' style={{ display: 'block', margin: 'auto' }}/>
+              <div>Back to Top</div>
+            </div>
+          </ScrollToTop>
+
+          <div style={{marginBottom:'5%'}} className='parallax'></div>
+
         </div>
-      )
+        )
     } else if (this.props.cafes.length > 0 && this.state.cafeOn) {
       return(
         <div>
