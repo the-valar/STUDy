@@ -34,10 +34,6 @@ class App extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
-    return (
-      <div align="center">
-=======
     const options = {
       position: 'top center',
       timeout: 5000,
@@ -46,12 +42,10 @@ class App extends React.Component {
     }
     return(
       <div align='center'>
->>>>>>> dev
         <Header />
 
         <div className="parallax" />
 
-<<<<<<< HEAD
         <div align="center">
           <Search
             handleYelp={this.handleYelp}
@@ -66,16 +60,6 @@ class App extends React.Component {
             renderIndivCafe={this.renderIndivCafe}
           />
         </div>
-=======
-    
-
-        <div align='center'>
-          <Search handleYelp={this.handleYelp}/>
-        </div>
-          <div>
-            <Display cafes={this.state.cafes} />
-          </div>
->>>>>>> dev
       </div>
     );
   }
