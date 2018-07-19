@@ -255,9 +255,7 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
-          <br></br>
-          <br></br>
-          <br></br>
+
         </div>
         
       )

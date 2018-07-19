@@ -38,11 +38,6 @@ class App extends React.Component {
       <div align='center'>
         <Header />
           <Search handleYelp={this.handleYelp} />
-        <br></br>
-
-          <div>
-            <Display cafes={this.state.cafes} />
-          </div>
 
           <div>
             <Display cafes={this.state.cafes} />
@@ -51,4 +46,5 @@ class App extends React.Component {
     )
   }
 }
-ReactDOM.render(<App />, document.getElementById('app'))
+
+ReactDOM.render(<App />, document.getElementById('app'));
