@@ -71,7 +71,7 @@ let getRelevantFirst = function(
 
 let getAveragesAndReviewCount = function({ location_id }, cb) {
   db.query(
-    `SELECT AVG(coffeeTea) AS CT, AVG(atmosphere) AS A, AVG(comfort) AS C, AVG(food) AS F, COUNT(id) as count
+    `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food, COUNT(id) as count
       FROM ratings
       WHERE location=?`,
     location_id,

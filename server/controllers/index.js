@@ -1,6 +1,6 @@
 const express = require('express');
 const parser = require('body-parser');
-const { getClosestWithinRadius } = require('../helpers/yelp.js');
+const { getClosestWithinRadius, getAdditionalPics } = require('../helpers/yelp.js');
 const models = require('../db/models/_model.js');
 
 const bcrypt = require('bcrypt-nodejs');
@@ -166,6 +166,18 @@ app.get('/comments', (req, res) => {
     }
   });
 });
+
+app.get('/pics', (req, res) => {
+  // req.query should have location_id as a key
+
+  getAdditionalPics(req.query.location_id)
+  .then((result) => {
+    res.send(result.data);
+  })
+  .catch((err) => {
+    res.send();
+  });
+})
 
 const port = process.env.PORT || 8080;
 
