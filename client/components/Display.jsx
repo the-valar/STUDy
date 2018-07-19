@@ -39,16 +39,11 @@ class Display extends React.Component {
 
   render() {
     if (!this.props.cafes.length) {
-      return(<div></div>)
+      return(<div></div>);
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
-        <div>
-          <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-          if (!this.props.cafes.length) {
-            return(<div>Hello</div>);
-          } else {
-            return(
               <div>
+            <StackGrid>
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
@@ -122,9 +117,7 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
-          <br></br>
-          <br></br>
-          <br></br>
+
         </div>
         
       )
