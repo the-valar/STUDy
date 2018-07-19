@@ -168,11 +168,10 @@ app.get('/comments', (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
-=======
+
 app.get('/pics', (req, res) => {
   // req.query should have location_id as a key
 
@@ -184,7 +183,6 @@ app.get('/pics', (req, res) => {
     res.send();
   });
 })
->>>>>>> dev
 
 const port = process.env.PORT || 8080;
 
