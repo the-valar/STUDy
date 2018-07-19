@@ -6,7 +6,9 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
-
+// import { Alert } from 'react-alert';
+// import { Provider as AlertProvider } from 'react-alert';
+// import AlertTemplate from 'react-alert-template-basic';
 
 const url = (name, wrap = false) => `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${wrap ? ')' : ''}`
 const Pink = ({ children }) => <span style={{ color: '#FF6AC1' }}>{children}</span>
@@ -34,6 +36,12 @@ class App extends React.Component {
   }
 
   render() {
+    const options = {
+      position: 'top center',
+      timeout: 5000,
+      offset: '100px',
+      transition: 'scale'
+    }
     return(
       <div>
         <Header />
@@ -96,12 +104,25 @@ class App extends React.Component {
           </Parallax.Layer>
         </Parallax> */}
 
+    
+
         <div align='center'>
           <Search handleYelp={this.handleYelp} />
 
           <div>
             <Display cafes={this.state.cafes} />
           </div>
+          
+          {/* <AlertProvider template={AlertTemplate} {...options}>
+            <Alert>
+              {alert => (
+                <button onClick={() => {alert.show('Oh snap! Try Again!')}}>
+                  Show Alert
+                </button>
+              )}
+            </Alert>
+          </AlertProvider> */}
+
         </div>
       </div>
     )

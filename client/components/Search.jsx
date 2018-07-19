@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Col, FormControl, Button, Collapse, Alert, Row } from 'react-bootstrap';
+import { Grid, Col, FormControl, Button, Collapse, Row } from 'react-bootstrap';
+
+import { Alert } from 'react-alert';
+import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
 class Search extends React.Component {
   constructor(props) {
@@ -122,7 +126,7 @@ class Search extends React.Component {
   }
 
   search(e) {
-    e.preventDefault();
+    // e.preventDefault();
     axios
       .get('/search', {
         params: {
@@ -145,6 +149,13 @@ class Search extends React.Component {
   }
 
   render() {
+    const options = {
+      position: 'top center',
+      timeout: 3000,
+      offset: '150px',
+      transition: 'scale'
+    }
+
     return (
       <div>
       <div className="form-row text-center" style={{ marginTop: '20%', width:'50%' }}>
@@ -164,13 +175,23 @@ class Search extends React.Component {
         </div>
 
         <div>
-          <Button
+
+          {/* <Button
             className="center"
             onClick={this.search}
             style={{ marginTop: '1%' }}
           >
             Search STUD(y) Spots
-          </Button>
+          </Button> */}
+
+          <AlertProvider template={AlertTemplate} {...options}>
+            <Alert>
+              {alert => (
+                <Button className="center" type="submit" value="Submit" style={{ marginTop: '1%' }} onClick={ () => { (!this.state.location.length) ? alert.show('Oh snap! Enter a real location!') : this.search() } }> Go STUD(y) </Button>
+              )}
+            </Alert>
+          </AlertProvider>
+
         </div>
 
       </div>
