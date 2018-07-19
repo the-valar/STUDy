@@ -27,7 +27,7 @@ class App extends React.Component {
 
   render() {
     return(
-      <div>
+      <div align='center'>
         <Header />
 
         <div className='parallax'></div>
