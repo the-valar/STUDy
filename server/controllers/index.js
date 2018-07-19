@@ -102,7 +102,11 @@ app.post('/ratings', (req, res) => {
   // req.body should have [user_id, location_id, coffeeTea, atmosphere, comfort, food] as keys
 
   models.addRating(req.body, (err, data) => {
-    res.send();
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
   });
 });
 
@@ -132,7 +136,11 @@ app.post('/favorites', (req, res) => {
   // req.body should have user_id and location_id as keys
 
   models.addFavorite(req.body, (err, data) => {
-    res.send();
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
   });
 });
 
@@ -152,7 +160,11 @@ app.post('/comments', (req, res) => {
   // req.body should have user_id, location_id, text as keys
 
   models.addComment(req.body, (err, data) => {
-    res.send();
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
   });
 });
 
