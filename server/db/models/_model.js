@@ -37,7 +37,7 @@ let getRelevantFirst = function(
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
     db.query(
-      `SELECT AVG(coffeeTea) AS CT, AVG(atmosphere) AS A, AVG(comfort) AS C, AVG(food) AS F 
+      `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food 
       FROM ratings 
       WHERE location=?`,
       studySpotList[spot]['id'],
@@ -131,7 +131,7 @@ let addRating = function(
   cb
 ) {
   var command = `INSERT INTO ratings (coffeeTea, atmosphere, comfort, food, location, user_id) VALUES (?, ?, ?, ?, ?, ?)`;
-  var params = [coffeeTea, atmosphere, comfort, food, user_id, location_id];
+  var params = [coffeeTea, atmosphere, comfort, food, location_id, user_id];
 
   db.query(command, params, (err, results) => {
     if (err) {
