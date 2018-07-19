@@ -1,1 +1,1 @@
-module.exports.YELPAPI = KEY HERE;
+module.exports.YELPAPI = 'KEY HERE';
