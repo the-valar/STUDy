@@ -67,7 +67,7 @@ let getRelevantFirst = function(
   }
 };
 
-let getAveragesAndReviewCount = function({location_id}, cb) {
+let getAveragesAndReviewCount = function({ location_id }, cb) {
   db.query(
     `SELECT AVG(coffeeTea) AS CT, AVG(atmosphere) AS A, AVG(comfort) AS C, AVG(food) AS F, COUNT(id) as count
       FROM ratings
@@ -90,8 +90,8 @@ let login = function({ username, password }, cb) {
     `SELECT id FROM users WHERE username=? AND password=?`,
     params,
     (err, result) => {
-      if (err) {
-        cb(err);
+      if (!result.length) {
+        console.error('Incorrect user or password');
       } else {
         console.log('Found user', result);
         // Return user id

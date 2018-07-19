@@ -3,10 +3,20 @@ const parser = require('body-parser');
 const { getClosestWithinRadius } = require('../helpers/yelp.js');
 const models = require('../db/models/_model.js');
 
+const bcrypt = require('bcrypt-nodejs');
+const session = require('express-session');
+
 const app = express();
 
 app.use(express.static(__dirname + '/../../client'));
 app.use(parser.json());
+app.use(session({
+  secret: 'very secret'
+}));
+
+var auth = {
+  login: false
+};
 
 app.get('/search', (req, res) => {
   var params = req.query;
@@ -40,12 +50,12 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/login', (req, res) => {
+app.post('/login', (req, res) => {
   // both login and register req.query should have [username, password] as keys
 
-  models.login(req.query, (err, data) => {
+  models.login(req.body, (err, data) => {
     if (err) {
-      next(err);
+      console.error('Wrong username or password');
     } else if (data[0]) {
       res.send(JSON.stringify(data[0].id));
     }
