@@ -1,14 +1,12 @@
-CREATE DATABASE IF NOT EXISTS greenfield;
-
 USE greenfield;
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS locations (
+CREATE TABLE locations (
   id VARCHAR(255) PRIMARY KEY UNIQUE,
   name VARCHAR(255),
   city VARCHAR(255),
@@ -16,7 +14,7 @@ CREATE TABLE IF NOT EXISTS locations (
   address VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS ratings (
+CREATE TABLE ratings (
   id INT PRIMARY KEY AUTO_INCREMENT,
   coffeeTea INT,
   atmosphere INT,
@@ -28,12 +26,12 @@ CREATE TABLE IF NOT EXISTS ratings (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS users_locations (
+CREATE TABLE users_locations (
   user_id INT,
   location_id VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS comments (
+CREATE TABLE comments (
   id INT PRIMARY KEY AUTO_INCREMENT,
   text VARCHAR(255),
   user_id INT,
