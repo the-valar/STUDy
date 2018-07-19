@@ -9,6 +9,7 @@ class Search extends React.Component {
     this.state = {
       location: '',
       prefs: [],
+      radius: null,
       advanced: false
     };
 
@@ -17,6 +18,7 @@ class Search extends React.Component {
     this.savePref = this.savePref.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.showAdvanced = this.showAdvanced.bind(this);
+    this.renderAdvancedSearch = this.renderAdvancedSearch.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -122,23 +124,24 @@ class Search extends React.Component {
   search(e) {
     e.preventDefault();
     axios
-    .get('/search', {
-      params: {
-        location: this.state.location,
-        coffee: this.state.coffee,
-        atmosphere: this.state.atmosphere,
-        comfort: this.state.comfort,
-        food: this.state.food
-      }
-    })
-    .then((res) => {
-      // Set state of cafes to data retrieved from Yelp
-      // Use function passed down from index.jsx (handleYelp)
-      this.props.handleYelp(res.data.businesses);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .get('/search', {
+        params: {
+          location: this.state.location,
+          coffee: this.state.prefs.indexOf('Coffee') + 1 || 0,
+          atmosphere: this.state.prefs.indexOf('Atmosphere') + 1 || 0,
+          comfort: this.state.prefs.indexOf('Comfort') + 1 || 0,
+          food: this.state.prefs.indexOf('Food') + 1 || 0,
+          radius: this.state.radius || 800
+        }
+      })
+      .then((res) => {
+        // Set state of cafes to data retrieved from Yelp
+        // Use function passed down from index.jsx (handleYelp)
+        this.props.handleYelp(res.data.businesses);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
