@@ -105,7 +105,7 @@ class Display extends React.Component {
 
   render() {
     if (!this.props.cafes.length) {
-      return(<div></div>)
+      return(<div></div>);
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
         <div>
@@ -209,9 +209,7 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
-          <br></br>
-          <br></br>
-          <br></br>
+
         </div>
         
       )

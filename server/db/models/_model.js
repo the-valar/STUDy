@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt-nodejs');
+
 const db = require('../db.js');
 
 let saveSpots = function(studySpotList) {
@@ -83,12 +85,10 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
   );
 };
 
-let login = function({ username, password }, cb) {
-  var params = [username, password];
-
+let login = function({ username }, cb) {
   db.query(
-    `SELECT id FROM users WHERE username=? AND password=?`,
-    params,
+    `SELECT id, password FROM users WHERE username=?`,
+    username,
     (err, result) => {
       if (!result.length) {
         console.error('Incorrect user or password');
@@ -102,21 +102,28 @@ let login = function({ username, password }, cb) {
 };
 
 let register = function({ username, password }, cb) {
-  var params = [username, password];
-
-  db.query(
-    `INSERT INTO users (username, password) VALUES (?, ?)`,
-    params,
-    (err, result) => {
-      if (err) {
-        cb(err);
-      } else {
-        console.log('Registered', result);
-        // Return user id
-        cb(null, result);
-      }
+  
+  bcrypt.hash(password, null, null, (err, hash) => {
+    if (err) {
+      console.error('Error hashing password', err);
+    } else {
+      var params = [username, hash];
+      
+      db.query(
+        `INSERT INTO users (username, password) VALUES (?, ?)`,
+        params,
+        (err, result) => {
+          if (err) {
+            cb(err);
+          } else {
+            console.log('Registered', result);
+            // Return user id
+            cb(null, result);
+          }
+        }
+      );
     }
-  );
+  });
 };
 
 let addRating = function(
