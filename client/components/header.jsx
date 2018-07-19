@@ -68,10 +68,8 @@ class Header extends React.Component {
 
   loginUser() {
     axios.post('/login', {
-      // params: {
-        username: this.state.username,
-        password: this.state.password
-      // }
+      username: this.state.username,
+      password: this.state.password
     })
       .then(response => {
         console.log('Processing login', response.data);

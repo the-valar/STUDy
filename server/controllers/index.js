@@ -14,7 +14,15 @@ app.use(session({
   secret: 'very secret'
 }));
 
-var auth = {
+var auth = (req, res, next) => {
+  if (sess.login) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}
+
+var sess = {
   login: false
 };
 
@@ -50,14 +58,27 @@ app.get('/search', (req, res) => {
     });
 });
 
+app.get('/*', auth, (req, res) => {
+  res.redirect('/');
+});
+
 app.post('/login', (req, res) => {
   // both login and register req.query should have [username, password] as keys
+  sess.session = req.session;
 
   models.login(req.body, (err, data) => {
     if (err) {
       console.error('Wrong username or password');
-    } else if (data[0]) {
-      res.send(JSON.stringify(data[0].id));
+    } else {
+      bcrypt.compare(req.body.password, data[0].password, (err, match) => {
+        if (match) {
+          sess.login = true;
+
+          res.send(JSON.stringify(data[0].id));
+        } else {
+          console.error('Wrong username or password');
+        }
+      });
     }
   });
 });
