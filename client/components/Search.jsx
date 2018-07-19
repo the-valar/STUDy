@@ -1,10 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-<<<<<<< HEAD
-import { Grid, Col, FormControl, Button, Collapse, Alert } from 'react-bootstrap';
-=======
-import { Grid, Col, FormControl, Button, Collapse, Row } from 'react-bootstrap';
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
+import { Grid, Col, FormControl, Button, Collapse, Alert, Row } from 'react-bootstrap';
 
 class Search extends React.Component {
   constructor(props) {
@@ -128,26 +124,6 @@ class Search extends React.Component {
   search(e) {
     e.preventDefault();
     axios
-<<<<<<< HEAD
-    .get('/search', {
-      params: {
-        location: this.state.location,
-        coffee: this.state.coffee,
-        atmosphere: this.state.atmosphere,
-        comfort: this.state.comfort,
-        food: this.state.food
-      }
-    })
-    .then((res) => {
-      // Set state of cafes to data retrieved from Yelp
-      // Use function passed down from index.jsx (handleYelp)
-      this.props.handleYelp(res.data.businesses);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-=======
       .get('/search', {
         params: {
           location: this.state.location,
@@ -166,7 +142,6 @@ class Search extends React.Component {
       .catch((err) => {
         console.log(err);
       });
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
   }
 
   render() {
