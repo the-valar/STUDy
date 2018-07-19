@@ -71,8 +71,8 @@ let login = function({ username, password }, cb) {
   var params = [username, password];
   
   db.query(`SELECT id FROM users WHERE username=? AND password=?`, params, (err, result) => {
-    if (err) {
-      cb(err);
+    if (!result.length) {
+      console.error('Incorrect user or password');
     } else {
       console.log('Found user', result);
         // Return user id
