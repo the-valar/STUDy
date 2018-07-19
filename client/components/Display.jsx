@@ -140,7 +140,7 @@ class Display extends React.Component {
   render() {
     // page shows no search results
     if (!this.props.cafes.length) {
-      return(<div></div>)
+      return null;
       // page shows search results after successful search
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
