@@ -18,6 +18,7 @@ class Search extends React.Component {
     this.savePref = this.savePref.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.showAdvanced = this.showAdvanced.bind(this);
+    this.renderAdvancedSearch = this.renderAdvancedSearch.bind(this);
     this.search = this.search.bind(this);
   }
 

@@ -30,6 +30,7 @@ app.get('/search', (req, res) => {
             if (err) {
               console.log(err);
             }
+            console.log(results);
             res.send(results);
           }
         );
