@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-<<<<<<< HEAD
-=======
-import { Parallax } from 'react-spring';
 
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
+import { Parallax } from 'react-spring';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
@@ -100,23 +97,17 @@ class App extends React.Component {
         </Parallax> */}
 
         <div align='center'>
-        <Search handleYelp={this.handleYelp} />
-<<<<<<< HEAD
+          <Search handleYelp={this.handleYelp} />
+<!--           <br></br> -->
 
-        <br></br>
-        
-        <div>
-          <Display cafes={this.state.cafes} />
-        </div>
-        
-=======
-        </div>
-                <div>
-          <Display cafes={this.state.cafes} />
-        </div>
+          <div>
+            <Display cafes={this.state.cafes} />
+          </div>
 
->>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
-      </div>
+          <div>
+            <Display cafes={this.state.cafes} />
+          </div>
+        </div>
     )
   }
 }
