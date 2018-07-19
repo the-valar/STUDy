@@ -14,17 +14,20 @@ app.use(session({
   secret: 'very secret'
 }));
 
-var auth = (req, res, next) => {
-  if (sess.login) {
-    next();
-  } else {
-    res.redirect('/');
-  }
-}
-
 var sess = {
+  username: '',
   login: false
 };
+
+app.get('/session', (req, res) => {
+  res.send(sess);
+});
+
+app.get('/logout', (req, res) => {
+  sess.username = '';
+  sess.login = false;
+  res.send();
+});
 
 app.get('/search', (req, res) => {
   var params = req.query;
@@ -58,10 +61,6 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/*', auth, (req, res) => {
-  res.redirect('/');
-});
-
 app.post('/login', (req, res) => {
   // both login and register req.query should have [username, password] as keys
   sess.session = req.session;
@@ -73,6 +72,7 @@ app.post('/login', (req, res) => {
       bcrypt.compare(req.body.password, data[0].password, (err, match) => {
         if (match) {
           sess.login = true;
+          sess.username = req.body.username;
 
           res.send(JSON.stringify(data[0].id));
         } else {
@@ -88,6 +88,10 @@ app.post('/register', (req, res) => {
     if (err) {
       console.error('Username is taken');
     } else {
+      sess.session = req.session;
+      sess.login = true;
+      sess.username = req.body.username;
+
       res.send(JSON.stringify(data.insertId));
     }
   });

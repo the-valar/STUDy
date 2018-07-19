@@ -85,12 +85,10 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
   );
 };
 
-let login = function({ username, password }, cb) {
-  var params = [username, password];
-
+let login = function({ username }, cb) {
   db.query(
-    `SELECT id FROM users WHERE username=? AND password=?`,
-    params,
+    `SELECT id, password FROM users WHERE username=?`,
+    username,
     (err, result) => {
       if (!result.length) {
         console.error('Incorrect user or password');
@@ -110,7 +108,7 @@ let register = function({ username, password }, cb) {
       console.error('Error hashing password', err);
     } else {
       var params = [username, hash];
-
+      
       db.query(
         `INSERT INTO users (username, password) VALUES (?, ?)`,
         params,

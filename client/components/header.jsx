@@ -101,6 +101,27 @@ class Header extends React.Component {
       });
   }
 
+  logout() {
+    axios.get('/logout')
+         .then( () => {
+            this.setState({
+              username: '',
+              password: '',
+              loggedIn: false
+            });
+         });
+  }
+
+  componentWillMount() {
+    axios.get('/session')
+         .then(response => {
+           this.setState({
+             username: response.data.username,
+             loggedIn: response.data.login
+           });
+         });
+  }
+
   render() {
     if (this.state.loggedIn) {
     return (
@@ -117,7 +138,7 @@ class Header extends React.Component {
               <MenuItem>Signed in as {this.state.username}</MenuItem>
               <MenuItem>Favorites</MenuItem>
               <MenuItem divider />
-              <MenuItem href='/'>Logout</MenuItem>
+              <MenuItem onClick={ ()=> { return this.logout() }} >Logout</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
