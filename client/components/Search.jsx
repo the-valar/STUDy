@@ -1,6 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import { Grid, Col, FormControl, Button, Collapse, Alert } from 'react-bootstrap';
+=======
+import { Grid, Col, FormControl, Button, Collapse, Row } from 'react-bootstrap';
+>>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
 
 class Search extends React.Component {
   constructor(props) {
@@ -9,6 +13,7 @@ class Search extends React.Component {
     this.state = {
       location: '',
       prefs: [],
+      radius: null,
       advanced: false
     };
 
@@ -17,6 +22,7 @@ class Search extends React.Component {
     this.savePref = this.savePref.bind(this);
     this.isSelected = this.isSelected.bind(this);
     this.showAdvanced = this.showAdvanced.bind(this);
+    this.renderAdvancedSearch = this.renderAdvancedSearch.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -29,7 +35,7 @@ class Search extends React.Component {
 
   getCurrentPref() {
     return (
-      <div>
+      <div align='center'>
         <h4>Pick Your Preferences in Order:</h4>
       </div>
     );
@@ -70,7 +76,8 @@ class Search extends React.Component {
       <Collapse in={this.state.advanced}>
         <div>
           {this.getCurrentPref()}
-          <Grid>
+          <Grid >
+          <Row>
             <Col sm={6} md={3}>
               <Button
                 value="Coffee"
@@ -111,6 +118,7 @@ class Search extends React.Component {
                 {this.getOrderOfPref('Food')}
               </Button>
             </Col>
+            </Row>
           </Grid>
         </div>
       </Collapse>
@@ -120,6 +128,7 @@ class Search extends React.Component {
   search(e) {
     e.preventDefault();
     axios
+<<<<<<< HEAD
     .get('/search', {
       params: {
         location: this.state.location,
@@ -138,11 +147,32 @@ class Search extends React.Component {
       console.log(err);
     });
 
+=======
+      .get('/search', {
+        params: {
+          location: this.state.location,
+          coffee: this.state.prefs.indexOf('Coffee') + 1 || 0,
+          atmosphere: this.state.prefs.indexOf('Atmosphere') + 1 || 0,
+          comfort: this.state.prefs.indexOf('Comfort') + 1 || 0,
+          food: this.state.prefs.indexOf('Food') + 1 || 0,
+          radius: this.state.radius || 800
+        }
+      })
+      .then((res) => {
+        // Set state of cafes to data retrieved from Yelp
+        // Use function passed down from index.jsx (handleYelp)
+        this.props.handleYelp(res.data.businesses);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+>>>>>>> e02e5f036599e55180bc0ee5d2685d2b9002435e
   }
 
   render() {
     return (
-      <div className="form-row text-center" style={{ marginTop: '20%' }}>
+      <div>
+      <div className="form-row text-center" style={{ marginTop: '20%', width:'50%' }}>
         <FormControl
           type="text"
           value={this.state.location}
@@ -152,16 +182,22 @@ class Search extends React.Component {
         <a href="" align="center" onClick={this.showAdvanced}>
           {this.state.advanced ? 'Hide Advanced Search' : 'Advanced Search'}
         </a>
+        </div>
+
+        <div>
         {this.renderAdvancedSearch()}
+        </div>
+
         <div>
           <Button
             className="center"
             onClick={this.search}
-            style={{ marginTop: '2%' }}
+            style={{ marginTop: '1%' }}
           >
             Search STUD(y) Spots
           </Button>
         </div>
+
       </div>
     );
   }
