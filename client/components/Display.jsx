@@ -38,15 +38,28 @@ class Display extends React.Component {
     })
     // gets the stored reviews for the current cafe
     .then((res) => {
-      this.setState({
-        currentCafe: cafe,
-        currentCafeReviews: res.data[0],
-        cafeOn: true
-      });
+      axios.get('/pics', {
+        params: {
+          location_id: cafe.id
+        }
+      })
+      .then((result) => {
+        var newCafe = Object.assign({ pics: result.data.photos }, cafe);
+        this.setState({
+          currentCafe: newCafe,
+          currentCafeReviews: res.data[0],
+          cafeOn: true
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      
     })
     .catch((err) => {
       console.log(err);
     });
+    
   }
 
   // submits review comment
@@ -124,8 +137,12 @@ class Display extends React.Component {
   render() {
     // page shows no search results
     if (!this.props.cafes.length) {
+<<<<<<< HEAD
+      return null;
+=======
       return(<div></div>)
       // page shows search results after successful search
+>>>>>>> dev
     } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
       return(
         <div>
@@ -175,13 +192,13 @@ class Display extends React.Component {
 
           <Carousel>
             <Carousel.Item>
-              <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+              <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[0]} />
             </Carousel.Item>
             <Carousel.Item>
-            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[1]} />
             </Carousel.Item>
             <Carousel.Item>
-            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.image_url} />
+            <img style={{maxWidth:"600px", height:"50%"}} alt="600x200" src={this.state.currentCafe.pics[2]} />
             </Carousel.Item>
           </Carousel>
           <br/>
