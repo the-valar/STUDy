@@ -138,6 +138,7 @@ class Search extends React.Component {
         // Set state of cafes to data retrieved from Yelp
         // Use function passed down from index.jsx (handleYelp)
         this.props.handleYelp(res.data.businesses);
+        this.props.renderIndivCafe(false);
       })
       .catch((err) => {
         console.log(err);

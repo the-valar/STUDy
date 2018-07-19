@@ -10,13 +10,15 @@ import './style.css';
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      cafes: []
-    }
+      cafes: [],
+      showIndivCafe: false
+    };
 
     this.handleYelp = this.handleYelp.bind(this);
+    this.renderIndivCafe = this.renderIndivCafe.bind(this);
   }
 
   handleYelp(data) {
@@ -25,22 +27,35 @@ class App extends React.Component {
     });
   }
 
+  renderIndivCafe(bool) {
+    this.setState({
+      showIndivCafe: bool
+    });
+  }
+
   render() {
-    return(
-      <div align='center'>
+    return (
+      <div align="center">
         <Header />
 
-        <div className='parallax'></div>
+        <div className="parallax" />
 
-        <div align='center'>
-          <Search handleYelp={this.handleYelp}/>
+        <div align="center">
+          <Search
+            handleYelp={this.handleYelp}
+            renderIndivCafe={this.renderIndivCafe}
+          />
         </div>
 
         <div>
-          <Display cafes={this.state.cafes} />
+          <Display
+            cafes={this.state.cafes}
+            showIndivCafe={this.state.showIndivCafe}
+            renderIndivCafe={this.renderIndivCafe}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 
