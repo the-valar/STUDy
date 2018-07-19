@@ -34,8 +34,6 @@ let getRelevantFirst = function(
   var results = [];
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
-    console.log(studySpotList[spot]['id']);
-
     db.query(
       `SELECT AVG(coffeeTea) AS CT, AVG(atmosphere) AS A, AVG(comfort) AS C, AVG(food) AS F 
       FROM ratings 
