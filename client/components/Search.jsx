@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Col, FormControl, Button, Collapse, Row } from 'react-bootstrap';
+import { Grid, Col, FormControl, Button, Collapse, Alert, Row } from 'react-bootstrap';
 
 class Search extends React.Component {
   constructor(props) {

@@ -106,12 +106,10 @@ class Header extends React.Component {
     return (
       <div>
         <Navbar inverse fixedTop>
-          
           <Navbar.Header>
             <Navbar.Brand>
               <a href='/'>STUD(y)</a>
             </Navbar.Brand>
-            <Navbar.Toggle />
           </Navbar.Header>
 
           <Nav pullRight>
@@ -123,6 +121,7 @@ class Header extends React.Component {
             </NavDropdown>
           </Nav>
         </Navbar>
+
       </div>
     )
     } else {
@@ -170,6 +169,7 @@ class Header extends React.Component {
           </Navbar.Collapse>
 
         </Navbar>
+
       </div>
     )
   }
