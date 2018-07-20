@@ -6,6 +6,12 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
+<<<<<<< HEAD
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
+import logo from './logo.png';
+
+=======
+>>>>>>> 5e3d36d5377565f36f7717491f729b6f35c77828
 
 
 import './s-alert-default.css';
@@ -144,7 +150,10 @@ class App extends React.Component {
                 logout={this.logout}
                 handleSession={this.handleSession} />
 
-        <div className="parallax" />
+        <div className='parallax'>
+          {/* <h1>STUD(y)</h1> */}
+          {/* <img className='nav-logo2' src={logo} alt=""/> */}
+        </div>
 
         <div align="center">
           <Search
