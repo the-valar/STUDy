@@ -270,7 +270,8 @@ let getFullReviews = function({location_id}, cb) {
                   FROM comments as c
                   JOIN locations ON c.location=locations.id
                   JOIN ratings as r ON r.location=locations.id
-                  WHERE locations.id=?`;
+                  WHERE locations.id=?
+                  GROUP BY c.text`;
 
   db.getConnection((err, conn) => {
     conn.query(command, location_id, (err, results) => {
