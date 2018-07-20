@@ -51,7 +51,7 @@ class Display extends React.Component {
       })
       .then((result) => {
         axios.post('/pics', {
-          pics: result,
+          pics: result.data.photos,
           location_id: cafe.id
         })
         .catch((err) => {
