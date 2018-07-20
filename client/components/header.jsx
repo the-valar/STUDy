@@ -2,9 +2,7 @@ import React from 'react';
 import { Navbar, NavItem, Nav, NavDropdown, Well, MenuItem, Button, FormGroup, FormControl, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-import { Alert } from 'react-alert';
-import { Provider as AlertProvider } from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
+import Favorites from './Favorites.jsx';
 
 class Header extends React.Component {
   constructor(props) {
@@ -12,7 +10,8 @@ class Header extends React.Component {
 
     this.state = {
       showLogin: false,
-      showSignup: false
+      showSignup: false,
+      showFavorites: false
     }
 
     this.showLogin = this.showLogin.bind(this);
@@ -20,6 +19,9 @@ class Header extends React.Component {
 
     this.showSignup = this.showSignup.bind(this);
     this.closeSignup = this.closeSignup.bind(this);
+
+    this.showFavorites = this.showFavorites.bind(this);
+    this.closeFavorites = this.closeFavorites.bind(this);
   }
 
   closeLogin() {
@@ -50,6 +52,18 @@ class Header extends React.Component {
     });
   }
 
+  showFavorites() {
+    this.setState({
+      showFavorites: true
+    })
+  }
+
+  closeFavorites() {
+    this.setState({
+      showFavorites: false
+    })
+  }
+
   componentWillMount() {
     axios.get('/session')
          .then(response => {
@@ -63,15 +77,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const options = {
-      position: 'top center',
-      timeout: 3000,
-      offset: '400px',
-      transition: 'scale'
-    }
-
-    // let username = this.props.username.length;
-    // let password = this.props.password.length;
+    const enabled = this.props.username.length > 0 && this.props.password.length > 0;
 
     if (this.props.loggedIn) {
       return (
@@ -86,12 +92,14 @@ class Header extends React.Component {
             <Nav pullRight>
               <NavDropdown title='Profile' id="basic-nav-dropdown">
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
-                <MenuItem>Favorites</MenuItem>
+                <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
                 <MenuItem divider />
                 <MenuItem onClick={ ()=> { return this.props.logout() }} >Logout</MenuItem>
               </NavDropdown>
             </Nav>
           </Navbar>
+
+          <Favorites userId={this.props.userId} showFavorites={this.state.showFavorites} closeFavorites={this.closeFavorites} />
 
         </div>
       )
@@ -121,15 +129,7 @@ class Header extends React.Component {
                     <FormControl type="password" placeholder="password" value={this.props.password} onChange={(e) => {this.props.handlePassword(e)}} />
                   </FormGroup>
                   
-                  <Button type="submit" value="Submit" onClick={this.props.loginUser}> Log In </Button>
-
-                  {/* <AlertProvider template={AlertTemplate} {...options}>
-                    <Alert>
-                      {alert => (
-                        <Button type="submit" value="Submit" onClick={ () => { (!username || !password) ? alert.show('Oh snap! We need a username and a password!') : this.props.loginUser() } }> Log In </Button>
-                      )}
-                    </Alert>
-                  </AlertProvider> */}
+                  <Button disabled={!enabled} type="submit" onClick={this.props.loginUser}> Log In </Button>
 
                 </Modal.Body>
               </Modal>
@@ -141,7 +141,7 @@ class Header extends React.Component {
                     <FormControl type="password" placeholder="password" value={this.props.password} onChange={(e) => {this.props.handlePassword(e)}} />
                   </FormGroup>
                   
-                  <Button type="submit" value="Submit" onClick={this.props.registerUser}> Register </Button>
+                  <Button disabled={!enabled} type="submit" value="Submit" onClick={this.props.registerUser}> Register </Button>
                 </Modal.Body>
               </Modal>
 

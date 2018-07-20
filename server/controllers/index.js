@@ -63,7 +63,7 @@ app.post('/login', (req, res) => {
 
   models.login(req.body, (err, data) => {
     if (err) {
-      console.error('Wrong username or password');
+      res.status(404).send();
     } else {
       bcrypt.compare(req.body.password, data[0].password, (err, match) => {
         if (match) {
@@ -75,8 +75,6 @@ app.post('/login', (req, res) => {
 
           req.session.userData = sess;
           res.send(JSON.stringify(data[0].id));
-        } else {
-          console.error('Wrong username or password');
         }
       });
     }
@@ -192,7 +190,17 @@ app.get('/pics', (req, res) => {
   .catch((err) => {
     res.send();
   });
-})
+});
+
+app.get('/reviews', (req, res) => {
+  models.getFullReviews(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
 
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
