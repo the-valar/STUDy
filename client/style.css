@@ -28,6 +28,25 @@ body {
   margin-top: 0;
 }
 
+.nav-logo {
+  width: 140px;
+  height: auto;
+  float: left;
+  margin-top: -6.5px;
+  /* margin-left: -20px; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* padding: -50px 0 0 -10px; */
+}
+
+.nav-logo2 {
+  /* position: fixed; */
+  background-attachment: fixed;
+  top: 340; bottom:0; left: 0; right:0;
+  margin: auto;
+
+}
+
 .footer {
   position: absolute;
   right: 0;
@@ -50,6 +69,7 @@ body {
 }
 
 .parallax {
+  position: relative;
   background-image: url('https://source.unsplash.com/random/featured/?coffee');
   height: 55%;
   background-attachment: fixed;
@@ -58,6 +78,24 @@ body {
   background-size: cover;
 }
 
+.parallax .nav-logo2 {
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+/* .parallax h1 {
+  position: absolute;
+  font-family: 'Montserrat', sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 50px;
+  text-shadow: 2px 2px 2px #000;
+} */
 a:focus {
   outline: none
 }

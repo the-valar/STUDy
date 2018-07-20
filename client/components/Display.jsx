@@ -204,7 +204,8 @@ class Display extends React.Component {
             </div>
           </ScrollToTop>
 
-          <div style={{marginBottom:'5%'}} className='parallax'></div>
+          <div style={{marginBottom:'5%'}} className='parallax'>
+          </div>
 
         </div>
         )

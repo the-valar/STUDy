@@ -43,6 +43,7 @@
     "webpack": "^2.7.0"
   },
   "devDependencies": {
-    "css-loader": "^1.0.0"
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11"
   }
 }
