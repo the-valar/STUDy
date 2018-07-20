@@ -50,6 +50,14 @@ class Display extends React.Component {
         }
       })
       .then((result) => {
+        axios.post('/pics', {
+          pics: result,
+          location_id: cafe.id
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
         var newCafe = Object.assign({ pics: result.data.photos }, cafe);
         this.setState({
           currentCafe: newCafe,

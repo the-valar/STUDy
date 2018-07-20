@@ -205,7 +205,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
 };
 
 let getFavorite = function({ user_id }, cb) {
-  var command = `SELECT id, name, city, state, address
+  var command = `SELECT id, name, city, state, address, image1, image2, image3
                  FROM users_locations
                  JOIN locations ON locations.id=users_locations.location_id
                  WHERE users_locations.user_id=${user_id}`;
@@ -265,6 +265,25 @@ let getComment = function({ location_id }, cb) {
   });
 };
 
+let addPics = function({ pics, location_id }, cb) {
+  var params = [pics[0], pics[1], pics[2], location_id];
+  var command = `UPDATE locations
+                 SET image1=?, image2=?, image3=?
+                 WHERE id=?`;
+  db.getConnection((err, conn) => {
+    conn.query(command, params, (err, results) => {
+      if (err) {
+        console.error('Error posting pics to db', err);
+      } else {
+        console.log('Posted pics to db', results);
+        cb(null, results);
+      }
+    });
+
+    conn.release();
+  });
+};
+
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
@@ -276,5 +295,6 @@ module.exports = {
   getRating: getRating,
   getFavorite: getFavorite,
   addComment: addComment,
-  getComment: getComment
+  getComment: getComment,
+  addPics: addPics
 };
