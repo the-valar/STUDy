@@ -4,7 +4,7 @@ import StackGrid from "react-stack-grid";
 import ScrollToTop from 'react-scroll-up';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
-
+import ShowReviews from './ShowReviews.jsx'
 import Review from './Review.jsx';
 import '../style.css';
 
@@ -14,6 +14,7 @@ class Display extends React.Component {
 
     this.state = {
       currentCafe: {},
+      currentCafeAvgRating: {},
       currentCafeReviews: {},
       review: '',
       submittedReview: false,
@@ -35,7 +36,8 @@ class Display extends React.Component {
   };
 
   // function that sets state to clicked cafe
-  cafeView(cafe){
+  cafeView(e, cafe){
+    e.preventDefault();
     axios.get('/ratings', {
       params: {
         location_id: cafe.id,
@@ -53,7 +55,7 @@ class Display extends React.Component {
         var newCafe = Object.assign({ pics: result.data.photos }, cafe);
         this.setState({
           currentCafe: newCafe,
-          currentCafeReviews: res.data[0],
+          currentCafeAvgRating: res.data[0],
         });
         this.props.renderIndivCafe(true);
       })
@@ -63,7 +65,23 @@ class Display extends React.Component {
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .then(() => {
+      axios.get('/reviews', {
+        params: {
+          location_id: cafe.id
+        }
+      })
+      .then((reviews) => {
+        this.setState({
+          currentCafeReviews: reviews
+        })
+        console.log('AXIOS DISPLAY.JSX REVIEWS', this.state.currentCafeReviews)
+      })
+    })
+    .catch(err => {
+      console.log('GET REVIEWS ERR', err)
+    })
   }
 
   // submits review comment
@@ -92,7 +110,7 @@ class Display extends React.Component {
         })
         .then((res) => {
           this.setState({
-            currentCafeReviews: res.data[0],
+            currentCafeAvgRating: res.data[0],
             review: '',
             submittedReview: true,
             coffeeRating: 0,
@@ -111,7 +129,7 @@ class Display extends React.Component {
     })
     .catch(err => {
       console.log('ADD RATING ERR', err);
-    });
+    })
   }
 
   //sets state with review comment entered in textbox
@@ -168,7 +186,7 @@ class Display extends React.Component {
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250' onClick={() => this.cafeView(cafe)}>
+                  <Thumbnail src={cafe.image_url} height='250' onClick={(e) => this.cafeView(e, cafe)}>
                     <h3>{cafe.name}</h3>
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.state}, {cafe.location.zip_code}</p>
                   </Thumbnail>
@@ -195,20 +213,20 @@ class Display extends React.Component {
           <div align='center' style={{marginBottom:50}}>
           {/* current cafe name & avg star ratings */}
           <h3>{this.state.currentCafe.name}</h3>
-          {this.state.currentCafeReviews.count} Reviews
+          <ShowReviews reviews={this.state.currentCafeReviews.data} cafe={this.state.currentCafe}/>
           <Grid>
             <Row>
             <Col xs={6} md={3}>
-            Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeAvgRating.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={3}>
-            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeAvgRating.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={3}>
-            Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeAvgRating.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             <Col xs={6} md={3}>
-            Food: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
+            Food: <StarRatings numberOfStars={5} rating={this.state.currentCafeAvgRating.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             </Row>
           </Grid>
