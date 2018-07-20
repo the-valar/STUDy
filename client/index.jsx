@@ -5,6 +5,8 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
+import logo from './logo.png';
+
 
 import './style.css';
 
@@ -36,7 +38,10 @@ class App extends React.Component {
       <div align='center'>
         <Header />
 
-        <div className='parallax'></div>
+        <div className='parallax'>
+          {/* <h1>STUD(y)</h1> */}
+          {/* <img className='nav-logo2' src={logo} alt=""/> */}
+        </div>
 
     
 

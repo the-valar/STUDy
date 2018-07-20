@@ -6,6 +6,7 @@ import { Alert } from 'react-alert';
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
+import logo from '../logo.png';
 // import ShowAlert from './ShowAlert.jsx';
 
 class Header extends React.Component {
@@ -135,7 +136,7 @@ class Header extends React.Component {
     const options = {
       position: 'top center',
       timeout: 3000,
-      offset: '400px',
+      offset: '300px',
       transition: 'scale'
     }
 
@@ -148,7 +149,8 @@ class Header extends React.Component {
         <Navbar inverse fixedTop>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href='/'>STUD(y)</a>
+              {/* <a href='/'>Home</a> */}
+              <a href='/'><img href='/' src={logo} class="nav-logo" /></a>
             </Navbar.Brand>
           </Navbar.Header>
 
@@ -172,7 +174,11 @@ class Header extends React.Component {
           
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="">STUD(y)</a>
+            {/* <a href='/'>Home</a> */}
+              <a href='/'><img href='/' src={logo} class="nav-logo" /></a>
+              {/* <img src={logo} class="nav-logo2" /> */}
+              {/* <a href="">STUD(y)</a> */}
+            
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
