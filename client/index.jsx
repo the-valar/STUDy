@@ -10,15 +10,16 @@ import './style.css';
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       cafes: [],
       username: '',
       password: '',
       userId: '',
-      loggedIn: false
-    }
+      loggedIn: false,
+      showIndivCafe: false
+    };
 
     this.handleYelp = this.handleYelp.bind(this);
 
@@ -30,6 +31,9 @@ class App extends React.Component {
 
     this.logout = this.logout.bind(this);
     this.handleSession = this.handleSession.bind(this);
+
+    this.handleYelp = this.handleYelp.bind(this);
+    this.renderIndivCafe = this.renderIndivCafe.bind(this);
   }
 
   handleYelp(data) {
@@ -110,7 +114,11 @@ class App extends React.Component {
         userId: response.data.userId,
         loggedIn: response.data.login
       });
-    }
+
+  renderIndivCafe(bool) {
+    this.setState({
+      showIndivCafe: bool
+    });
   }
 
   render() {
@@ -126,19 +134,24 @@ class App extends React.Component {
                 logout={this.logout}
                 handleSession={this.handleSession} />
 
-        <div className='parallax'></div>
+        <div className="parallax" />
 
-        <div align='center'>
-          <Search handleYelp={this.handleYelp} />
+        <div align="center">
+          <Search
+            handleYelp={this.handleYelp}
+            renderIndivCafe={this.renderIndivCafe} />
         </div>
+        
           <div>
             <Display cafes={this.state.cafes}
                      username={this.state.username}
                      userId={this.state.userId}
-                     loggedIn={this.state.loggedIn} />
+                     loggedIn={this.state.loggedIn}
+                     showIndivCafe={this.state.showIndivCafe}
+                     renderIndivCafe={this.renderIndivCafe} />
           </div>
       </div>
-    )
+    );
   }
 }
 

@@ -15,7 +15,6 @@ class Display extends React.Component {
     this.state = {
       currentCafe: {},
       currentCafeReviews: {},
-      cafeOn: false,
       review: '',
       coffeeRating: 0,
       atmosphereRating: 0,
@@ -54,8 +53,8 @@ class Display extends React.Component {
         this.setState({
           currentCafe: newCafe,
           currentCafeReviews: res.data[0],
-          cafeOn: true
         });
+        this.props.renderIndivCafe(true);
       })
       .catch((err) => {
         console.log(err);
@@ -153,7 +152,7 @@ class Display extends React.Component {
     if (!this.props.cafes.length) {
       return null;
       // page shows search results after successful search
-    } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
+    } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe){
       return(
         <div>
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
@@ -180,7 +179,7 @@ class Display extends React.Component {
 
         </div>
         )
-    } else if (this.props.cafes.length > 0 && this.state.cafeOn) {
+    } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
       return(
         <div>
           {/* current cafe name & picture */}
