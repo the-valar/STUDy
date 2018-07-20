@@ -1,11 +1,12 @@
 import React from 'react';
-import { Grid, Row, Col, Media, Well, Thumbnail, Button, Carousel, FormControl , FormGroup} from 'react-bootstrap';
+import { Grid, Row, Col, Thumbnail, Button, Carousel, Modal } from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
 import ScrollToTop from 'react-scroll-up';
-
-import '../style.css';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
+
+import Review from './Review.jsx';
+import '../style.css';
 
 class Display extends React.Component {
   constructor(props) {
@@ -14,21 +15,23 @@ class Display extends React.Component {
     this.state = {
       currentCafe: {},
       currentCafeReviews: {},
-      cafeOn: false,
       review: '',
+      submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
       comfortRating: 0,
       foodRating: 0
     };
 
-    this.cafeView = this.cafeView.bind(this)
-    this.submitReview = this.submitReview.bind(this)
-    this.enterReview = this.enterReview.bind(this)
-    this.coffeeRating = this.coffeeRating.bind(this)
-    this.atmosphereRating = this.atmosphereRating.bind(this)
-    this.comfortRating = this.comfortRating.bind(this)
-    this.foodRating = this.foodRating.bind(this)
+    this.cafeView = this.cafeView.bind(this);
+
+    this.submitReview = this.submitReview.bind(this);
+    this.enterReview = this.enterReview.bind(this);
+    this.closeReviewSubmission = this.closeReviewSubmission.bind(this);
+    this.handleCoffee = this.handleCoffee.bind(this);
+    this.handleAtmosphere = this.handleAtmosphere.bind(this);
+    this.handleComfort = this.handleComfort.bind(this);
+    this.handleFood = this.handleFood.bind(this);
   };
 
   // function that sets state to clicked cafe
@@ -51,24 +54,22 @@ class Display extends React.Component {
         this.setState({
           currentCafe: newCafe,
           currentCafeReviews: res.data[0],
-          cafeOn: true
         });
+        this.props.renderIndivCafe(true);
       })
       .catch((err) => {
         console.log(err);
       })
-      
     })
     .catch((err) => {
       console.log(err);
     });
-    
   }
 
   // submits review comment
   submitReview() {
     axios.post('/ratings', {
-      user_id: 1,
+      user_id: this.props.userId,
       location_id: this.state.currentCafe.id,
       coffeeTea: this.state.coffeeRating,
       atmosphere: this.state.atmosphereRating,
@@ -78,7 +79,7 @@ class Display extends React.Component {
     .then(() => {
       // submits review stars
       axios.post('/comments', {
-        user_id: 1,
+        user_id: this.props.userId,
         location_id: this.state.currentCafe.id,
         text: this.state.review
       })
@@ -93,6 +94,7 @@ class Display extends React.Component {
           this.setState({
             currentCafeReviews: res.data[0],
             review: '',
+            submittedReview: true,
             coffeeRating: 0,
             atmosphereRating: 0,
             comfortRating: 0,
@@ -114,35 +116,41 @@ class Display extends React.Component {
 
   //sets state with review comment entered in textbox
   enterReview(e){
-    e.preventDefault();
     this.setState({
       review: e.target.value
-    })
+    });
+  }
+
+  //sets state when review modal is closed
+  closeReviewSubmission(e) {
+    this.setState({
+      submittedReview: false
+    });
   }
 
   // sets state with star rating for coffee
-  coffeeRating(rating){
+  handleCoffee(rating){
     this.setState({
       coffeeRating: rating
     })
   }
 
   // sets state with star rating for atmosphere
-  atmosphereRating(rating){
+  handleAtmosphere(rating){
     this.setState({
       atmosphereRating: rating
     })
   }
 
   // sets state with star rating for comfort
-  comfortRating(rating){
+  handleComfort(rating){
     this.setState({
       comfortRating: rating
     })
   }
 
   // sets state with star rating for food
-  foodRating(rating){
+  handleFood(rating){
     this.setState({
       foodRating: rating
     })
@@ -153,7 +161,7 @@ class Display extends React.Component {
     if (!this.props.cafes.length) {
       return null;
       // page shows search results after successful search
-    } else if (this.props.cafes.length > 0 && !this.state.cafeOn){
+    } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe){
       return(
         <div>
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
@@ -181,7 +189,7 @@ class Display extends React.Component {
 
         </div>
         )
-    } else if (this.props.cafes.length > 0 && this.state.cafeOn) {
+    } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
       return(
         <div>
           {/* current cafe name & picture */}
@@ -191,21 +199,17 @@ class Display extends React.Component {
           {this.state.currentCafeReviews.count} Reviews
           <Grid>
             <Row>
-            <Col xs={6} md={2}>
-            </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
-            Food: <br/><StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
-            </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
+            Food: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             </Row>
           </Grid>
@@ -248,35 +252,22 @@ class Display extends React.Component {
             </Row>
           </Grid>
 
-          {/* stars for ratings */}
-          <Grid>
-            <Row>
-            <Col xs={6} md={3}>
-            Coffee/Tea:<br/><StarRatings numberOfStars={5} rating={this.state.coffeeRating} changeRating={this.coffeeRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
-            </Col>
-            <Col xs={6} md={3}>
-            Atmosphere:<br/><StarRatings numberOfStars={5} rating={this.state.atmosphereRating} changeRating={this.atmosphereRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
-            </Col>
-            <Col xs={6} md={3}>
-            Comfort:<br/><StarRatings numberOfStars={5} rating={this.state.comfortRating} changeRating={this.comfortRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
-            </Col>
-            <Col xs={6} md={3}>
-            Food:<br/><StarRatings numberOfStars={5} rating={this.state.foodRating} changeRating={this.foodRating} starDimension='25px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey' starHoverColor='gold' />
-            </Col>
-            </Row>
-          </Grid>
-          <br/>
-
-          {/* review box */}
-          <div style={{width: "500"}}>
-          <FormGroup controlId="formControlsTextarea">
-            <FormControl componentClass="textarea" placeholder="Enter your review here" value={this.state.review} onChange={this.enterReview}/>
-          </FormGroup>
-          </div>
-          <Button onClick={this.submitReview}> Submit </Button>
-          <br/><br/>
-          <div style={{position: "center"}}>
-          </div>
+          <div>
+            <Review username={this.props.username}
+                    userId={this.props.userId}
+                    loggedIn={this.props.loggedIn}
+                    review={this.state.review}
+                    coffeeRating={this.state.coffeeRating}
+                    atmosphereRating={this.state.atmosphereRating}
+                    comfortRating={this.state.comfortRating}
+                    foodRating={this.state.foodRating}
+                    handleCoffee={this.handleCoffee}
+                    handleAtmosphere={this.handleAtmosphere}
+                    handleComfort={this.handleComfort}
+                    handleFood={this.handleFood}
+                    enterReview={this.enterReview}
+                    submitReview={this.submitReview} />
+            </div>
           </div>
 
           {/* list of cafes from search */}
@@ -292,6 +283,14 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
+
+          {/* Modal popup when review is submitted */}
+          <Modal id="reviewSubmissionModal" show={this.state.submittedReview} onHide={this.closeReviewSubmission}>
+            <Modal.Body style={{ overflow: 'hidden' }}>
+              <div style={{ textAlign:'center' }}> Your review has been submitted! </div>
+              <Button onClick={this.closeReviewSubmission} style={{ float:'right' }}> Close </Button>
+            </Modal.Body>
+          </Modal>
 
         </div>
         

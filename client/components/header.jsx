@@ -2,53 +2,41 @@ import React from 'react';
 import { Navbar, NavItem, Nav, NavDropdown, Well, MenuItem, Button, FormGroup, FormControl, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
+<<<<<<< HEAD
 import { Alert } from 'react-alert';
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 import logo from '../logo.png';
 // import ShowAlert from './ShowAlert.jsx';
+=======
+import Favorites from './Favorites.jsx';
+>>>>>>> 5e3d36d5377565f36f7717491f729b6f35c77828
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      username: '',
-      password: '',
       showLogin: false,
       showSignup: false,
-      loggedIn: false
+      showFavorites: false
     }
-
-    this.handleUser = this.handleUser.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    
-    this.loginUser = this.loginUser.bind(this);
-    this.registerUser = this.registerUser.bind(this);
 
     this.showLogin = this.showLogin.bind(this);
     this.closeLogin = this.closeLogin.bind(this);
 
     this.showSignup = this.showSignup.bind(this);
     this.closeSignup = this.closeSignup.bind(this);
-  }
 
-  handleUser(username) {
-    this.setState({
-      username: username.target.value
-    });
-  }
-
-  handlePassword(password) {
-    this.setState({
-      password: password.target.value
-    });
+    this.showFavorites = this.showFavorites.bind(this);
+    this.closeFavorites = this.closeFavorites.bind(this);
   }
 
   closeLogin() {
+    this.props.handleSession();
+
     this.setState({
-      username: '',
-      password: '',
       showLogin: false
     });
   }
@@ -60,9 +48,9 @@ class Header extends React.Component {
   }
 
   closeSignup() {
+    this.props.handleSession();
+
     this.setState({
-      username: '',
-      password: '',
       showSignup: false
     });
   }
@@ -73,61 +61,26 @@ class Header extends React.Component {
     });
   }
 
-  loginUser() {
-    axios.post('/login', {
-      username: this.state.username,
-      password: this.state.password
+  showFavorites() {
+    this.setState({
+      showFavorites: true
     })
-      .then(response => {
-        console.log('Processing login', response.data);
-
-        this.setState({
-          loggedIn: true
-        });
-      })
-      .catch(err => {
-        console.error('Username or password is incorrect', err);
-      });
-
   }
 
-  registerUser() {
-    axios.post('/register', {
-      username: this.state.username,
-      password: this.state.password
+  closeFavorites() {
+    this.setState({
+      showFavorites: false
     })
-      .then(response => {
-        console.log('Processing register', response.data);
-
-        this.setState({
-          loggedIn: true
-        });
-
-      })
-      .catch(err => {
-        console.error('Error registering', err);
-      });
-  }
-
-  logout() {
-    axios.get('/logout')
-         .then( () => {
-            this.setState({
-              username: '',
-              password: '',
-              loggedIn: false
-            });
-         });
   }
 
   componentWillMount() {
     axios.get('/session')
          .then(response => {
            if (response.data.username) {
-             this.setState({
-               username: response.data.username,
-               loggedIn: response.data.login
-             });
+             // check to see if response.data exists
+             // sets state of parent component
+
+             this.props.handleSession(response);
            }
          });
   }
