@@ -114,6 +114,8 @@ class App extends React.Component {
         userId: response.data.userId,
         loggedIn: response.data.login
       });
+    }
+  }
 
   renderIndivCafe(bool) {
     this.setState({
