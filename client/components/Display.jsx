@@ -19,8 +19,7 @@ class Display extends React.Component {
       submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
-      comfortRating: 0,
-      foodRating: 0
+      comfortRating: 0
     };
 
     this.cafeView = this.cafeView.bind(this);
@@ -32,6 +31,8 @@ class Display extends React.Component {
     this.handleAtmosphere = this.handleAtmosphere.bind(this);
     this.handleComfort = this.handleComfort.bind(this);
     this.handleFood = this.handleFood.bind(this);
+
+    this.addToFave = this.addToFave.bind(this);
   };
 
   // function that sets state to clicked cafe
@@ -50,6 +51,14 @@ class Display extends React.Component {
         }
       })
       .then((result) => {
+        axios.post('/pics', {
+          pics: result.data.photos,
+          location_id: cafe.id
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
         var newCafe = Object.assign({ pics: result.data.photos }, cafe);
         this.setState({
           currentCafe: newCafe,
@@ -98,7 +107,8 @@ class Display extends React.Component {
             coffeeRating: 0,
             atmosphereRating: 0,
             comfortRating: 0,
-            foodRating: 0
+            foodRating: 0,
+            addFave: 0
           })
         })
         .catch((err) => {
@@ -156,6 +166,16 @@ class Display extends React.Component {
     })
   };
 
+  addToFave() {
+    axios.post('/favorites', {
+      user_id: this.props.userId,
+      location_id: this.state.currentCafe.id
+    })
+      .then(response => {
+        console.log(response);
+      });
+  }
+
   render() {
     // page shows no search results
     if (!this.props.cafes.length) {
@@ -195,7 +215,8 @@ class Display extends React.Component {
           {/* current cafe name & picture */}
           <div align='center' style={{marginBottom:50}}>
           {/* current cafe name & avg star ratings */}
-          <h3>{this.state.currentCafe.name}</h3>
+          <h3 onClick={this.addToFave}>{this.state.currentCafe.name}</h3>
+
           {this.state.currentCafeReviews.count} Reviews
           <Grid>
             <Row>
