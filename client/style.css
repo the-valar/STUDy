@@ -61,3 +61,7 @@ body {
 a:focus {
   outline: none
 }
+
+#reviewSubmissionModal .modal-content {
+  margin-top: 60%
+}
