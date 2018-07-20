@@ -11,7 +11,10 @@ CREATE TABLE locations (
   name VARCHAR(255),
   city VARCHAR(255),
   state VARCHAR(255),
-  address VARCHAR(255)
+  address VARCHAR(255),
+  image1 VARCHAR(255),
+  image2 VARCHAR(255),
+  image3 VARCHAR(255)
 );
 
 CREATE TABLE ratings (
