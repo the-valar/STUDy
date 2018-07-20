@@ -2,10 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { Grid, Col, FormControl, Button, Collapse, Row, Form, FormGroup, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
-import { Alert } from 'react-alert';
-import { Provider as AlertProvider } from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
-
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -211,14 +207,6 @@ class Search extends React.Component {
           >
             Search STUD(y) Spots
           </Button>
-
-          {/* <AlertProvider template={AlertTemplate} {...options}>
-            <Alert>
-              {alert => (
-                <Button className="center" type="submit" value="Submit" style={{ marginTop: '1%' }} onClick={ () => { (!this.state.location.length) ? alert.show('Oh snap! Enter a real location!') : this.search(e) } }> Go STUD(y) </Button>
-              )}
-            </Alert>
-          </AlertProvider> */}
 
         </div>
 

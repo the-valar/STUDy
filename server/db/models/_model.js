@@ -105,7 +105,7 @@ let login = function({ username }, cb) {
       username,
       (err, result) => {
         if (!result.length) {
-          console.error('Incorrect user or password');
+          cb('Wrong');
         } else {
           console.log('Found user', result);
           // Return user id
@@ -265,6 +265,7 @@ let getComment = function({ location_id }, cb) {
   });
 };
 
+<<<<<<< HEAD
 let addPics = function({ pics, location_id }, cb) {
   var params = [pics[0], pics[1], pics[2], location_id];
   var command = `UPDATE locations
@@ -276,6 +277,21 @@ let addPics = function({ pics, location_id }, cb) {
         console.error('Error posting pics to db', err);
       } else {
         console.log('Posted pics to db', results);
+=======
+let getFullReviews = function({location_id}, cb) {
+  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
+                  FROM comments as c
+                  JOIN locations ON c.location=locations.id
+                  JOIN ratings as r ON r.location=locations.id
+                  WHERE locations.id=?`;
+
+  db.getConnection((err, conn) => {
+    conn.query(command, location_id, (err, results) => {
+      if (err) {
+        console.error('Error getting all location reviews', err);
+      } else {
+        console.log('Retrieved all location reviews');
+>>>>>>> dev
         cb(null, results);
       }
     });
@@ -296,5 +312,9 @@ module.exports = {
   getFavorite: getFavorite,
   addComment: addComment,
   getComment: getComment,
+<<<<<<< HEAD
   addPics: addPics
+=======
+  getFullReviews: getFullReviews
+>>>>>>> dev
 };
