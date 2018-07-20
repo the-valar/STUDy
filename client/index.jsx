@@ -26,19 +26,26 @@ class App extends React.Component {
   }
 
   render() {
+    const options = {
+      position: 'top center',
+      timeout: 5000,
+      offset: '100px',
+      transition: 'scale'
+    }
     return(
       <div align='center'>
         <Header />
 
         <div className='parallax'></div>
 
+    
+
         <div align='center'>
           <Search handleYelp={this.handleYelp}/>
         </div>
-
-        <div>
-          <Display cafes={this.state.cafes} />
-        </div>
+          <div>
+            <Display cafes={this.state.cafes} />
+          </div>
       </div>
     )
   }
