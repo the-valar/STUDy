@@ -2,16 +2,13 @@ import React from 'react';
 import { Navbar, NavItem, Nav, NavDropdown, Well, MenuItem, Button, FormGroup, FormControl, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-<<<<<<< HEAD
 import { Alert } from 'react-alert';
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
 import logo from '../logo.png';
 // import ShowAlert from './ShowAlert.jsx';
-=======
 import Favorites from './Favorites.jsx';
->>>>>>> 5e3d36d5377565f36f7717491f729b6f35c77828
 
 class Header extends React.Component {
   constructor(props) {

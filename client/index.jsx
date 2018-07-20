@@ -6,12 +6,8 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
-<<<<<<< HEAD
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import logo from './logo.png';
-
-=======
->>>>>>> 5e3d36d5377565f36f7717491f729b6f35c77828
 
 
 import './s-alert-default.css';
