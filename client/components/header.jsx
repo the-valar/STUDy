@@ -6,24 +6,14 @@ import { Alert } from 'react-alert';
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 
-// import ShowAlert from './ShowAlert.jsx';
-
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      username: '',
-      password: '',
-      showLogin: false,
-      showSignup: false,
-      loggedIn: false
-    }
 
-    this.handleUser = this.handleUser.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    
-    this.loginUser = this.loginUser.bind(this);
-    this.registerUser = this.registerUser.bind(this);
+    this.state = {
+      showLogin: false,
+      showSignup: false
+    }
 
     this.showLogin = this.showLogin.bind(this);
     this.closeLogin = this.closeLogin.bind(this);
@@ -32,22 +22,10 @@ class Header extends React.Component {
     this.closeSignup = this.closeSignup.bind(this);
   }
 
-  handleUser(username) {
-    this.setState({
-      username: username.target.value
-    });
-  }
-
-  handlePassword(password) {
-    this.setState({
-      password: password.target.value
-    });
-  }
-
   closeLogin() {
+    this.props.handleSession();
+
     this.setState({
-      username: '',
-      password: '',
       showLogin: false
     });
   }
@@ -59,9 +37,9 @@ class Header extends React.Component {
   }
 
   closeSignup() {
+    this.props.handleSession();
+
     this.setState({
-      username: '',
-      password: '',
       showSignup: false
     });
   }
@@ -72,61 +50,14 @@ class Header extends React.Component {
     });
   }
 
-  loginUser() {
-    axios.post('/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
-      .then(response => {
-        console.log('Processing login', response.data);
-
-        this.setState({
-          loggedIn: true
-        });
-      })
-      .catch(err => {
-        console.error('Username or password is incorrect', err);
-      });
-
-  }
-
-  registerUser() {
-    axios.post('/register', {
-      username: this.state.username,
-      password: this.state.password
-    })
-      .then(response => {
-        console.log('Processing register', response.data);
-
-        this.setState({
-          loggedIn: true
-        });
-
-      })
-      .catch(err => {
-        console.error('Error registering', err);
-      });
-  }
-
-  logout() {
-    axios.get('/logout')
-         .then( () => {
-            this.setState({
-              username: '',
-              password: '',
-              loggedIn: false
-            });
-         });
-  }
-
   componentWillMount() {
     axios.get('/session')
          .then(response => {
            if (response.data.username) {
-             this.setState({
-               username: response.data.username,
-               loggedIn: response.data.login
-             });
+             // check to see if response.data exists
+             // sets state of parent component
+
+             this.props.handleSession(response);
            }
          });
   }
@@ -139,90 +70,87 @@ class Header extends React.Component {
       transition: 'scale'
     }
 
-    let username = this.state.username.length;
-    let password = this.state.password.length;
+    // let username = this.props.username.length;
+    // let password = this.props.password.length;
 
-    if (this.state.loggedIn) {
-    return (
-      <div>
-        <Navbar inverse fixedTop>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href='/'>STUD(y)</a>
-            </Navbar.Brand>
-          </Navbar.Header>
+    if (this.props.loggedIn) {
+      return (
+        <div>
+          <Navbar inverse fixedTop>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <a href='/'>STUD(y)</a>
+              </Navbar.Brand>
+            </Navbar.Header>
 
-          <Nav pullRight>
-            <NavDropdown title='Profile' id="basic-nav-dropdown">
-              <MenuItem>Signed in as {this.state.username}</MenuItem>
-              <MenuItem>Favorites</MenuItem>
-              <MenuItem divider />
-              <MenuItem onClick={ ()=> { return this.logout() }} >Logout</MenuItem>
-            </NavDropdown>
-          </Nav>
-        </Navbar>
+            <Nav pullRight>
+              <NavDropdown title='Profile' id="basic-nav-dropdown">
+                <MenuItem>Signed in as {this.props.username}</MenuItem>
+                <MenuItem>Favorites</MenuItem>
+                <MenuItem divider />
+                <MenuItem onClick={ ()=> { return this.props.logout() }} >Logout</MenuItem>
+              </NavDropdown>
+            </Nav>
+          </Navbar>
 
-      </div>
-    )
+        </div>
+      )
     } else {
+      return (
+        <div>
+          <Navbar inverse fixedTop>
+            
+            <Navbar.Header>
+              <Navbar.Brand>
+                <a href="">STUD(y)</a>
+              </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
+            
+            <Navbar.Collapse>
 
-    return (
-      <div>
-        <Navbar inverse fixedTop>
-          
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="">STUD(y)</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          
-          <Navbar.Collapse>
+            <Nav pullRight>
+              <NavItem show='false' onClick={this.showLogin}> Login </NavItem>
+              <NavItem onClick={this.showSignup}> Register </NavItem>
+            </Nav>
+            
+              <Modal show={this.state.showLogin} onHide={this.closeLogin}>
+                <Modal.Body>
+                  <FormGroup>
+                    <FormControl type="text" placeholder="username" value={this.props.username} onChange={(e) => {this.props.handleUser(e)}} />
+                    <FormControl type="password" placeholder="password" value={this.props.password} onChange={(e) => {this.props.handlePassword(e)}} />
+                  </FormGroup>
+                  
+                  <Button type="submit" value="Submit" onClick={this.props.loginUser}> Log In </Button>
 
-          <Nav pullRight>
-            <NavItem show='false' onClick={this.showLogin}> Login </NavItem>
-            <NavItem onClick={this.showSignup}> Register </NavItem>
-          </Nav>
-          
-            <Modal show={this.state.showLogin} onHide={this.closeLogin}>
-              <Modal.Body>
-                <FormGroup>
-                  <FormControl type="text" placeholder="username" value={this.state.username} onChange={(e) => {this.handleUser(e)}} />
-                  <FormControl type="password" placeholder="password" value={this.state.password} onChange={(e) => {this.handlePassword(e)}} />
-                </FormGroup>
-                
-                {/* <Button type="submit" value="Submit" onClick={this.loginUser}> Log In </Button> */}
+                  {/* <AlertProvider template={AlertTemplate} {...options}>
+                    <Alert>
+                      {alert => (
+                        <Button type="submit" value="Submit" onClick={ () => { (!username || !password) ? alert.show('Oh snap! We need a username and a password!') : this.props.loginUser() } }> Log In </Button>
+                      )}
+                    </Alert>
+                  </AlertProvider> */}
 
-                <AlertProvider template={AlertTemplate} {...options}>
-                  <Alert>
-                    {alert => (
-                      <Button type="submit" value="Submit" onClick={ () => { (!username || !password) ? alert.show('Oh snap! We need a username and a password!') : this.loginUser() } }> Log In </Button>
-                    )}
-                  </Alert>
-                </AlertProvider>
+                </Modal.Body>
+              </Modal>
 
+              <Modal show={this.state.showSignup} onHide={this.closeSignup}>
+                <Modal.Body>
+                  <FormGroup>
+                    <FormControl type="text" placeholder="username" value={this.props.username} onChange={(e) => {this.props.handleUser(e)}} />
+                    <FormControl type="password" placeholder="password" value={this.props.password} onChange={(e) => {this.props.handlePassword(e)}} />
+                  </FormGroup>
+                  
+                  <Button type="submit" value="Submit" onClick={this.props.registerUser}> Register </Button>
+                </Modal.Body>
+              </Modal>
 
-              </Modal.Body>
-            </Modal>
+            </Navbar.Collapse>
+          </Navbar>
 
-            <Modal show={this.state.showSignup} onHide={this.closeSignup}>
-              <Modal.Body>
-                <FormGroup>
-                  <FormControl type="text" placeholder="username" value={this.state.username} onChange={(e) => {this.handleUser(e)}} />
-                  <FormControl type="password" placeholder="password" value={this.state.password} onChange={(e) => {this.handlePassword(e)}} />
-                </FormGroup>
-                
-                <Button type="submit" value="Submit" onClick={this.registerUser}> Register </Button>
-              </Modal.Body>
-            </Modal>
-
-          </Navbar.Collapse>
-
-        </Navbar>
-
-      </div>
-    )
-  }
+        </div>
+      )
+    }
   }
 
 }
