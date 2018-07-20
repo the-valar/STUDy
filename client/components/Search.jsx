@@ -160,7 +160,7 @@ class Search extends React.Component {
     const options = {
       position: 'top center',
       timeout: 3000,
-      offset: '300px',
+      offset: '150px',
       transition: 'scale'
     }
 
