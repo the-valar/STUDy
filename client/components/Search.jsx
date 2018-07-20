@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Col, FormControl, Button, Collapse, Row } from 'react-bootstrap';
+import { Grid, Col, FormControl, Button, Collapse, Row, Form, FormGroup, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import { Alert } from 'react-alert';
 import { Provider as AlertProvider } from 'react-alert';
@@ -14,6 +14,7 @@ class Search extends React.Component {
       location: '',
       prefs: [],
       radius: null,
+      radiusButton: 'Radius',
       advanced: false
     };
 
@@ -24,6 +25,8 @@ class Search extends React.Component {
     this.showAdvanced = this.showAdvanced.bind(this);
     this.renderAdvancedSearch = this.renderAdvancedSearch.bind(this);
     this.search = this.search.bind(this);
+
+    this.handleRadius = this.handleRadius.bind(this);
   }
 
   saveLocation(e) {
@@ -125,6 +128,8 @@ class Search extends React.Component {
     );
   }
 
+
+
   search(e) {
     // e.preventDefault();
     axios
@@ -148,6 +153,13 @@ class Search extends React.Component {
       });
   }
 
+  handleRadius(e, rad) {
+    this.setState({
+      radiusButton: e.target.text,
+      radius: rad
+    });
+  }
+
   render() {
     const options = {
       position: 'top center',
@@ -158,17 +170,33 @@ class Search extends React.Component {
 
     return (
       <div>
-      <div className="form-row text-center" style={{ marginTop: '5%', width:'50%' }}>
-        <FormControl
-          type="text"
-          value={this.state.location}
-          onChange={this.saveLocation}
-          placeholder="Enter your address to find a STUD(y) spot..."
-        />
-        <a href="" align="center" onClick={this.showAdvanced}>
-          {this.state.advanced ? 'Hide Advanced Search' : 'Advanced Search'}
-        </a>
-        </div>
+        <div className="text-center" style={{ marginTop: '5%', width:'50%' }}>
+          <FormGroup>
+            <InputGroup>
+              <FormControl
+              type="text"
+              value={this.state.location}
+              onChange={this.saveLocation}
+              placeholder='Enter your address to find a STUD(y) spot...' />
+
+              <DropdownButton
+                componentClass={InputGroup.Button}
+                id="input-dropdown-addon"
+                title={this.state.radiusButton}
+              >
+                <MenuItem value='1600' onClick={ (e) => this.handleRadius(e, 1600) }>1 Mile</MenuItem>
+                <MenuItem value='2400' onClick={ (e) => this.handleRadius(e, 2400) }>1.5 Miles</MenuItem>
+                <MenuItem value='3200' onClick={ (e) => this.handleRadius(e, 3200) }>2 Miles</MenuItem>
+                <MenuItem value='4000' onClick={ (e) => this.handleRadius(e, 4000) }>2.5 Miles</MenuItem>
+                <MenuItem value='4800' onClick={ (e) => this.handleRadius(e, 4800) }>3 Miles</MenuItem>
+              </DropdownButton>
+            </InputGroup>
+          </FormGroup>
+          
+          <a href="" align="center" onClick={this.showAdvanced}>
+            {this.state.advanced ? 'Hide Advanced Search' : 'Advanced Search'}
+          </a>
+          </div>
 
         <div>
         {this.renderAdvancedSearch()}

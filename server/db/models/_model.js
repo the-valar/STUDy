@@ -15,7 +15,7 @@ let saveSpots = function(studySpotList) {
     ];
 
     db.getConnection( (err, conn) => {
-      db.query(command, params, (err, result) => {
+      conn.query(command, params, (err, result) => {
         if (err) {
           console.error('Error inserting locations into mySQL');
         } else {
@@ -41,7 +41,7 @@ let getRelevantFirst = function(
   let count = 0;
   for (let spot = 0; spot < studySpotList.length; spot++) {
     db.getConnection((err, conn) => {
-      db.query(
+      conn.query(
         `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food 
         FROM ratings 
         WHERE location=?`,
@@ -79,7 +79,7 @@ let getRelevantFirst = function(
 
 let getAveragesAndReviewCount = function({ location_id }, cb) {
   db.getConnection((err, conn) => {
-    db.query(
+    conn.query(
       `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food, COUNT(id) as count
         FROM ratings
         WHERE location=?`,
@@ -99,7 +99,7 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
 
 let login = function({ username }, cb) {
   db.getConnection((err, conn) => {
-    db.query(
+    conn.query(
       `SELECT id, password FROM users WHERE username=?`,
       username,
       (err, result) => {
@@ -126,7 +126,7 @@ let register = function({ username, password }, cb) {
       var params = [username, hash];
       
       db.getConnection((err, conn) => {
-        db.query(
+        conn.query(
           `INSERT INTO users (username, password) VALUES (?, ?)`,
           params,
           (err, result) => {
@@ -154,7 +154,7 @@ let addRating = function(
   var params = [coffeeTea, atmosphere, comfort, food, location_id, user_id];
 
   db.getConnection((err, conn) => {
-    db.query(command, params, (err, results) => {
+    conn.query(command, params, (err, results) => {
       if (err) {
         console.error('Error inserting ratings', err);
       } else {
@@ -173,7 +173,7 @@ let getRating = function({ location_id }, cb) {
                  WHERE locations.id=?`;
 
   db.getConnection((err, conn) => {
-    db.query(command, location_id, (err, results) => {
+    conn.query(command, location_id, (err, results) => {
       if (err) {
         console.error('Error getting location ratings', location_id, err);
       } else {
@@ -191,7 +191,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
   db.getConnection((err, conn) => {
-    db.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
+    conn.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
       if (err) {
         console.error('Error inserting into favorites', err);
       } else {
@@ -210,7 +210,7 @@ let getFavorite = function({ user_id }, cb) {
                  WHERE users_locations.user_id=${user_id}`;
 
   db.getConnection((err, conn) => {
-    db.query(command, (err, results) => {
+    conn.query(command, (err, results) => {
       if (err) {
         console.error('Error getting user favorites', err);
       } else {
@@ -228,7 +228,7 @@ let addComment = function({ user_id, location_id, text }, cb) {
   var params = [text, user_id, location_id];
 
   db.getConnection((err, conn) => {
-    db.query(
+    conn.query(
       `INSERT INTO comments (text, user_id, location) VALUES (?, ?, ?)`,
       params,
       (err, results) => {
@@ -250,7 +250,7 @@ let getComment = function({ location_id }, cb) {
                  JOIN locations ON comments.location=locations.id
                  WHERE locations.id=?`;
   db.getConnection((err, conn) => {
-    db.query(command, location_id, (err, results) => {
+    conn.query(command, location_id, (err, results) => {
       if (err) {
         console.error('Error getting location comments', err);
       } else {
