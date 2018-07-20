@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt-nodejs');
 const db = require('../db.js');
 
 let saveSpots = function(studySpotList) {
+  db.getConnection( (err, conn) => {
   for (let spot = 0; spot < studySpotList.length; spot++) {
     var currSpot = studySpotList[spot];
     var command = `INSERT INTO locations (id, name, city, state, address) VALUES (?, ?, ?, ?, ?)`;
@@ -14,7 +15,6 @@ let saveSpots = function(studySpotList) {
       currSpot.location.address1
     ];
 
-    db.getConnection( (err, conn) => {
       conn.query(command, params, (err, result) => {
         if (err) {
           console.error('Error inserting locations into mySQL');
@@ -23,9 +23,10 @@ let saveSpots = function(studySpotList) {
         }
       });
 
-      conn.release();
-    });
-  }
+    }
+    
+    conn.release();
+  });
 };
 
 let getRelevantFirst = function(

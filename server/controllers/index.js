@@ -69,6 +69,7 @@ app.post('/login', (req, res) => {
         if (match) {
           var sess = {
             username: req.body.username,
+            userId: data[0].id,
             login: true
           };
 
@@ -89,6 +90,7 @@ app.post('/register', (req, res) => {
     } else {
       var sess = {
         username: req.body.username,
+        userId: data.insertId,
         login: true
       }
 

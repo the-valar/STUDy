@@ -128,10 +128,9 @@ class Search extends React.Component {
     );
   }
 
-
-
   search(e) {
-    // e.preventDefault();
+    e.preventDefault();
+
     axios
       .get('/search', {
         params: {
@@ -204,21 +203,21 @@ class Search extends React.Component {
 
         <div>
 
-          {/* <Button
+          <Button
             className="center"
-            onClick={this.search}
+            onClick={(e) => this.search(e)}
             style={{ marginTop: '1%' }}
           >
             Search STUD(y) Spots
-          </Button> */}
+          </Button>
 
-          <AlertProvider template={AlertTemplate} {...options}>
+          {/* <AlertProvider template={AlertTemplate} {...options}>
             <Alert>
               {alert => (
-                <Button className="center" type="submit" value="Submit" style={{ marginTop: '1%' }} onClick={ () => { (!this.state.location.length) ? alert.show('Oh snap! Enter a real location!') : this.search() } }> Go STUD(y) </Button>
+                <Button className="center" type="submit" value="Submit" style={{ marginTop: '1%' }} onClick={ () => { (!this.state.location.length) ? alert.show('Oh snap! Enter a real location!') : this.search(e) } }> Go STUD(y) </Button>
               )}
             </Alert>
-          </AlertProvider>
+          </AlertProvider> */}
 
         </div>
 
