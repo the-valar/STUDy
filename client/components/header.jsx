@@ -11,7 +11,8 @@ class Header extends React.Component {
     this.state = {
       showLogin: false,
       showSignup: false,
-      showFavorites: false
+      showFavorites: false,
+      favorites: []
     }
 
     this.showLogin = this.showLogin.bind(this);
