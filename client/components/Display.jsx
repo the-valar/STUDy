@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Media, Well, Thumbnail, Button, Carousel, FormControl , FormGroup} from 'react-bootstrap';
+import { Grid, Row, Col, Thumbnail, Button, Carousel, Modal } from 'react-bootstrap';
 import StackGrid from "react-stack-grid";
 import ScrollToTop from 'react-scroll-up';
 import StarRatings from 'react-star-ratings';
@@ -16,6 +16,7 @@ class Display extends React.Component {
       currentCafe: {},
       currentCafeReviews: {},
       review: '',
+      submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
       comfortRating: 0,
@@ -26,7 +27,7 @@ class Display extends React.Component {
 
     this.submitReview = this.submitReview.bind(this);
     this.enterReview = this.enterReview.bind(this);
-
+    this.closeReviewSubmission = this.closeReviewSubmission.bind(this);
     this.handleCoffee = this.handleCoffee.bind(this);
     this.handleAtmosphere = this.handleAtmosphere.bind(this);
     this.handleComfort = this.handleComfort.bind(this);
@@ -93,6 +94,7 @@ class Display extends React.Component {
           this.setState({
             currentCafeReviews: res.data[0],
             review: '',
+            submittedReview: true,
             coffeeRating: 0,
             atmosphereRating: 0,
             comfortRating: 0,
@@ -116,6 +118,13 @@ class Display extends React.Component {
   enterReview(e){
     this.setState({
       review: e.target.value
+    });
+  }
+
+  //sets state when review modal is closed
+  closeReviewSubmission(e) {
+    this.setState({
+      submittedReview: false
     });
   }
 
@@ -189,21 +198,17 @@ class Display extends React.Component {
           {this.state.currentCafeReviews.count} Reviews
           <Grid>
             <Row>
-            <Col xs={6} md={2}>
-            </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Coffee/Tea: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.coffeeTea || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Atmosphere: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.atmosphere || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
             Comfort: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.comfort || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
-            <Col xs={6} md={2}>
-            Food: <br/><StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
-            </Col>
-            <Col xs={6} md={2}>
+            <Col xs={6} md={3}>
+            Food: <StarRatings numberOfStars={5} rating={this.state.currentCafeReviews.food || 0} starDimension='20px' starSpacing='1px' starRatedColor='gold' starEmptyColor='grey'/>
             </Col>
             </Row>
           </Grid>
@@ -277,6 +282,14 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
+
+          {/* Modal popup when review is submitted */}
+          <Modal id="reviewSubmissionModal" show={this.state.submittedReview} onHide={this.closeReviewSubmission}>
+            <Modal.Body style={{ overflow: 'hidden' }}>
+              <div style={{ textAlign:'center' }}> Your review has been submitted! </div>
+              <Button onClick={this.closeReviewSubmission} style={{ float:'right' }}> Close </Button>
+            </Modal.Body>
+          </Modal>
 
         </div>
         
