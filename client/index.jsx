@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Alert from 'react-s-alert';
 
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 
+
+import './s-alert-default.css';
 import './style.css';
 
 class App extends React.Component {
@@ -69,6 +72,10 @@ class App extends React.Component {
       })
       .catch(err => {
         console.error('Username or password is incorrect', err);
+
+        Alert.error('Incorrect username or password', {
+          position: 'bottom'
+        })
       });
   }
 
@@ -84,10 +91,10 @@ class App extends React.Component {
           loggedIn: true,
           userId: response.data
         });
-
       })
       .catch(err => {
         console.error('Error registering', err);
+
       });
   }
 
@@ -127,6 +134,7 @@ class App extends React.Component {
     return(
       <div align='center'>
         <Header username={this.state.username}
+                password={this.state.password}
                 userId={this.state.userId}
                 loggedIn={this.state.loggedIn}
                 handleUser={this.handleUser}
@@ -152,6 +160,8 @@ class App extends React.Component {
                      showIndivCafe={this.state.showIndivCafe}
                      renderIndivCafe={this.renderIndivCafe} />
           </div>
+
+          <Alert stack={{limit: 1}} />
       </div>
     );
   }

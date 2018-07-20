@@ -105,7 +105,7 @@ let login = function({ username }, cb) {
       username,
       (err, result) => {
         if (!result.length) {
-          console.error('Incorrect user or password');
+          cb('Wrong');
         } else {
           console.log('Found user', result);
           // Return user id
@@ -265,6 +265,27 @@ let getComment = function({ location_id }, cb) {
   });
 };
 
+let getFullReviews = function({location_id}, cb) {
+  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
+                  FROM comments as c
+                  JOIN locations ON c.location=locations.id
+                  JOIN ratings as r ON r.location=locations.id
+                  WHERE locations.id=?`;
+
+  db.getConnection((err, conn) => {
+    conn.query(command, location_id, (err, results) => {
+      if (err) {
+        console.error('Error getting all location reviews', err);
+      } else {
+        console.log('Retrieved all location reviews');
+        cb(null, results);
+      }
+    });
+
+    conn.release();
+  });
+};
+
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
@@ -276,5 +297,6 @@ module.exports = {
   getRating: getRating,
   getFavorite: getFavorite,
   addComment: addComment,
-  getComment: getComment
+  getComment: getComment,
+  getFullReviews: getFullReviews
 };
