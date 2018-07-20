@@ -37,11 +37,13 @@ let getRelevantFirst = function(
   foodMult,
   cb
 ) {
-  var arrArr = [];
+  var spotArr = [];
+  var spotsWithReviews = [];
+  var spotsWithoutReviews = [];
   var results = { businesses: [] };
   let count = 0;
-  for (let spot = 0; spot < studySpotList.length; spot++) {
-    db.getConnection((err, conn) => {
+  db.getConnection((err, conn) => {
+    for (let spot = 0; spot < studySpotList.length; spot++) {
       conn.query(
         `SELECT AVG(coffeeTea) AS coffeeTea, AVG(atmosphere) AS atmosphere, AVG(comfort) AS comfort, AVG(food) AS food 
         FROM ratings 
@@ -52,30 +54,39 @@ let getRelevantFirst = function(
           var resultObj = JSON.parse(JSON.stringify(result))[0];
           if (err) {
             cb(err);
-          } else if (resultObj['CT'] !== null) {
+          } else if (resultObj['coffeeTea'] !== null) {
             finalScore =
-              resultObj['CT'] * coffeeMult +
-              resultObj['A'] * atmosphereMult +
-              resultObj['C'] * comfortMult +
-              resultObj['F'] * foodMult;
+              resultObj['coffeeTea'] * coffeeMult +
+              resultObj['atmosphere'] * atmosphereMult +
+              resultObj['comfort'] * comfortMult +
+              resultObj['food'] * foodMult;
           }
-          arrArr.push([finalScore, studySpotList[spot]]);
+          spotArr.push([finalScore, studySpotList[spot]]);
           count++;
           if (count === studySpotList.length) {
-            arrArr.sort((a, b) => {
+            spotArr.forEach((pair) => {
+              if (pair[0] > 0) {
+                spotsWithReviews.push(pair);
+              } else {
+                spotsWithoutReviews.push(pair);
+              }
+            })
+            spotsWithReviews.sort((a, b) => {
               return b[0] - a[0];
             });
-            arrArr.forEach((pair) => {
+            spotsWithReviews.forEach((pair) => {
+              results['businesses'].push(pair[1]);
+            })
+            spotsWithoutReviews.forEach((pair) => {
               results['businesses'].push(pair[1]);
             });
             cb(null, results);
           }
         }
       );
-
-      conn.release();
-    });
-  }
+    };
+    conn.release();
+  });
 };
 
 let getAveragesAndReviewCount = function({ location_id }, cb) {
@@ -192,11 +203,11 @@ let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
   db.getConnection((err, conn) => {
-    conn.query(`INSERT INTO users_locations (?, ?)`, params, (err, results) => {
+    conn.query(`INSERT INTO users_locations VALUES (?, ?)`, params, (err, results) => {
       if (err) {
         console.error('Error inserting into favorites', err);
       } else {
-        console.log('Inserted into favorites', result);
+        console.log('Inserted into favorites', results);
         cb(null, results);
       }
     });
@@ -205,7 +216,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
 };
 
 let getFavorite = function({ user_id }, cb) {
-  var command = `SELECT id, name, city, state, address
+  var command = `SELECT id, name, city, state, address, image1, image2, image3
                  FROM users_locations
                  JOIN locations ON locations.id=users_locations.location_id
                  WHERE users_locations.user_id=${user_id}`;
@@ -265,6 +276,25 @@ let getComment = function({ location_id }, cb) {
   });
 };
 
+let addPics = function({ pics, location_id }, cb) {
+  var params = [pics[0], pics[1], pics[2], location_id];
+  var command = `UPDATE locations
+                 SET image1=?, image2=?, image3=?
+                 WHERE id=?`;
+  db.getConnection((err, conn) => {
+    conn.query(command, params, (err, results) => {
+      if (err) {
+        console.error('Error posting pics to db', err);
+      } else {
+        console.log('Posted pics to db', results);
+        cb(null, results);
+      }
+    });
+
+    conn.release();
+  });
+}
+
 let getFullReviews = function({location_id}, cb) {
   var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
                   FROM comments as c
@@ -299,5 +329,6 @@ module.exports = {
   getFavorite: getFavorite,
   addComment: addComment,
   getComment: getComment,
+  addPics: addPics,
   getFullReviews: getFullReviews
 };

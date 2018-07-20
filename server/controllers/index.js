@@ -192,6 +192,19 @@ app.get('/pics', (req, res) => {
   });
 });
 
+app.post('/pics', (req, res) => {
+  // req.body should have pics and location_id as keys
+
+  models.addPics(req.body, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
+
 app.get('/reviews', (req, res) => {
   models.getFullReviews(req.query, (err, data) => {
     if (err) {
