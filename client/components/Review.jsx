@@ -9,6 +9,7 @@ class Review extends React.Component {
   }
 
   render() {
+    // renders the ability to submit star ratings & write review if there is a user logged in
     if (this.props.loggedIn) {
       return(
         <div>
@@ -39,6 +40,7 @@ class Review extends React.Component {
           <Button onClick={this.props.submitReview}> Submit </Button>
         </div>
       )
+    // if user is not logged in, will not render review page
     } else {
       return null;
     }

@@ -23,20 +23,22 @@ class ShowReviews extends React.Component {
   }
 
   render() {
+    // shows average reviews
     console.log('SHOW REVIEWS PROPS', this.props.reviews)
     return (
       <div>
-
+      {/* if button is clicked, modal pops up with all the reviews for that cafe */}
         <Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
           {this.props.reviews.length} Review(s)<br></br>
           Click for more reviews
         </Button>
-
+      {/* modal (popout well) */}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.props.cafe.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+          {/* maps every review on DB and shows avg star ratings for categories & review text */}
             {this.props.reviews.map(review => {
               console.log('review', review)
               return (
