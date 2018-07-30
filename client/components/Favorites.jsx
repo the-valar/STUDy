@@ -10,21 +10,23 @@ class Favorites extends React.Component {
 
     this.state = {
       favorites: []
-    }
+    };
   }
 
   modalBody() {
     if (this.state.favorites.length) {
-      return(
+      return (
         <div>
           <Modal.Body>
             <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-              {this.state.favorites.map(cafe => {
+              {this.state.favorites.map((cafe) => {
                 return (
                   <div key={cafe.id}>
-                    <Thumbnail height='250'>
+                    <Thumbnail height="250">
                       <h3>{cafe.name}</h3>
-                      <p>{cafe.address}, {cafe.city}, {cafe.state}</p>
+                      <p>
+                        {cafe.address}, {cafe.city}, {cafe.state}
+                      </p>
                     </Thumbnail>
                   </div>
                 );
@@ -34,47 +36,46 @@ class Favorites extends React.Component {
         </div>
       );
     } else {
-      return(
+      return (
         <div>
-          <Modal.Body>
-            No favorites to show.
-          </Modal.Body>
+          <Modal.Body>No favorites to show.</Modal.Body>
         </div>
       );
     }
   }
 
   componentWillMount() {
-    axios.get('/favorites', {
-      params: {
-        user_id: this.props.userId
-      }
-    })
-      .then(response => {
+    axios
+      .get('/favorites', {
+        params: {
+          user_id: this.props.userId
+        }
+      })
+      .then((response) => {
         this.setState({
           favorites: response.data
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error getting favorites', err);
       });
   }
 
   render() {
-    return(
+    return (
       <div>
-        <Modal show={this.props.showFavorites} onHide={this.props.closeFavorites}>
+        <Modal
+          show={this.props.showFavorites}
+          onHide={this.props.closeFavorites}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Favorites</Modal.Title>
           </Modal.Header>
-          
-          <div>
-            {this.modalBody()}
-          </div>
 
+          <div>{this.modalBody()}</div>
         </Modal>
       </div>
-    )
+    );
   }
 }
 
