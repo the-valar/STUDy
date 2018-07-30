@@ -37,7 +37,7 @@ class Display extends React.Component {
   };
 
   // function that sets state to clicked cafe
-  cafeView(e, cafe){
+  cafeView(cafe) {
     axios.get('/ratings', {
       params: {
         location_id: cafe.id,
@@ -205,7 +205,7 @@ class Display extends React.Component {
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250' onClick={(e) => this.cafeView(e, cafe)}>
+                  <Thumbnail src={cafe.image_url} height='250' onClick={this.cafeView(cafe)}>
                     <h3>{cafe.name}</h3>
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.state}, {cafe.location.zip_code}</p>
                   </Thumbnail>
@@ -311,7 +311,7 @@ class Display extends React.Component {
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250' onClick={ () => this.cafeView(cafe)}>
+                  <Thumbnail src={cafe.image_url} height='250' onClick={this.cafeView(cafe)}>
                     <h3>{cafe.name}</h3>
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.state}, {cafe.location.zip_code}</p>
                   </Thumbnail>
