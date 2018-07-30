@@ -1,6 +1,9 @@
 const express = require('express');
 const parser = require('body-parser');
-const { getClosestWithinRadius, getAdditionalPics } = require('../helpers/yelp.js');
+const {
+  getClosestWithinRadius,
+  getAdditionalPics
+} = require('../helpers/yelp.js');
 const models = require('../db/models/_model.js');
 
 const bcrypt = require('bcrypt-nodejs');
@@ -10,16 +13,18 @@ const app = express();
 
 app.use(express.static(__dirname + '/../../client'));
 app.use(parser.json());
-app.use(session({
-  secret: 'very secret'
-}));
+app.use(
+  session({
+    secret: 'very secret'
+  })
+);
 
 function auth(req, res, next) {
   if (req.session.userData) next();
   else {
     res.redirect('/');
   }
-};
+}
 
 app.get('/logout', (req, res) => {
   delete req.session.userData;
@@ -27,6 +32,8 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
+  // req.query should have [coffee, atmosphere, comfort, food, location, radius] as keys
+
   var params = req.query;
   var coffeeMult = 5 - params.coffee;
   var atmosphereMult = 5 - params.atmosphere;
@@ -90,7 +97,7 @@ app.post('/register', (req, res) => {
         username: req.body.username,
         userId: data.insertId,
         login: true
-      }
+      };
 
       req.session.userData = sess;
       res.send(JSON.stringify(data.insertId));
@@ -120,7 +127,7 @@ app.get('/ratings', (req, res) => {
       } else {
         res.send(JSON.stringify(data));
       }
-    })
+    });
   } else {
     models.getRating(req.query, (err, data) => {
       if (err) {
@@ -184,12 +191,12 @@ app.get('/pics', (req, res) => {
   // req.query should have location_id as a key
 
   getAdditionalPics(req.query.location_id)
-  .then((result) => {
-    res.send(result.data);
-  })
-  .catch((err) => {
-    res.send();
-  });
+    .then((result) => {
+      res.send(result.data);
+    })
+    .catch((err) => {
+      res.send();
+    });
 });
 
 app.post('/pics', (req, res) => {
@@ -204,7 +211,6 @@ app.post('/pics', (req, res) => {
   });
 });
 
-
 app.get('/reviews', (req, res) => {
   models.getFullReviews(req.query, (err, data) => {
     if (err) {
@@ -218,7 +224,6 @@ app.get('/reviews', (req, res) => {
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
-
 
 const port = process.env.PORT || 8080;
 

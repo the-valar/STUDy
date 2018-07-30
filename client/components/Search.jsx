@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Grid, Col, FormControl, Button, Collapse, Row, Form, FormGroup, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Grid, Col, FormControl, Button, Collapse, Row, FormGroup, InputGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Search extends React.Component {
   constructor(props) {
@@ -129,6 +129,7 @@ class Search extends React.Component {
 
     axios
       .get('/search', {
+        // Defaults priorities to value 0, or set value by order clicked 
         params: {
           location: this.state.location,
           coffee: this.state.prefs.indexOf('Coffee') + 1 || 0,
@@ -157,13 +158,6 @@ class Search extends React.Component {
   }
 
   render() {
-    const options = {
-      position: 'top center',
-      timeout: 3000,
-      offset: '150px',
-      transition: 'scale'
-    }
-
     return (
       <div>
         <div className="text-center" style={{ marginTop: '5%', width:'50%' }}>

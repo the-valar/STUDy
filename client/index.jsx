@@ -7,7 +7,6 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 
-
 import './s-alert-default.css';
 import './style.css';
 
@@ -58,11 +57,12 @@ class App extends React.Component {
   }
 
   loginUser() {
-    axios.post('/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
-      .then(response => {
+    axios
+      .post('/login', {
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then((response) => {
         // response.data returns userId
 
         this.setState({
@@ -70,21 +70,22 @@ class App extends React.Component {
           userId: response.data
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Username or password is incorrect', err);
 
         Alert.error('Incorrect username or password', {
           position: 'bottom'
-        })
+        });
       });
   }
 
   registerUser() {
-    axios.post('/register', {
-      username: this.state.username,
-      password: this.state.password
-    })
-      .then(response => {
+    axios
+      .post('/register', {
+        username: this.state.username,
+        password: this.state.password
+      })
+      .then((response) => {
         // response.data returns userId
 
         this.setState({
@@ -92,21 +93,19 @@ class App extends React.Component {
           userId: response.data
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error registering', err);
-
       });
   }
 
   logout() {
-    axios.get('/logout')
-      .then(() => {
-        this.setState({
-          username: '',
-          userId: '',
-          loggedIn: false
-        });
+    axios.get('/logout').then(() => {
+      this.setState({
+        username: '',
+        userId: '',
+        loggedIn: false
       });
+    });
   }
 
   handleSession(response) {
@@ -131,37 +130,42 @@ class App extends React.Component {
   }
 
   render() {
-    return(
-      <div align='center'>
-        <Header username={this.state.username}
-                password={this.state.password}
-                userId={this.state.userId}
-                loggedIn={this.state.loggedIn}
-                handleUser={this.handleUser}
-                handlePassword={this.handlePassword}
-                loginUser={this.loginUser}
-                registerUser={this.registerUser}
-                logout={this.logout}
-                handleSession={this.handleSession} />
+    return (
+      <div align="center">
+        <Header
+          username={this.state.username}
+          password={this.state.password}
+          userId={this.state.userId}
+          loggedIn={this.state.loggedIn}
+          handleUser={this.handleUser}
+          handlePassword={this.handlePassword}
+          loginUser={this.loginUser}
+          registerUser={this.registerUser}
+          logout={this.logout}
+          handleSession={this.handleSession}
+        />
 
         <div className="parallax" />
 
         <div align="center">
           <Search
             handleYelp={this.handleYelp}
-            renderIndivCafe={this.renderIndivCafe} />
+            renderIndivCafe={this.renderIndivCafe}
+          />
         </div>
-        
-          <div>
-            <Display cafes={this.state.cafes}
-                     username={this.state.username}
-                     userId={this.state.userId}
-                     loggedIn={this.state.loggedIn}
-                     showIndivCafe={this.state.showIndivCafe}
-                     renderIndivCafe={this.renderIndivCafe} />
-          </div>
 
-          <Alert stack={{limit: 1}} />
+        <div>
+          <Display
+            cafes={this.state.cafes}
+            username={this.state.username}
+            userId={this.state.userId}
+            loggedIn={this.state.loggedIn}
+            showIndivCafe={this.state.showIndivCafe}
+            renderIndivCafe={this.renderIndivCafe}
+          />
+        </div>
+
+        <Alert stack={{ limit: 1 }} />
       </div>
     );
   }
