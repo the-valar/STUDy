@@ -37,8 +37,7 @@ class Display extends React.Component {
   };
 
   // function that sets state to clicked cafe
-  cafeView(e, cafe){
-    e.preventDefault();
+  cafeView(cafe) {
     axios.get('/ratings', {
       params: {
         location_id: cafe.id,
@@ -206,7 +205,7 @@ class Display extends React.Component {
             {this.props.cafes.map(cafe => {
               return (
                 <div key={cafe.id}>
-                  <Thumbnail src={cafe.image_url} height='250' onClick={(e) => this.cafeView(e, cafe)}>
+                  <Thumbnail src={cafe.image_url} height='250' onClick={ () => {this.cafeView(cafe) }}>
                     <h3>{cafe.name}</h3>
                     <p>{cafe.location.address1}, {cafe.location.city}, {cafe.location.state}, {cafe.location.zip_code}</p>
                   </Thumbnail>
@@ -232,7 +231,7 @@ class Display extends React.Component {
           {/* current cafe name & picture */}
           <div align='center' style={{marginBottom:50}}>
           {/* current cafe name & avg star ratings */}
-          <h3>{this.state.currentCafe.name}</h3>
+          <h3 onClick={this.addToFave}>{this.state.currentCafe.name}</h3>
           <ShowReviews reviews={this.state.currentCafeReviews.data} cafe={this.state.currentCafe}/>
           <Grid>
             <Row>
@@ -320,6 +319,8 @@ class Display extends React.Component {
               )
             })}
           </StackGrid>
+
+          <div className="parallax" />
 
           {/* Modal popup when review is submitted */}
           <Modal id="reviewSubmissionModal" show={this.state.submittedReview} onHide={this.closeReviewSubmission}>
