@@ -38,7 +38,6 @@ class Display extends React.Component {
 
   // function that sets state to clicked cafe
   cafeView(e, cafe){
-    e.preventDefault();
     axios.get('/ratings', {
       params: {
         location_id: cafe.id,
