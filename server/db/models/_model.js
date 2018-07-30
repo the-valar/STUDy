@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
 
-const db = require('../db.js');
+const db = require('../db_config.js');
 
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {

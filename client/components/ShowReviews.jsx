@@ -23,7 +23,6 @@ class ShowReviews extends React.Component {
   }
 
   render() {
-    console.log('SHOW REVIEWS PROPS', this.props.reviews);
     return (
       <div>
         <Button bsStyle="primary" bsSize="small" onClick={this.handleShow}>
@@ -37,7 +36,6 @@ class ShowReviews extends React.Component {
           </Modal.Header>
           <Modal.Body>
             {this.props.reviews.map((review) => {
-              console.log('review', review);
               return (
                 <div>
                   <Grid>

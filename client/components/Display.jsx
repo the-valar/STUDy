@@ -45,8 +45,7 @@ class Display extends React.Component {
   }
 
   // function that sets state to clicked cafe
-  cafeView(e, cafe) {
-    e.preventDefault();
+  cafeView(cafe) {
     axios
       .get('/ratings', {
         params: {
@@ -97,10 +96,6 @@ class Display extends React.Component {
             this.setState({
               currentCafeReviews: reviews
             });
-            console.log(
-              'AXIOS DISPLAY.JSX REVIEWS',
-              this.state.currentCafeReviews
-            );
           });
       })
       .catch((err) => {
@@ -228,7 +223,7 @@ class Display extends React.Component {
                   <Thumbnail
                     src={cafe.image_url}
                     height="250"
-                    onClick={(e) => this.cafeView(e, cafe)}
+                    onClick={() => this.cafeView(cafe)}
                   >
                     <h3>{cafe.name}</h3>
                     <p>
@@ -434,6 +429,8 @@ class Display extends React.Component {
               );
             })}
           </StackGrid>
+
+          <div className="parallax" />
 
           {/* Modal popup when review is submitted */}
           <Modal
