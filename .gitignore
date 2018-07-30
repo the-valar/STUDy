@@ -1,16 +1,8 @@
 // node_modules
 node_modules
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 1c391bf918fdc7310accf036c0b8afed6deda44c
-=======
 
 // config
 config.js
 
 // db
 server/db/db.js
->>>>>>> c41fc37d1cba6546d43335d10a477e1c068cf64a
