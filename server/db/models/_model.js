@@ -1,19 +1,19 @@
 const bcrypt = require('bcrypt-nodejs');
 
-const db = require('../db.js');
+const db = require('../db_config.js');
 
 let saveSpots = function(studySpotList) {
-  db.getConnection( (err, conn) => {
-  for (let spot = 0; spot < studySpotList.length; spot++) {
-    var currSpot = studySpotList[spot];
-    var command = `INSERT INTO locations (id, name, city, state, address) VALUES (?, ?, ?, ?, ?)`;
-    var params = [
-      currSpot.id,
-      currSpot.name,
-      currSpot.location.city,
-      currSpot.location.state,
-      currSpot.location.address1
-    ];
+  db.getConnection((err, conn) => {
+    for (let spot = 0; spot < studySpotList.length; spot++) {
+      var currSpot = studySpotList[spot];
+      var command = `INSERT INTO locations (id, name, city, state, address) VALUES (?, ?, ?, ?, ?)`;
+      var params = [
+        currSpot.id,
+        currSpot.name,
+        currSpot.location.city,
+        currSpot.location.state,
+        currSpot.location.address1
+      ];
 
       conn.query(command, params, (err, result) => {
         if (err) {
@@ -22,9 +22,8 @@ let saveSpots = function(studySpotList) {
           console.log('Inserted locations into mySQL');
         }
       });
-
     }
-    
+
     conn.release();
   });
 };
@@ -70,13 +69,13 @@ let getRelevantFirst = function(
               } else {
                 spotsWithoutReviews.push(pair);
               }
-            })
+            });
             spotsWithReviews.sort((a, b) => {
               return b[0] - a[0];
             });
             spotsWithReviews.forEach((pair) => {
               results['businesses'].push(pair[1]);
-            })
+            });
             spotsWithoutReviews.forEach((pair) => {
               results['businesses'].push(pair[1]);
             });
@@ -84,7 +83,7 @@ let getRelevantFirst = function(
           }
         }
       );
-    };
+    }
     conn.release();
   });
 };
@@ -130,13 +129,12 @@ let login = function({ username }, cb) {
 };
 
 let register = function({ username, password }, cb) {
-  
   bcrypt.hash(password, null, null, (err, hash) => {
     if (err) {
       console.error('Error hashing password', err);
     } else {
       var params = [username, hash];
-      
+
       db.getConnection((err, conn) => {
         conn.query(
           `INSERT INTO users (username, password) VALUES (?, ?)`,
@@ -203,14 +201,18 @@ let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
   db.getConnection((err, conn) => {
-    conn.query(`INSERT INTO users_locations VALUES (?, ?)`, params, (err, results) => {
-      if (err) {
-        console.error('Error inserting into favorites', err);
-      } else {
-        console.log('Inserted into favorites', results);
-        cb(null, results);
+    conn.query(
+      `INSERT INTO users_locations VALUES (?, ?)`,
+      params,
+      (err, results) => {
+        if (err) {
+          console.error('Error inserting into favorites', err);
+        } else {
+          console.log('Inserted into favorites', results);
+          cb(null, results);
+        }
       }
-    });
+    );
     conn.release();
   });
 };
@@ -293,9 +295,9 @@ let addPics = function({ pics, location_id }, cb) {
 
     conn.release();
   });
-}
+};
 
-let getFullReviews = function({location_id}, cb) {
+let getFullReviews = function({ location_id }, cb) {
   var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
                   FROM comments as c
                   JOIN locations ON c.location=locations.id
