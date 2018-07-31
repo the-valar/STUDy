@@ -89,7 +89,8 @@ class Display extends React.Component {
         axios
           .get('/reviews', {
             params: {
-              location_id: cafe.id
+              location_id: cafe.id,
+              parent_id: 0
             }
           })
           .then((reviews) => {
@@ -120,7 +121,8 @@ class Display extends React.Component {
           .post('/comments', {
             user_id: this.props.userId,
             location_id: this.state.currentCafe.id,
-            text: this.state.review
+            text: this.state.review,
+            parent_id: 0
           })
           .then(() => {
             axios

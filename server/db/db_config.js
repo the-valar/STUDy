@@ -10,6 +10,4 @@ const config = {
 
 const db = mysql.createPool(config);
 
-
-
 module.exports = db;

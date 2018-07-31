@@ -238,12 +238,12 @@ let getFavorite = function({ user_id }, cb) {
   });
 };
 
-let addComment = function({ user_id, location_id, text }, cb) {
-  var params = [text, user_id, location_id];
+let addComment = function({ user_id, location_id, text, parent_id }, cb) {
+  var params = [text, user_id, location_id, parent_id];
 
   db.getConnection((err, conn) => {
     conn.query(
-      `INSERT INTO comments (text, user_id, location) VALUES (?, ?, ?)`,
+      `INSERT INTO comments (text, user_id, location, parent_id) VALUES (?, ?, ?, ?)`,
       params,
       (err, results) => {
         if (err) {
@@ -297,16 +297,17 @@ let addPics = function({ pics, location_id }, cb) {
   });
 };
 
-let getFullReviews = function({ location_id }, cb) {
+let getFullReviews = function({ location_id, parent_id }, cb) {
+  var params = [location_id, parent_id]
   var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
                   FROM comments as c
                   JOIN locations ON c.location=locations.id
                   JOIN ratings as r ON r.location=locations.id
-                  WHERE locations.id=?
+                  WHERE locations.id=? AND parent_id=?
                   GROUP BY c.text`;
 
   db.getConnection((err, conn) => {
-    conn.query(command, location_id, (err, results) => {
+    conn.query(command, params, (err, results) => {
       if (err) {
         console.error('Error getting all location reviews', err);
       } else {
@@ -318,6 +319,26 @@ let getFullReviews = function({ location_id }, cb) {
     conn.release();
   });
 };
+
+let getReviewByParentId = ({parentId}, cb) => {
+  let sqlStatement = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id
+  FROM comments as c
+  JOIN locations ON c.location=locations.id
+  JOIN ratings as r ON r.location=locations.id
+  WHERE parent_id=?
+  GROUP BY c.text`;
+  
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, [parentId], (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
 
 module.exports = {
   saveSpots: saveSpots,
@@ -332,5 +353,6 @@ module.exports = {
   addComment: addComment,
   getComment: getComment,
   addPics: addPics,
-  getFullReviews: getFullReviews
+  getFullReviews: getFullReviews,
+  getReviewByParentId: getReviewByParentId
 };

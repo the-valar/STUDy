@@ -155,6 +155,7 @@ class App extends React.Component {
             handleYelp={this.handleYelp}
             renderIndivCafe={this.renderIndivCafe}
           />
+          
         </div>
 
         <div>

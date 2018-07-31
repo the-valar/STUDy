@@ -182,7 +182,7 @@ app.get('/favorites', (req, res) => {
 });
 
 app.post('/comments', (req, res) => {
-  // req.body should have user_id, location_id, text as keys
+  // req.body should have user_id, location_id, parent_id, text as keys
 
   models.addComment(req.body, (err, data) => {
     if (err) {
@@ -230,6 +230,7 @@ app.post('/pics', (req, res) => {
 });
 
 app.get('/reviews', (req, res) => {
+  //reviews will have two props the location_id and the parent_id
   models.getFullReviews(req.query, (err, data) => {
     if (err) {
       res.send();
@@ -238,6 +239,18 @@ app.get('/reviews', (req, res) => {
     }
   });
 });
+
+app.get('/reviewsByParentId', (req, res) => {
+  //takes in a parentId property 
+  models.getReviewByParentId(req.query, (err, data) => {
+    if (err) {
+      console.error('there was an error fetching the reviews by parent id', err)
+    } else {
+      console.log('the data in the server')
+      res.send(data);
+    }
+  })
+})
 
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
