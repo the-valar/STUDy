@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack -d && node server/controllers/index.js",
-    "react-dev": "webpack -d --watch"
+    "react-dev": "webpack -d --watch",
+    "server-dev": "nodemon server/controllers/index.js"
   },
   "repository": {
     "type": "git",
