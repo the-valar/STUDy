@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql')
 
 const config = {
   host: "study.c0dk4hjayriz.us-east-1.rds.amazonaws.com",
@@ -9,5 +9,4 @@ const config = {
 }
 
 const db = mysql.createPool(config);
-
 module.exports = db;
