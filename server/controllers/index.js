@@ -1,10 +1,11 @@
 const express = require('express');
+
 const parser = require('body-parser');
+const models = require('../db/models/_model.js');
 const {
   getClosestWithinRadius,
   getAdditionalPics
 } = require('../helpers/yelp.js');
-const models = require('../db/models/_model.js');
 
 const bcrypt = require('bcrypt-nodejs');
 const session = require('express-session');
