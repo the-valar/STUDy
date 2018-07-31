@@ -31,7 +31,7 @@ class ReviewFeed extends React.Component {
   }
   render() {
     let reviews = this.state.reviews.map((review) => (
-      <ReviewFeedParent review={review} />
+      <ReviewFeedParent key={review.id} review={review} />
     ))
     return (<div>{reviews}</div>)
   }
