@@ -17,7 +17,6 @@ class ReviewFeed extends React.Component {
         parentId: 0
     }})
       .then((response) => {
-        console.log('response for getting parent reviews', response)
         this.setState({
           reviews: response.data
         })
