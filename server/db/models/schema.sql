@@ -38,6 +38,8 @@ CREATE TABLE comments (
   id INT PRIMARY KEY AUTO_INCREMENT,
   text VARCHAR(255),
   user_id INT,
+  parent_id INT,
+  score INT,
   FOREIGN KEY (user_id) REFERENCES users(id),
   location VARCHAR(255),
   FOREIGN KEY (location) REFERENCES locations(id) 
