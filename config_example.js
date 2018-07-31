@@ -1,1 +1,1 @@
-module.exports.YELPAPI = `${process.env.YELP_API}`;
+module.exports.YELPAPI = `WEiimPjNXAxcUhO7zFOnTPR500KCMV6c4lPdPv8vuhpRK0QvnhQCTfTICKnjFAr2V99wheVDxdzGjcnaGtUQbDWvG-c3C3SlqhYSbWVWAqKphm7G3568o07gEIdgW3Yx`;
