@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class ReviewFeedParent extends React.Component {
   constructor(props) {
@@ -14,17 +15,35 @@ class ReviewFeedParent extends React.Component {
     this.handleCommentClick = this.handleCommentClick.bind(this);
   }
 
-  handleCommentSubmit() {
-
+  handleCommentSubmit(event) {
+    event.preventDefault();
+    axios.post('/subComment', {
+      parentId: this.props.review.id,
+      location: this.props.review.location,
+      userId: this.props.review.user_id,
+      text: this.state.commentValue
+    })
+      .then((response) => {
+        this.setState({
+          commentValue: '',
+          commentCharsRemain: 255
+        })
+      })
   }
 
-  handleCommentChange() {
+  handleCommentChange(event) {
+    this.setState({
+      commentValue: event.target.value,
+      commentCharsRemain: 255 - event.target.value.length
+    })
 
   }
 
   handleCommentClick() {
     this.setState({
-      showCommentForm: !this.state.showCommentForm
+      showCommentForm: !this.state.showCommentForm,
+      commentValue: '',
+      commentCharsRemain: 255
     })
   }
 
@@ -37,6 +56,7 @@ class ReviewFeedParent extends React.Component {
 
     let comment = this.state.showCommentForm ? 
                   <form onSubmit={this.handleCommentSubmit}>
+                    <p>Characters left: {this.state.commentCharsRemain}</p>
                     <input type="text" value={this.state.commentValue} onChange={this.handleCommentChange}/>
                     <input type="submit" value="Submit" />
                     <button onClick={this.handleCommentClick}>Cancel</button>

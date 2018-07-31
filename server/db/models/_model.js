@@ -321,7 +321,7 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, u.username
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
   JOIN locations as l ON c.location=l.id
   JOIN ratings as r ON r.location=l.id
@@ -331,6 +331,22 @@ let getReviewByParentId = ({parentId}, cb) => {
   
   db.getConnection((err, conn) => {
     conn.query(sqlStatement, [parentId], (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let postSubComment = ({parentId, location, userId, text}, cb) => {
+  let sqlStatement = 'INSERT INTO comments (parent_id, location, user_id, text) VALUES (?, ?, ?, ?)';
+  let params = [parentId, location, userId, text];
+
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, params, (err, results) => {
       if (err) {
         cb(err)
       } else {
@@ -355,5 +371,6 @@ module.exports = {
   getComment: getComment,
   addPics: addPics,
   getFullReviews: getFullReviews,
-  getReviewByParentId: getReviewByParentId
+  getReviewByParentId: getReviewByParentId,
+  postSubComment: postSubComment
 };
