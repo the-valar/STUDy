@@ -164,7 +164,7 @@ app.get('/favorites', (req, res) => {
 });
 
 app.post('/comments', (req, res) => {
-  // req.body should have user_id, location_id, text as keys
+  // req.body should have user_id, location_id, parent_id, text as keys
 
   models.addComment(req.body, (err, data) => {
     if (err) {
@@ -212,6 +212,7 @@ app.post('/pics', (req, res) => {
 });
 
 app.get('/reviews', (req, res) => {
+  //reviews will have two props the location_id and the parent_id
   models.getFullReviews(req.query, (err, data) => {
     if (err) {
       res.send();
