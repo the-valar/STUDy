@@ -1,5 +1,13 @@
 const mysql = require('mysql');
 
-const db = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
+const dbConfig = {
+    host: 'stud-y.cwpyhc0wkkir.us-east-2.rds.amazonaws.com',
+    user: 'MartinGlyer',
+    password: '3Kingdoms',
+    port: '3306',
+    database: 'greenfield'
+}
+
+const db = mysql.createPool(dbConfig);
 
 module.exports = db;
