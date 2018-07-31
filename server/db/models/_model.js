@@ -321,10 +321,11 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let sqlStatement = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, u.username
   FROM comments as c
-  JOIN locations ON c.location=locations.id
-  JOIN ratings as r ON r.location=locations.id
+  JOIN locations as l ON c.location=l.id
+  JOIN ratings as r ON r.location=l.id
+  JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
   GROUP BY c.text`;
   
