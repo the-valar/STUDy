@@ -1,23 +1,25 @@
 const express = require('express');
+const morgan = require('morgan');
 const parser = require('body-parser');
+const stripe = require("stripe")("sk_test_TwTTlid3GeOG6YPydOjARw4I");
+const models = require('../db/models/_model.js');
 const {
   getClosestWithinRadius,
   getAdditionalPics
 } = require('../helpers/yelp.js');
-const models = require('../db/models/_model.js');
 
 const bcrypt = require('bcrypt-nodejs');
 const session = require('express-session');
 
 const app = express();
-
-app.use(express.static(__dirname + '/../../client'));
+app.use(morgan('dev'));
 app.use(parser.json());
 app.use(
   session({
     secret: 'very secret'
   })
 );
+app.use(express.static(__dirname + '/../../client'));
 
 function auth(req, res, next) {
   if (req.session.userData) next();
@@ -103,6 +105,19 @@ app.post('/register', (req, res) => {
       res.send(JSON.stringify(data.insertId));
     }
   });
+});
+
+app.post('/charge', (req, res) => {
+  stripe.charges.create({
+    amount: 2000,
+    currency: "usd",
+    description: "An example charge",
+    source: req.body.tokenId
+  }, (err,result)=>{
+    if(err) res.status(500).end();
+    else res.send(result)
+  })
+
 });
 
 app.post('/ratings', (req, res) => {
