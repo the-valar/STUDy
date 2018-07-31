@@ -1,6 +1,6 @@
 const mysql = require('mysql')
 
-const config ={
+const config = {
   host: "study.c0dk4hjayriz.us-east-1.rds.amazonaws.com",
   user: "r2d2",
   password: "hackreactor",
@@ -8,5 +8,5 @@ const config ={
   port: '3306'
 }
 
-let db = mysql.createPool(config);
+const db = mysql.createPool(config);
 module.exports = db;

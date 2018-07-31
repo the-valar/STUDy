@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 
 import Favorites from './Favorites.jsx';
+import CreateChat from './CreateChat.jsx';
 
 class Header extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Header extends React.Component {
       showLogin: false,
       showSignup: false,
       showFavorites: false,
+      showCreateChat: false,
       favorites: []
     };
 
@@ -35,6 +37,9 @@ class Header extends React.Component {
 
     this.showFavorites = this.showFavorites.bind(this);
     this.closeFavorites = this.closeFavorites.bind(this);
+    
+    this.showCreateChat = this.showCreateChat.bind(this);
+    this.closeCreateChat = this.closeCreateChat.bind(this);
 
     this.toggleShow = this.toggleShow.bind(this)
   }
@@ -42,6 +47,7 @@ class Header extends React.Component {
   toggleShow(){
     this.setState({show: !this.state.show})
   }
+
 
   closeLogin() {
     this.props.handleSession();
@@ -94,6 +100,14 @@ class Header extends React.Component {
     });
   }
 
+  showCreateChat() {
+    this.setState({ showCreateChat: true })
+  }
+
+  closeCreateChat() {
+    this.setState({ showCreateChat: false })
+  }
+
   render() {
     const enabled =
       this.props.username.length > 0 && this.props.password.length > 0;
@@ -111,6 +125,7 @@ class Header extends React.Component {
             <Nav pullRight>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
+                <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
                 <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
                 <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
                 <MenuItem divider />
@@ -143,8 +158,13 @@ class Header extends React.Component {
           <Favorites
             userId={this.props.userId}
             showFavorites={this.state.showFavorites}
-            closeFavorites={this.closeFavorites}
-          />
+            closeFavorites={this.closeFavorites}/>
+
+          <CreateChat 
+            userId={this.props.userId} 
+            showCreateChat={this.state.showCreateChat}
+            closeCreateChat={this.closeCreateChat}/>
+
         </div>
       );
     } else {
