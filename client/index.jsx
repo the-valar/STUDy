@@ -10,6 +10,9 @@ import Display from './components/Display.jsx';
 import './s-alert-default.css';
 import './style.css';
 
+/* CHAT  */
+import Chat from './components/Chat.jsx'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
