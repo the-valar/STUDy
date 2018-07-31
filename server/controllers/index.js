@@ -240,14 +240,27 @@ app.get('/reviews', (req, res) => {
   });
 });
 
+//to fetch comments by parent id - for top level comments (or reviews) set parent_id to 0
 app.get('/reviewsByParentId', (req, res) => {
   //takes in a parentId property 
   models.getReviewByParentId(req.query, (err, data) => {
     if (err) {
       console.error('there was an error fetching the reviews by parent id', err)
     } else {
-      console.log('the data in the server')
       res.send(data);
+    }
+  })
+})
+
+//to post a sub comment to the database
+app.post('/subComment', (req, res) => {
+  //req body should have a parentId, location, userId, and text
+  //format to match db columns will happen in model
+  models.postSubComment(req.body, (err, data) => {
+    if (err) {
+      console.error('there was an error posting this subcomment in the database', err);
+    } else {
+      res.sendStatus(201);
     }
   })
 })
