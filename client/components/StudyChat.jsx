@@ -22,3 +22,5 @@ class StudyChat extends React.Component {
         )
     }
 }
+
+export default StudyChat

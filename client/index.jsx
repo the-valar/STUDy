@@ -7,6 +7,9 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 
+import StudyChat from './components/StudyChat.jsx';
+import Favorites from './components/Favorites.jsx';
+
 import './s-alert-default.css';
 import './style.css';
 
@@ -20,7 +23,9 @@ class App extends React.Component {
       password: '',
       userId: '',
       loggedIn: false,
-      showIndivCafe: false
+      showIndivCafe: false,
+      showFavorites: false,
+      showStudyChat: false
     };
 
     this.handleYelp = this.handleYelp.bind(this);
@@ -146,6 +151,17 @@ class App extends React.Component {
         />
 
         <div className="parallax" />
+
+        {this.state.showStudyChat ? 
+          <StudyChat />
+          : null
+        }
+
+        {
+          this.state.showFavorites ?
+          <Favorites />
+          : null
+        }
 
         <div align="center">
           <Search
