@@ -222,6 +222,18 @@ app.get('/reviews', (req, res) => {
   });
 });
 
+app.get('/reviewsByParentId', (req, res) => {
+  //takes in a parentId property 
+  models.getReviewByParentId(req.query, (err, data) => {
+    if (err) {
+      console.error('there was an error fetching the reviews by parent id', err)
+    } else {
+      console.log('the data in the server')
+      res.send(data);
+    }
+  })
+})
+
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
