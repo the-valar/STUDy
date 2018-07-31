@@ -1,4 +1,4 @@
-USE greenfield;
+USE Study;
 
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
