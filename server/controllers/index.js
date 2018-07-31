@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt-nodejs');
 const session = require('express-session');
 
 const app = express();
+const server = require('http').createServer(app);
 
 app.use(express.static(__dirname + '/../../client'));
 app.use(parser.json());
@@ -18,6 +19,23 @@ app.use(
     secret: 'very secret'
   })
 );
+
+
+/* ===================== */
+/* Socket.io Chat Routes */
+/* ===================== */
+
+const io = require('socket.io')(server);
+
+io.on('connection', function() {
+  console.log('Socket.io is listening')
+})
+
+
+/* ===================== */
+/* ===================== */
+
+
 
 function auth(req, res, next) {
   if (req.session.userData) next();
@@ -225,8 +243,8 @@ app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('App is listening to port', port);
 });
