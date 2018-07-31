@@ -41,7 +41,7 @@ class ShowReviews extends React.Component {
             {this.props.reviews.map((review) => {
               return (
                 <div>
-                  <Grid>
+                  <Grid bsClass="">
                     <Row>
                       <Col xs={6} md={3}>
                         <strong>Coffee/Tea:</strong>{' '}

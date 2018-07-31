@@ -1,0 +1,28 @@
+.upper{
+  display: grid;
+  grid-template-columns: [row1-start] 33% [row1-end] 66% [third-line];
+  grid-template-areas: 
+  "picture content"
+}
+
+
+
+.picture{
+  height:200px;
+  width:200px;
+}
+ul{
+list-style-type: none;
+}
+
+.faves{
+  text-align: right;
+  margin-right: 20%
+}
+.friends{
+  margin-left: 10%
+}
+
+.rightSide{
+  margin-left: 10%;
+}

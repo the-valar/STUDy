@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt-nodejs');
 const session = require('express-session');
 
 const app = express();
+const server = require('http').createServer(app);
 
 app.use(express.static(__dirname + '/../../client'));
 app.use(parser.json());
@@ -19,6 +20,23 @@ app.use(
     secret: 'very secret'
   })
 );
+
+
+/* ===================== */
+/* Socket.io Chat Routes */
+/* ===================== */
+
+const io = require('socket.io')(server);
+
+io.on('connection', function() {
+  console.log('Socket.io is listening')
+})
+
+
+/* ===================== */
+/* ===================== */
+
+
 
 function auth(req, res, next) {
   if (req.session.userData) next();
@@ -165,7 +183,7 @@ app.get('/favorites', (req, res) => {
 });
 
 app.post('/comments', (req, res) => {
-  // req.body should have user_id, location_id, text as keys
+  // req.body should have user_id, location_id, parent_id, text as keys
 
   models.addComment(req.body, (err, data) => {
     if (err) {
@@ -213,6 +231,7 @@ app.post('/pics', (req, res) => {
 });
 
 app.get('/reviews', (req, res) => {
+  //reviews will have two props the location_id and the parent_id
   models.getFullReviews(req.query, (err, data) => {
     if (err) {
       res.send();
@@ -222,12 +241,37 @@ app.get('/reviews', (req, res) => {
   });
 });
 
+//to fetch comments by parent id - for top level comments (or reviews) set parent_id to 0
+app.get('/reviewsByParentId', (req, res) => {
+  //takes in a parentId property 
+  models.getReviewByParentId(req.query, (err, data) => {
+    if (err) {
+      console.error('there was an error fetching the reviews by parent id', err)
+    } else {
+      res.send(data);
+    }
+  })
+})
+
+//to post a sub comment to the database
+app.post('/subComment', (req, res) => {
+  //req body should have a parentId, location, userId, and text
+  //format to match db columns will happen in model
+  models.postSubComment(req.body, (err, data) => {
+    if (err) {
+      console.error('there was an error posting this subcomment in the database', err);
+    } else {
+      res.sendStatus(201);
+    }
+  })
+})
+
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('App is listening to port', port);
 });
