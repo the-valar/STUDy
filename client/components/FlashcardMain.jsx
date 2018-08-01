@@ -46,6 +46,7 @@ class FlashcardMain extends React.Component {
         this.handleValueChange = this.handleValueChange.bind(this)
         this.handleSaveCard = this.handleSaveCard.bind(this)
         this.handleDeleteCard = this.handleDeleteCard.bind(this)
+        this.handleSaveDeck = this.handleSaveDeck.bind(this)
     }
 
     //method section
@@ -84,6 +85,18 @@ class FlashcardMain extends React.Component {
         this.setState({createdDeck: deck})
     }
 
+    handleSaveDeck() {
+        let newDeck = {
+            id: 1,
+            name: this.state.nameOfNewDeck,
+            cards: this.state.deck
+        }
+        this.setState({createdDeck: [], nameOfNewDeck: ''})
+        axios.post('/flashcards', newDeck)
+             .then((response) => console.log('success! we saved that deck'))
+             .catch((err) => console.error('something went wrong saving that deck...', err))
+        }
+
 
     //render section
     render() {
@@ -103,7 +116,7 @@ class FlashcardMain extends React.Component {
                         //Deck Creation
                             <div>
                                 <input type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} />
                                 <br/>
                                 <input type='text' placeholder='Front of Card' id = 'frontOfNewCard'
                                  onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
@@ -111,7 +124,8 @@ class FlashcardMain extends React.Component {
                                  onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
                                 <br/>
                                 <button onClick = {this.handleSaveCard} >Save this Card</button>
-                                <button onClick = {this.toggleDeckCreation} >save this deck</button>
+                                <button onClick = {this.handleSaveDeck} >Save this deck</button>
+                                <button onClick = {this.toggleDeckCreation}>Back to Flashcard Decks</button>
 
                                 <div className='madeCardContainer'>
                                     {this.state.createdDeck.map((card, ind) => {
