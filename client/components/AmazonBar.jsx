@@ -2,7 +2,9 @@ import React from 'react';
 import {
   Nav,
   NavItem,
-  Button
+  Button,
+  Popover,
+  OverlayTrigger
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
@@ -14,50 +16,56 @@ class AmazonBar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      
+      penSource: 'https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734'
     }
     this.handleSelect = this.handleSelect.bind(this)
   }
   handleSelect (key) {
-//    axios
-//      .post('/orders', {
-//        params: {
-//          productID: key.productID
-//        }
-//    })
+    axios
+      .post('/orders', {
+        params: {
+          productID: key.productID
+        }
+    }).then (function (response) {
+      console.log (response)
+    }).catch (function (error) {
+      console (error)
+    })
     console.log (key.productKey)
   }
+
   
   render () {
     return (
-      <Nav bsStyle = 'pills' stacked activeKey = {1} bsClass='sidebysideLeft nav' onSelect = {this.handleSelect}>
+      <Nav bsStyle = 'pills' stacked activeKey = {1} onSelect = {this.handleSelect} bsClass='sidebysideLeft nav'>
+
         <NavItem eventKey = {
             {
               productID: 1
             }
           }>
-        <img src='https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734' width = '100' height = '100'/>
+        <img src= {this.state.penSource} width = '100' height = '100'/>
         </NavItem>
         <NavItem eventKey = {
             {
               productID: 2
             }
           }>
-        <img src='https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734' width = '100' height = '100'/>        
+        <img src= {this.state.penSource} width = '100' height = '100'/>        
         </NavItem>
         <NavItem eventKey = {
             {
               productID: 3
             }
           }>
-        <img src='https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734' width = '100' height = '100'/>        
+        <img src= {this.state.penSource} width = '100' height = '100'/>        
         </NavItem>
         <NavItem eventKey = {
             {
               productID: 4
             }
           }>
-        <img src='https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734' width = '100' height = '100'/>        
+        <img src= {this.state.penSource} width = '100' height = '100'/>        
         </NavItem>
         
       
