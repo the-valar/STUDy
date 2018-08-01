@@ -3,6 +3,21 @@ html {
   box-sizing: border-box;
 }
 
+.emoji {
+  color: #bdc3c7;
+  font-weight: 400;
+  font-family: "apple color emoji,segoe ui emoji,notocoloremoji,segoe ui symbol,android emoji,emojisymbols,emojione mozilla";
+}
+
+.active {
+  color: #e74c3c;
+  font-weight: 700;
+}
+.emoji:focus {
+  color: #c0392b;
+  font-weight: 700;
+}
+
 *,
 *:before,
 *:after {
@@ -50,7 +65,7 @@ body {
 }
 
 .parallax {
-  background-image: url('https://source.unsplash.com/random/featured/?coffee');
+  background-image: url("https://source.unsplash.com/random/featured/?coffee");
   height: 55%;
   background-attachment: fixed;
   background-position: center;
@@ -59,9 +74,39 @@ body {
 }
 
 a:focus {
-  outline: none
+  outline: none;
 }
 
+.upper{
+  display: grid;
+  grid-template-columns: [row1-start] 33% [row1-end] 66% [third-line];
+  grid-template-areas: 
+  "picture content"
+}
+
+
+
+.picture{
+  height:200px;
+  width:200px;
+}
+ul{
+list-style-type: none;
+}
+
+.faves{
+  text-align: right;
+  margin-right: 20%
+}
+.friends{
+  margin-left: 10%
+}
+
+.rightSide{
+  margin-left: 10%;
+}
+
+
 #reviewSubmissionModal .modal-content {
-  margin-top: 60%
+  margin-top: 60%;
 }
