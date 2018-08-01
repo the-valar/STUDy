@@ -44,7 +44,7 @@ CREATE TABLE comments (
   FOREIGN KEY (location) REFERENCES locations(id) 
 );
 
-CREATE TABLE flashcard_decks (
+CREATE TABLE flashcards (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
   FOREIGN KEY (user_id) REFERENCES users(id),
@@ -53,3 +53,10 @@ CREATE TABLE flashcard_decks (
   back VARCHAR(300),
   card_id INT
 );
+
+CREATE TABLE flashcard_decks (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  title VARCHAR(25)
+)
