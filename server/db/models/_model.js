@@ -351,10 +351,6 @@ module.exports = {
   addComment: addComment,
   getComment: getComment,
   addPics: addPics,
-<<<<<<< HEAD
-  getFullReviews: getFullReviews
-=======
   getFullReviews: getFullReviews,
   saveFlashcardDeck: saveFlashcardDeck
->>>>>>> 889461a906646d4c24cf09d9a7561850e846bb56
 };
