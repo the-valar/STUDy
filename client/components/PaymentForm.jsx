@@ -17,7 +17,7 @@ class PaymentForm extends Component {
       if(res.data){
         this.props.toggleShow()
         this.props.getUser()
-        alert("Purchase Complete!")
+        alert("You are a STUD now!!!")
       }
     } 
   }
