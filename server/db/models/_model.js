@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt-nodejs');
 
 const db = require('../db_config.js');
-
+const mysql = require('mysql');
+ 
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {
     for (let spot = 0; spot < studySpotList.length; spot++) {
