@@ -219,7 +219,9 @@ class Display extends React.Component {
     } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe) {
       if (this.state.showMap) {
         return ( 
-          <Map cafes={this.props.cafes} />
+          <div>
+            <Map cafes={this.props.cafes} />
+          </div>
         );
       } else {
         return (
