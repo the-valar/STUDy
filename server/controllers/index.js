@@ -229,6 +229,13 @@ app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
 
+app.post('/flashcards', (req, res) => {
+  let {username, newDeck} = req.body
+  console.log(username, newDeck)
+  //send to db
+  res.sendStatus(201)
+})
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

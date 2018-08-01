@@ -92,7 +92,7 @@ class FlashcardMain extends React.Component {
             cards: this.state.deck
         }
         this.setState({createdDeck: [], nameOfNewDeck: ''})
-        axios.post('/flashcards', newDeck)
+        axios.post('/flashcards', {newDeck: newDeck, username: this.props.username})
              .then((response) => console.log('success! we saved that deck'))
              .catch((err) => console.error('something went wrong saving that deck...', err))
         }
