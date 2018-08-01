@@ -50,6 +50,9 @@ class FlashcardMain extends React.Component {
     }
 
     //method section
+    componentDidMount() {
+        this.props.fetchDeckNames()
+    }
 
     toggleStudy() {
         let old = this.state.showDeck;
@@ -143,6 +146,15 @@ class FlashcardMain extends React.Component {
                         //Deck Selection
                         <div>
                             <p>Select a flashcard deck to study with!</p>
+                            <select>
+                                <option value=''></option>
+                                {this.props.deckNames.map((name) => {
+                                    return(
+                                        <option value={name}>{name}</option>
+                                    )
+                                })}
+                            </select>
+                            <br/>
                             <button onClick = {this.toggleStudy} >Study this Deck</button>
                             <button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</button>
                         </div>
