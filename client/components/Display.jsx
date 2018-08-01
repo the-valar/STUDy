@@ -220,7 +220,7 @@ class Display extends React.Component {
       if (this.state.showMap) {
         return ( 
           <div>
-            <Map cafes={this.props.cafes} />
+            <Map isMarkerShown cafes={this.props.cafes} />
           </div>
         );
       } else {
