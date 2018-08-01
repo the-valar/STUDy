@@ -235,7 +235,7 @@ app.get('/favorites', (req, res) => {
 });
 
 app.post('/comments', (req, res) => {
-  // req.body should have user_id, location_id, parent_id, text as keys
+  // req.body should have user_id, location_id, parent_id, rating_id, text as keys
 
   models.addComment(req.body, (err, data) => {
     if (err) {
@@ -288,7 +288,6 @@ app.get('/reviews', (req, res) => {
     if (err) {
       res.send();
     } else {
-      console.log({data})
       res.send(JSON.stringify(data));
     }
   });

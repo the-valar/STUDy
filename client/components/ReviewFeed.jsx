@@ -27,14 +27,18 @@ class ReviewFeed extends React.Component {
   }
   componentDidMount() {
     this.getParentReviews()
+    this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
   }
   render() {
     let reviews = this.state.reviews.map((review) => (
-      <ReviewFeedParent key={review.id} review={review} />
+      <ReviewFeedParent currentUserId={this.props.currentUserId} key={review.id} review={review} />
     ))
     return (
       <div>
-        What the community is saying about their recent study spots
+        <div className="review-feed-spacing"></div>
+        <h4 className="review-feed-title">
+        What the community is saying about their recent study spots:
+        </h4>
         {reviews}
       </div>
     )

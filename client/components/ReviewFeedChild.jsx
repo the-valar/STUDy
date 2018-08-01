@@ -1,8 +1,9 @@
 import React from 'react';
 
 const ReviewFeedChild = (props) => (
-  <div>
-    <p>{props.comment.username}: {props.comment.text}</p>
+  <div className="child-comment">
+    <h5> {props.comment.username}:</h5>
+    <p> {props.comment.text}</p>
   </div>
 );
 

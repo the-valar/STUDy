@@ -6,6 +6,7 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
+import ReviewFeed from './components/ReviewFeed.jsx';
 import HeartButton from './components/HeartButton.jsx'
 import TestAds from './components/TestAds.jsx';
 
@@ -174,6 +175,7 @@ class App extends React.Component {
             handleYelp={this.handleYelp}
             renderIndivCafe={this.renderIndivCafe}
           />
+          
         </div>
         {!!this.state.membership || <TestAds/>}
 
@@ -190,6 +192,7 @@ class App extends React.Component {
         </div>
 
         <Alert stack={{ limit: 1 }} />
+        <ReviewFeed currentUserId={this.state.userId}/>
       </div>
     );
   }

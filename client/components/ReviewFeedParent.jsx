@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import ReviewFeedChild from './ReviewFeedChild.jsx';
+import StarRatings from 'react-star-ratings';
 
 class ReviewFeedParent extends React.Component {
   constructor(props) {
@@ -20,18 +21,25 @@ class ReviewFeedParent extends React.Component {
 
   handleCommentSubmit(event) {
     event.preventDefault();
-    axios.post('/subComment', {
-      parentId: this.props.review.id,
-      location: this.props.review.location,
-      userId: this.props.review.user_id,
-      text: this.state.commentValue
-    })
-      .then((response) => {
-        this.setState({
-          commentValue: '',
-          commentCharsRemain: 255
-        })
+    if (this.props.currentUserId === '') {
+      alert('you must log in to comment');
+      this.handleCommentClick();
+    } else {
+      axios.post('/subComment', {
+        parentId: this.props.review.id,
+        location: this.props.review.location,
+        userId: this.props.currentUserId,
+        text: this.state.commentValue
       })
+        .then((response) => {
+          this.handleCommentClick()
+          this.checkForChildren()
+        })
+        .catch((err) => {
+          console.error('there was an error submitting your comment', err)
+        })
+
+    }
   }
 
   handleCommentChange(event) {
@@ -50,6 +58,7 @@ class ReviewFeedParent extends React.Component {
     })
   }
   checkForChildren() {
+    console.log('checking for children')
     axios.get('/reviewsByParentId', {
       params: {
         parentId: this.props.review.id
@@ -69,6 +78,7 @@ class ReviewFeedParent extends React.Component {
 
   componentDidMount() {
     this.checkForChildren();
+    this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
   }
 
   render() {
@@ -84,31 +94,69 @@ class ReviewFeedParent extends React.Component {
     let comment = this.state.showCommentForm ? 
                   <form onSubmit={this.handleCommentSubmit}>
                     <p>Characters left: {this.state.commentCharsRemain}</p>
-                    <input type="text" value={this.state.commentValue} onChange={this.handleCommentChange}/>
-                    <input type="submit" value="Submit" />
-                    <button onClick={this.handleCommentClick}>Cancel</button>
+                    <textarea className="comment-text-field" type="text" value={this.state.commentValue} onChange={this.handleCommentChange}/>
+                    <div></div>
+                    <input className="review-feed-btn" type="submit" value="Submit" />
+                    <button className="review-feed-btn" onClick={this.handleCommentClick}>Cancel</button>
                   </form> : 
-                  <button onClick={this.handleCommentClick}>Comment</button>
+                  <button className="parent-comment-btn" onClick={this.handleCommentClick}>Comment</button>
 
 
     return (
-    <div>
-      <h5>
-        <div>
-        {this.props.review.name}
-        </div>
-        <div>
-          <small>
-            {this.props.review.address} <br/>
-            {this.props.review.city}, {this.props.review.state}
-          </small>
-        </div>
-      </h5>
-      <p>
-        {this.props.review.username}: {this.props.review.text}
-      </p>
-      {comment}
-      {children}
+    <div className="parent-comment">
+      <div>
+        <h5 className="parent-comment-heading">
+          {this.props.review.name} <small>{this.props.review.address} {this.props.review.city}, {this.props.review.state}</small>
+        </h5>
+        Coffee/Tea:
+        <StarRatings
+          numberOfStars={5}
+          rating={this.props.review.coffeeTea || 0}
+          starDimension="16px"
+          starSpacing="1px"
+          starRatedColor="gold"
+          starEmptyColor="grey"
+          starHoverColor="gold"
+        />
+        Atmosphere:
+        <StarRatings
+          numberOfStars={5}
+          rating={this.props.review.atmosphere || 0}
+          starDimension="16px"
+          starSpacing="1px"
+          starRatedColor="gold"
+          starEmptyColor="grey"
+          starHoverColor="gold"
+        />
+        Comfort:
+        <StarRatings
+          numberOfStars={5}
+          rating={this.props.review.comfort || 0}
+          starDimension="16px"
+          starSpacing="1px"
+          starRatedColor="gold"
+          starEmptyColor="grey"
+          starHoverColor="gold"
+        />
+        Food:
+        <StarRatings
+          numberOfStars={5}
+          rating={this.props.review.food || 0}
+          starDimension="16px"
+          starSpacing="1px"
+          starRatedColor="gold"
+          starEmptyColor="grey"
+          starHoverColor="gold"
+        />
+      </div>
+      <div className="parent-comment-spacing"></div>
+      <div className="parent-comment-text">
+        <h5>{this.props.review.username}:</h5>
+        <p>{this.props.review.text}</p>
+      </div>
+      <div className="parent-comment-spacing"></div>
+        {children}
+        {comment}
     </div>
 
     )
