@@ -6,7 +6,7 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
-
+import HeartButton from './components/HeartButton.jsx'
 import './s-alert-default.css';
 import './style.css';
 
@@ -95,6 +95,7 @@ class App extends React.Component {
           loggedIn: true,
           userId: response.data
         });
+        this.forceUpdate();
       })
       .catch((err) => {
         console.error('Error registering', err);
@@ -159,6 +160,7 @@ class App extends React.Component {
         </div>
 
         <div>
+
           <Display
             cafes={this.state.cafes}
             username={this.state.username}

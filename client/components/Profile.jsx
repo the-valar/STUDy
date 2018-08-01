@@ -13,6 +13,7 @@ import {
 // import './bootstrap.css'
 import './profile.css'
 // import 'universal-parallax.min.css'
+import Favorites from './Favorites.jsx';
 
 class Profile extends React.Component {
   constructor(props) {
