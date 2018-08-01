@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import ReviewFeedChild from './ReviewFeedChild.jsx';
 
 class ReviewFeedParent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       hasChildren: false,
+      children: [],
       showCommentForm: false,
       commentValue: '',
       commentCharsRemain: 255
@@ -13,6 +15,7 @@ class ReviewFeedParent extends React.Component {
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleCommentClick = this.handleCommentClick.bind(this);
+    this.checkForChildren = this.checkForChildren.bind(this);
   }
 
   handleCommentSubmit(event) {
@@ -46,13 +49,37 @@ class ReviewFeedParent extends React.Component {
       commentCharsRemain: 255
     })
   }
+  checkForChildren() {
+    axios.get('/reviewsByParentId', {
+      params: {
+        parentId: this.props.review.id
+    }})
+      .then((response) => {
+        if (response.data.length > 0) {
+          this.setState({
+            children: response.data,
+            hasChildren: true
+          })
+        }
+      })
+      .catch((err) => {
+        console.error('there was an error fetching the child comments', err)
+      })
+  }
 
   componentDidMount() {
-    //here is where I check if the review has children
-    //if yes flip a flag to get child reviews as well
+    this.checkForChildren();
   }
 
   render() {
+
+    let children = null;
+
+    if (this.state.hasChildren) {
+      children = this.state.children.map((child) => (
+        <ReviewFeedChild key={child.id} comment={child} />
+      ))
+    }
 
     let comment = this.state.showCommentForm ? 
                   <form onSubmit={this.handleCommentSubmit}>
@@ -81,6 +108,7 @@ class ReviewFeedParent extends React.Component {
         {this.props.review.username}: {this.props.review.text}
       </p>
       {comment}
+      {children}
     </div>
 
     )

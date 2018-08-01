@@ -1,14 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 
 const db = require('../db_config.js');
-// const mysql = require('mysql');
-// let db = mysql.createPool({
-//   host: "study.c0dk4hjayriz.us-east-1.rds.amazonaws.com",
-//   user: "r2d2",
-//   password: "hackreactor",
-//   database: "Study",
-//   port: '3306'
-//  })
+const mysql = require('mysql');
  
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {
