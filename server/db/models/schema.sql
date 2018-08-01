@@ -59,4 +59,4 @@ CREATE TABLE flashcard_decks (
   user_id INT,
   FOREIGN KEY (user_id) REFERENCES users(id),
   title VARCHAR(25)
-)
+);

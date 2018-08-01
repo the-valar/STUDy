@@ -234,9 +234,13 @@ app.get('/flashcardDecks', (req, res) => {
   console.log('in server.  here is the user id: ', user_id)
   models.fetchDeckNames(user_id, (err, data) => {
     if (err) console.log(err)
-    else res.send(data)
+    else {
+      let arr = [];
+      data.forEach((item) => arr.push(item.title))
+      res.send(arr)
+    }
   })
-  res.send(['fake1', 'politico'])
+  // res.send(['fake1', 'politico'])
 })
 
 app.get('/*', auth, (req, res) => {
@@ -250,7 +254,7 @@ app.post('/flashcards', (req, res) => {
     if (err) console.log('In the server, err sending to the db', err)
     else res.sendStatus(201)
   })
-})
+});
 
 
 const port = process.env.PORT || 8080;

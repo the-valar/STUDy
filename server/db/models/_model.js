@@ -332,7 +332,7 @@ let saveFlashcardDeck = function(user_id, newDeck, cb) {
         if (err) console.log(err)
       })
     })
-    conn.querty(`INSERT INTO flashcard_decks (user_id, title) VALUES (?, ?)`, [user_id, newDeck.name], 
+    conn.query(`INSERT INTO flashcard_decks (user_id, title) VALUES (?, ?)`, [user_id, newDeck.name], 
       (err) => {
         if (err) cb(err)
         else cb(null)
