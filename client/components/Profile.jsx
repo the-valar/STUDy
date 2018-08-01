@@ -10,8 +10,9 @@ import {
   FormControl,
   Modal
 } from 'react-bootstrap';
+
 // import './bootstrap.css'
-import './profile.css'
+// import './profile.css'
 // import 'universal-parallax.min.css'
 import Favorites from './Favorites.jsx';
 
@@ -55,29 +56,10 @@ class Profile extends React.Component {
                   </div>
 
                     <div className="down">
-                      <div className="friends">
-                      <ul>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="down-right">
-                      <div className="faves">
-                      <ul>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        <li>wow</li>
-                        </ul>
-                      </div>
+                      <Favorites
+            userId={this.props.userId}
+            showFavorites={this.state.showProfile}
+            closeFavorites={this.toggleProfile}/>
                     </div>
                 </Modal.Body>
               </Modal>
