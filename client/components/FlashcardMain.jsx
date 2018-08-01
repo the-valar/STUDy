@@ -45,6 +45,7 @@ class FlashcardMain extends React.Component {
         this.toggleDeckCreation = this.toggleDeckCreation.bind(this)
         this.handleValueChange = this.handleValueChange.bind(this)
         this.handleSaveCard = this.handleSaveCard.bind(this)
+        this.handleDeleteCard = this.handleDeleteCard.bind(this)
     }
 
     //method section
@@ -75,8 +76,12 @@ class FlashcardMain extends React.Component {
         this.setState({createdDeck: deck, frontOfNewCard: '', backOfNewCard: ''})
     }
 
-    handleDeleteCard() {
-        //
+    handleDeleteCard(ind) {
+        let deck = this.state.createdDeck
+        deck.splice(ind, 1)
+        deck.forEach((card, i) => card.id = i+1 )
+        console.log(deck)
+        this.setState({createdDeck: deck})
     }
 
 
@@ -101,9 +106,9 @@ class FlashcardMain extends React.Component {
                                  onChange = {this.handleValueChange} />
                                 <br/>
                                 <input type='text' placeholder='Front of Card' id = 'frontOfNewCard'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
                                  <input type='text' placeholder='Back of Card' id = 'backOfNewCard'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
                                 <br/>
                                 <button onClick = {this.handleSaveCard} >Save this Card</button>
                                 <button onClick = {this.toggleDeckCreation} >save this deck</button>
@@ -113,7 +118,7 @@ class FlashcardMain extends React.Component {
                                         return(
                                             <div className='cardContainer'>
                                                 <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
-                                                <button className='removeCard'>remove this card</button>
+                                                <button onClick={() => this.handleDeleteCard(ind)} className='removeCard'>remove this card</button>
                                             </div>
                                         )
                                     })}
