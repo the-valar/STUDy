@@ -89,7 +89,7 @@ class App extends React.Component {
         this.setState({
           loggedIn: true,
           userId: response.data
-        }, () => this.fetchDeckNames());
+        })
       })
       .catch((err) => {
         console.error('Username or password is incorrect', err);
@@ -160,8 +160,8 @@ class App extends React.Component {
   }
 
   fetchDeckNames() {
-    axios.get('/flashcardDecks', params = {user_id: this.state.userId})
-         .then((response) => this.setState({flashcardDeckNames: response.data}))
+    axios.get('/flashcardDecks', {params : {user_id: this.state.userId}})
+         .then((res) => this.setState({flashcardDeckNames: res.data}))
          .catch((err) => console.error('someone went wrong fetching the deck names: ', err))
   }
 
@@ -189,7 +189,7 @@ class App extends React.Component {
 
         {
           this.state.showStudyCards ? 
-          <FlashcardMain user_id = {this.state.userId} />
+          <FlashcardMain user_id = {this.state.userId} fetchDeckNames = {this.fetchDeckNames} />
           : 
           <div>
             {

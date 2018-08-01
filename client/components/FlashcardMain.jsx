@@ -50,6 +50,9 @@ class FlashcardMain extends React.Component {
     }
 
     //method section
+    componentDidMount() {
+        this.props.fetchDeckNames()
+    }
 
     toggleStudy() {
         let old = this.state.showDeck;

@@ -229,6 +229,12 @@ app.get('/reviews', (req, res) => {
   });
 });
 
+app.get('/flashcardDecks', (req, res) => {
+  let user_id = req.query.user_id
+  console.log('in server.  here is the user id: ', user_id)
+  res.send(['fake1', 'politico'])
+})
+
 app.get('/*', auth, (req, res) => {
   res.send(req.session.userData);
 });
@@ -242,11 +248,6 @@ app.post('/flashcards', (req, res) => {
   })
 })
 
-app.get('/flashcardDecks', (req, res) => {
-  let {user_id} = req.query
-  console.log('in server.  here is the user id: ', user_id)
-  res.send(['fake1', 'politico'])
-})
 
 const port = process.env.PORT || 8080;
 
