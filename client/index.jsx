@@ -209,27 +209,6 @@ class App extends React.Component {
           </div>
         }
 
-<<<<<<< HEAD
-        <div align="center">
-          <Search
-            handleYelp={this.handleYelp}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-        </div>
-
-        <div>
-          <Display
-            cafes={this.state.cafes}
-            username={this.state.username}
-            creditCard={this.state.creditCard}
-            userId={this.state.userId}
-            loggedIn={this.state.loggedIn}
-            showIndivCafe={this.state.showIndivCafe}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-        </div>
-=======
->>>>>>> 20d5e01ad18d74c2e44b52d20f235689c8102a4c
 
         <Alert stack={{ limit: 1 }} />
       </div>
