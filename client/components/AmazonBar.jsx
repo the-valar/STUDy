@@ -21,10 +21,12 @@ class AmazonBar extends React.Component {
     this.handleSelect = this.handleSelect.bind(this)
   }
   handleSelect (key) {
+    console.log (this.props.creditCard)
     axios
       .post('/orders', {
         params: {
-          productID: key.productID
+          productID: key.productID,
+          creditCard: this.props.creditCard
         }
     }).then (function (response) {
       console.log (response)

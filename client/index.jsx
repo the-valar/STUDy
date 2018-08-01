@@ -187,6 +187,7 @@ class App extends React.Component {
           <Display
             cafes={this.state.cafes}
             username={this.state.username}
+            creditCard={this.state.creditCard}
             userId={this.state.userId}
             loggedIn={this.state.loggedIn}
             showIndivCafe={this.state.showIndivCafe}

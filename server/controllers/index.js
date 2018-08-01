@@ -32,6 +32,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.post ('/orders', (req, res) => {
+  console.log (req.body)
   res.send ('order received')
 })
 
@@ -93,9 +94,11 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
+  console.log (req.body)
   models.register(req.body, (err, data) => {
     if (err) {
       console.error('Username is taken');
+      console.log (err)
     } else {
       var sess = {
         username: req.body.username,

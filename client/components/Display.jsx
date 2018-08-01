@@ -341,7 +341,7 @@ class Display extends React.Component {
                 </Col>
               </Row>
             </Grid>
-            <AmazonBar/>
+            <AmazonBar creditCard = {this.props.creditCard}/>
 
             <Carousel bsClass='sidebysideRight carousel'>
               <Carousel.Item>
