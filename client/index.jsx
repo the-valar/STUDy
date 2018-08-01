@@ -153,7 +153,7 @@ class App extends React.Component {
         <div className="parallax" />
 
         {this.state.showStudyChat ? 
-          <FlashcardMain />
+          <FlashcardMain username = {this.state.username} />
           : null
         }
 
