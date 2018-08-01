@@ -323,7 +323,7 @@ let getFullReviews = function({ location_id }, cb) {
 
 
 let saveFlashcardDeck = function(user_id, newDeck, cb) {
-  var command = `INSERT INTO flashcard_decks (user_id, title, front, back, card_id)
+  var command = `INSERT INTO flashcards (user_id, title, front, back, card_id)
                 VALUES (?, ?, ?, ?, ?)`
   db.getConnection((err, conn) => {
     newDeck.cards.forEach((card) => {
@@ -332,7 +332,11 @@ let saveFlashcardDeck = function(user_id, newDeck, cb) {
         if (err) console.log(err)
       })
     })
-    cb(null)
+    conn.querty(`INSERT INTO flashcard_decks (user_id, title) VALUES (?, ?)`, [user_id, newDeck.name], 
+      (err) => {
+        if (err) cb(err)
+        else cb(null)
+    })
     conn.release();
   })
   
