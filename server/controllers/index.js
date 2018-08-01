@@ -263,6 +263,7 @@ app.get('/reviewsByParentId', (req, res) => {
     if (err) {
       console.error('there was an error fetching the reviews by parent id', err)
     } else {
+      console.log(data)
       res.send(data);
     }
   })

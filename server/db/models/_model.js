@@ -322,19 +322,22 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
+  let orderStatement = parentId === '0' ? 'ORDER BY c.id DESC LIMIT 10' : 'ORDER BY c.id'
   let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
-  JOIN locations as l ON c.location=l.id
+  JOIN locations as l ON l.id=c.location
   JOIN ratings as r ON r.location=l.id
   JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
-  GROUP BY c.text`;
+  GROUP BY c.text
+  ${orderStatement}`;
   
   db.getConnection((err, conn) => {
     conn.query(sqlStatement, [parentId], (err, results) => {
       if (err) {
         cb(err)
       } else {
+        console.log('results in the database',parentId, results)
         cb(null, results);
       }
       conn.release();
