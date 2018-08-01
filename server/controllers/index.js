@@ -232,6 +232,10 @@ app.get('/reviews', (req, res) => {
 app.get('/flashcardDecks', (req, res) => {
   let user_id = req.query.user_id
   console.log('in server.  here is the user id: ', user_id)
+  models.fetchDeckNames(user_id, (err, data) => {
+    if (err) console.log(err)
+    else res.send(data)
+  })
   res.send(['fake1', 'politico'])
 })
 
