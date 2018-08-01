@@ -22,7 +22,7 @@ const Map = compose(
       console.log(`Current clicked markers length: ${clickedMarkers.length}`);
       console.log(clickedMarkers);
     }
-  },
+  }),
   withScriptjs,
   withGoogleMap
 )((props) => {
