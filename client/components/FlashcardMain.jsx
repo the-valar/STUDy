@@ -5,6 +5,8 @@ class FlashcardMain extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            showDeck: false,
+            createDeck: false,
             deck: {
                 id: 1,
                 name: 'Example Deck',
@@ -40,9 +42,33 @@ class FlashcardMain extends React.Component {
 
     //render section
     render() {
-        return (
-            <FlashcardApp data = {this.state.deck} />
-        )
+        if (this.state.showDeck) {
+            return (
+                <div>
+                    <FlashcardApp data = {this.state.deck} />
+                    <button>Back to Flashcard Choice</button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    {
+                        this.state.createDeck ?
+                            <div>
+                                <p>placeholder for deck creation</p>
+                            </div>
+        
+                        :
+        
+                        <div>
+                            <p>Select a flashcard deck to study with!</p>
+                            <button>Study this Deck</button>
+                            <button>Create a new flashcard deck</button>
+                        </div>
+                    }
+                </div>
+            )
+        }
     }
 }
 
