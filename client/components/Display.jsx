@@ -133,15 +133,24 @@ class Display extends React.Component {
                 }
               })
               .then((res) => {
-                this.setState({
-                  currentCafeAvgRating: res.data[0],
-                  review: '',
-                  submittedReview: true,
-                  coffeeRating: 0,
-                  atmosphereRating: 0,
-                  comfortRating: 0,
-                  foodRating: 0,
-                  addFave: 0
+                axios.get('/reviews', {
+                  params: {
+                    location_id: this.state.currentCafe.id,
+                    parent_id: 0
+                  }
+                })
+                .then((reviews) => {
+                  this.setState({
+                    currentCafeAvgRating: res.data[0],
+                    review: '',
+                    submittedReview: true,
+                    coffeeRating: 0,
+                    atmosphereRating: 0,
+                    comfortRating: 0,
+                    foodRating: 0,
+                    addFave: 0,
+                    currentCafeReviews: reviews
+                  });
                 });
               })
               .catch((err) => {

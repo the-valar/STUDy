@@ -266,6 +266,7 @@ app.get('/reviews', (req, res) => {
     if (err) {
       res.send();
     } else {
+      console.log({data})
       res.send(JSON.stringify(data));
     }
   });
