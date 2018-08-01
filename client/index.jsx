@@ -22,6 +22,7 @@ class App extends React.Component {
       username: '',
       password: '',
       userId: '',
+      creditCard: '',
       loggedIn: false,
       showIndivCafe: false,
       showFavorites: false,
@@ -32,6 +33,7 @@ class App extends React.Component {
 
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
+    this.handleCreditCard = this.handleCreditCard.bind(this);
 
     this.loginUser = this.loginUser.bind(this);
     this.registerUser = this.registerUser.bind(this);
@@ -60,7 +62,13 @@ class App extends React.Component {
       password: e.target.value
     });
   }
-
+  
+  handleCreditCard(e) {
+    this.setState ({
+      creditCard: e.target.value
+    })
+  }
+  
   loginUser() {
     axios
       .post('/login', {
@@ -88,7 +96,8 @@ class App extends React.Component {
     axios
       .post('/register', {
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
+        creditCard: this.state.creditCard
       })
       .then((response) => {
         // response.data returns userId
@@ -140,10 +149,12 @@ class App extends React.Component {
         <Header
           username={this.state.username}
           password={this.state.password}
+          creditCard={this.state.creditCard}
           userId={this.state.userId}
           loggedIn={this.state.loggedIn}
           handleUser={this.handleUser}
           handlePassword={this.handlePassword}
+          handleCreditCard={this.handleCreditCard}
           loginUser={this.loginUser}
           registerUser={this.registerUser}
           logout={this.logout}

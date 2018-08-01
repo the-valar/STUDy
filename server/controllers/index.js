@@ -31,6 +31,10 @@ app.get('/logout', (req, res) => {
   res.send();
 });
 
+app.post ('/orders', (req, res) => {
+  res.send ('order received')
+})
+
 app.get('/search', (req, res) => {
   // req.query should have [coffee, atmosphere, comfort, food, location, radius] as keys
 

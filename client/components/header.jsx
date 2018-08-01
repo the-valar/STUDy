@@ -161,6 +161,7 @@ class Header extends React.Component {
                         this.props.handlePassword(e);
                       }}
                     />
+
                   </FormGroup>
 
                   <Button
@@ -190,6 +191,14 @@ class Header extends React.Component {
                       value={this.props.password}
                       onChange={(e) => {
                         this.props.handlePassword(e);
+                      }}
+                    />
+                    <FormControl
+                      type="creditCard"
+                      placeholder="Credit Card (optional)"
+                      value={this.props.creditCard}
+                      onChange={(e) => {
+                        this.props.handleCreditCard(e);
                       }}
                     />
                   </FormGroup>
