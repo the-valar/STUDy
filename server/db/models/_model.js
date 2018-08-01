@@ -338,8 +338,17 @@ let saveFlashcardDeck = function(user_id, newDeck, cb) {
         else cb(null)
     })
     conn.release();
+  });
+};
+
+let fetchDeckNames = function(user_id, cb) {
+  var command = `SELECT title FROM flashcard_decks WHERE user_id = ${user_id}`
+  db.getConnection((err, conn) => {
+    conn.query(command, (err, docs) => {
+      if (err) cb(err)
+      else cb(null, docs)
+    })
   })
-  
 }
 
 module.exports = {
@@ -356,5 +365,6 @@ module.exports = {
   getComment: getComment,
   addPics: addPics,
   getFullReviews: getFullReviews,
-  saveFlashcardDeck: saveFlashcardDeck
+  saveFlashcardDeck: saveFlashcardDeck,
+  fetchDeckNames: fetchDeckNames
 };
