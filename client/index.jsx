@@ -28,7 +28,8 @@ class App extends React.Component {
       loggedIn: false,
       showIndivCafe: false,
       showFavorites: false,
-      showStudyCards: false
+      showStudyCards: false,
+      flashcardDeckNames: []
     };
 
     this.handleYelp = this.handleYelp.bind(this);
@@ -48,6 +49,8 @@ class App extends React.Component {
 
     this.showStudyCards = this.showStudyCards.bind(this);
     this.showMain = this.showMain.bind(this);
+
+    this.fetchDeckNames = this.fetchDeckNames.bind(this);
   }
 
   handleYelp(data) {
@@ -86,7 +89,7 @@ class App extends React.Component {
         this.setState({
           loggedIn: true,
           userId: response.data
-        });
+        })
       })
       .catch((err) => {
         console.error('Username or password is incorrect', err);
@@ -156,6 +159,12 @@ class App extends React.Component {
     this.setState({showStudyCards: false})
   }
 
+  fetchDeckNames() {
+    axios.get('/flashcardDecks', {params : {user_id: this.state.userId}})
+         .then((res) => this.setState({flashcardDeckNames: res.data}))
+         .catch((err) => console.error('someone went wrong fetching the deck names: ', err))
+  }
+
   render() {
     return (
       <div align="center">
@@ -180,7 +189,8 @@ class App extends React.Component {
 
         {
           this.state.showStudyCards ? 
-          <FlashcardMain user_id = {this.state.userId} />
+          <FlashcardMain user_id = {this.state.userId} fetchDeckNames = {this.fetchDeckNames} 
+          deckNames = {this.state.flashcardDeckNames} />
           : 
           <div>
             {
