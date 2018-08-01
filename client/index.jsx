@@ -6,6 +6,7 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
+import TestAds from './components/TestAds.jsx';
 
 import './s-alert-default.css';
 import './style.css';
@@ -148,6 +149,7 @@ class App extends React.Component {
           handleSession={this.handleSession}
         />
 
+      
         <div className="parallax" />
 
         <div align="center">
@@ -156,6 +158,7 @@ class App extends React.Component {
             renderIndivCafe={this.renderIndivCafe}
           />
         </div>
+        <TestAds/>
 
         <div>
           <Display
