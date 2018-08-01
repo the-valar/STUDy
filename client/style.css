@@ -182,18 +182,38 @@ a:focus {
   cursor: pointer;
 }
 
+.review-feed-title {
+  width: calc(100% - 175px);
+  position: relative;
+  text-align: left;
+  color: #525252;
+  padding: 5px;
+  margin: 5px;
+  font-size: 24px;
+  text-shadow: 1px 1px #a0252552;
+}
+
+.review-feed-spacing {
+  background-color: #525252;
+  width: 90%;
+  height: 1px;
+  margin: 20px;
+}
+
 .parent-comment {
   position: relative;
   outline: 2px solid #525252;
   width: calc(100% - 250px);
   margin: 20px;
+  padding: 2px;
   box-shadow: 5px 5px 8px #525252;
 }
+
 
 .parent-comment-heading {
   text-align: left;
   padding: 2px;
-  margin: 5px;
+  margin-top: 25px;
   color: #a02525e8;
   display: block;
 }
@@ -209,6 +229,16 @@ a:focus {
   margin: 5px;
   padding: 5px;
   display: block;
+  background-color: #a02525b7;
+  color: #fdfcfc
+}
+
+.review-feed-btn {
+  margin: 2px;
+  padding: 2px;
+  display: inline-block;
+  background-color: #a02525b7;
+  color: #fdfcfc
 }
 
 .parent-comment-spacing {
@@ -216,6 +246,24 @@ a:focus {
   width: 98% ;
   height: 1px;
   margin: 2px;
+}
+
+.child-comment {
+  text-align: left;
+  padding-left: 5px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin: 5px;
+  display: block;
+  background-color: #5252521a;
+  width: 95%;
+}
+
+.comment-text-field {
+  background-color: #5252521a;
+  width: 60%;
+  height: 75px;
+  padding: 8px;
 }
 
 /* .field-button:active {

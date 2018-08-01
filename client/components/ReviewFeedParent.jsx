@@ -94,9 +94,10 @@ class ReviewFeedParent extends React.Component {
     let comment = this.state.showCommentForm ? 
                   <form onSubmit={this.handleCommentSubmit}>
                     <p>Characters left: {this.state.commentCharsRemain}</p>
-                    <input type="text" value={this.state.commentValue} onChange={this.handleCommentChange}/>
-                    <input type="submit" value="Submit" />
-                    <button onClick={this.handleCommentClick}>Cancel</button>
+                    <textarea className="comment-text-field" type="text" value={this.state.commentValue} onChange={this.handleCommentChange}/>
+                    <div></div>
+                    <input className="review-feed-btn" type="submit" value="Submit" />
+                    <button className="review-feed-btn" onClick={this.handleCommentClick}>Cancel</button>
                   </form> : 
                   <button className="parent-comment-btn" onClick={this.handleCommentClick}>Comment</button>
 
@@ -154,8 +155,8 @@ class ReviewFeedParent extends React.Component {
         <p>{this.props.review.text}</p>
       </div>
       <div className="parent-comment-spacing"></div>
-        {comment}
         {children}
+        {comment}
     </div>
 
     )
