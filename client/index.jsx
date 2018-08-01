@@ -45,6 +45,9 @@ class App extends React.Component {
 
     this.handleYelp = this.handleYelp.bind(this);
     this.renderIndivCafe = this.renderIndivCafe.bind(this);
+
+    this.showStudyCards = this.showStudyCards.bind(this);
+    this.showMain = this.showMain.bind(this);
   }
 
   handleYelp(data) {
@@ -145,6 +148,14 @@ class App extends React.Component {
     });
   }
 
+  showStudyCards() {
+    this.setState({showStudyCards: true})
+  }
+
+  showMain() {
+    this.setState({showStudyCards: false})
+  }
+
   render() {
     return (
       <div align="center">
@@ -161,6 +172,8 @@ class App extends React.Component {
           registerUser={this.registerUser}
           logout={this.logout}
           handleSession={this.handleSession}
+          showMain={this.showMain}
+          showStudyCards={this.showStudyCards}
         />
 
         <div className="parallax" />

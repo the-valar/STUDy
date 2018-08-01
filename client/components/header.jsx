@@ -103,7 +103,9 @@ class Header extends React.Component {
             <Nav pullRight>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
+                <MenuItem onClick={this.props.showMain}>Main</MenuItem>
                 <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
+                <MenuItem onClick={this.props.showStudyCards}>Flashcards</MenuItem>
                 <MenuItem divider />
                 <MenuItem
                   onClick={() => {
