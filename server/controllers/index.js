@@ -230,8 +230,8 @@ app.get('/*', auth, (req, res) => {
 });
 
 app.post('/flashcards', (req, res) => {
-  let {username, newDeck} = req.body
-  console.log(username, newDeck)
+  let {user_id, newDeck} = req.body
+  console.log(user_id, newDeck)
   //send to db
   res.sendStatus(201)
 })
