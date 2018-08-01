@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt-nodejs');
 
 const db = require('../db_config.js');
-
+const mysql = require('mysql');
+ 
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {
     for (let spot = 0; spot < studySpotList.length; spot++) {
@@ -111,7 +112,7 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
 let login = function({ username }, cb) {
   db.getConnection((err, conn) => {
     conn.query(
-      `SELECT id, password FROM users WHERE username=?`,
+      `SELECT id, password, membership FROM users WHERE username=?`,
       username,
       (err, result) => {
         if (!result.length) {
@@ -321,15 +322,46 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let sqlStatement = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
-  JOIN locations ON c.location=locations.id
-  JOIN ratings as r ON r.location=locations.id
+  JOIN locations as l ON c.location=l.id
+  JOIN ratings as r ON r.location=l.id
+  JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
   GROUP BY c.text`;
   
   db.getConnection((err, conn) => {
     conn.query(sqlStatement, [parentId], (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let postSubComment = ({parentId, location, userId, text}, cb) => {
+  let sqlStatement = 'INSERT INTO comments (parent_id, location, user_id, text) VALUES (?, ?, ?, ?)';
+  let params = [parentId, location, userId, text];
+
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, params, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let updateMembership = (userId, cb) => {
+  let sqlStatement = `UPDATE users SET membership = 1 WHERE id = ${userId}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
       if (err) {
         cb(err)
       } else {
@@ -354,5 +386,7 @@ module.exports = {
   getComment: getComment,
   addPics: addPics,
   getFullReviews: getFullReviews,
-  getReviewByParentId: getReviewByParentId
+  getReviewByParentId: getReviewByParentId,
+  postSubComment: postSubComment,
+  updateMembership: updateMembership,
 };

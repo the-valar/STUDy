@@ -39,6 +39,10 @@ body {
   color: gray;
 }
 
+button{
+  font-family: sans-serif
+}
+
 .footer2 {
   position: absolute;
   right: 0;
@@ -64,4 +68,218 @@ a:focus {
 
 #reviewSubmissionModal .modal-content {
   margin-top: 60%
+}
+
+.field-set {
+  margin: 0 15px 20px;
+  padding: 0;
+  border-style: none;
+  background-color: #7795f8;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 #829fff;
+  border-radius: 4px;
+}
+
+.field-row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.field-row + .field-row {
+  border-top: 1px solid #819efc;
+}
+
+.field-input{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.field-input:-webkit-autofill {
+  -webkit-text-fill-color: #fce883;
+  transition: background-color 100000000s;
+  -webkit-animation: 1ms void-animation-out;
+}
+
+.StripeElement--webkit-autofill {
+  background: transparent !important;
+}
+
+.StripeElement {
+  width: 100%;
+  padding: 11px 15px 11px 0;
+}
+
+.field-input {
+  width: 100%;
+  padding: 11px 15px 11px 0;
+  color: #fff;
+  background-color: transparent;
+  -webkit-animation: 1ms void-animation-out;
+}
+
+.field-input::-webkit-input-placeholder {
+  color: #87bbfd;
+}
+
+.field-button {
+  display: block;
+  width: calc(100% - 30px);
+  height: 40px;
+  margin: 40px 15px 0;
+  background-color: #525252;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 #525252;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+
+/* ads CSS */
+
+#banner {
+  margin-top: 20px;
+  height: 300px;
+  width: 300px;
+  background: #666699;
+  overflow: hidden;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+}
+#banner a {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  animation: 1s fadein ease-in-out;
+  animation-fill-mode: forwards;
+}
+#target {
+  background: url(http://base.webdesignforyou.net/banner/target.png) center center no-repeat;
+  background-size: 100% auto;
+  margin: 0 auto;
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  margin-top: -100px;
+  margin-left: -100px;
+  animation: 20s roty infinite linear;
+}
+#product {
+  margin: 30px auto 0 auto;
+  display: block;
+  z-index: 10;
+  width: 150px;
+  position: relative;
+  opacity: 0;
+  animation: 1s growin ease-in-out 1s;
+  animation-fill-mode: forwards;
+}
+#button {
+  color: #fff;
+  padding: 8px 15px 8px 15px;
+  font-family: 'Roboto Slab';
+  font-weight: 700;
+  font-size: 18px;
+  background: #3ba7d1;
+  display: inline-block;
+  margin: 10px 0 0 0;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  opacity: 0;
+  animation: 1s fadein ease-in-out 2s;
+  animation-fill-mode: forwards;
+}
+#sale {
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  z-index: 10;
+}
+#sale-text {
+  color: #fff;
+  font-family: 'Satisfy';
+  font-size: 26px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: 1s fadein ease-in-out 1.5s;
+  animation-fill-mode: forwards;
+}
+#badge {
+  box-sizing: border-box;
+  color: #fff;
+  padding: 10px 0 0 0;
+  font-weight: 800;
+  font-family: 'Roboto Slab';
+  font-size: 16px;
+  text-align: center;
+  width: 70px;
+  height: 70px;
+  background: #ff9900;
+  border: solid 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  border-radius: 50%;
+  transform: rotate(345deg);
+  animation: 1s fadein ease-in-out;
+  -webkit-transition-delay: 6s;
+  transition-delay: 6s;
+  position: absolute;
+  opacity: 0;
+  transform: rotate(0deg);
+  top: 0px;
+  right: 0px;
+  z-index: 10;
+  animation: 1s rollin ease-in-out 2.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes fadein {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+@keyframes roty {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+@keyframes rollin {
+  0% {
+      opacity: 0;
+      transform: rotate(0deg);
+      top: 0px;
+      right: 0px;
+  }
+  100% {
+      opacity: 1;
+      transform: rotate(345deg);
+      top: 40px;
+      right: 40px;
+  }
+}
+@keyframes growin {
+  0% {
+      opacity: 0;
+      transform: scale(0.5);
+  }
+  100% {
+      opacity: 1;
+      transform: scale(1);
+  }
 }

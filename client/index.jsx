@@ -7,6 +7,8 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 import HeartButton from './components/HeartButton.jsx'
+import TestAds from './components/TestAds.jsx';
+
 import './s-alert-default.css';
 import './style.css';
 
@@ -39,6 +41,8 @@ class App extends React.Component {
 
     this.handleYelp = this.handleYelp.bind(this);
     this.renderIndivCafe = this.renderIndivCafe.bind(this);
+
+    this.getUser = this.getUser.bind(this);
   }
 
   handleYelp(data) {
@@ -67,10 +71,10 @@ class App extends React.Component {
       })
       .then((response) => {
         // response.data returns userId
-
         this.setState({
           loggedIn: true,
-          userId: response.data
+          userId: response.data.id,
+          membership: response.data.membership
         });
       })
       .catch((err) => {
@@ -122,7 +126,8 @@ class App extends React.Component {
       this.setState({
         username: response.data.username,
         userId: response.data.userId,
-        loggedIn: response.data.login
+        loggedIn: response.data.login,
+        membership: response.data.membership
       });
     }
   }
@@ -133,6 +138,16 @@ class App extends React.Component {
     });
   }
 
+  async getUser(){
+    let response = await axios.get('/current_user')
+    console.log(response.data)
+    this.setState({membership: response.data.membership})
+  }
+
+  componentDidMount(){
+    this.getUser()
+  }
+
   render() {
     return (
       <div align="center">
@@ -140,6 +155,7 @@ class App extends React.Component {
           username={this.state.username}
           password={this.state.password}
           userId={this.state.userId}
+          membership={this.state.membership}
           loggedIn={this.state.loggedIn}
           handleUser={this.handleUser}
           handlePassword={this.handlePassword}
@@ -147,8 +163,10 @@ class App extends React.Component {
           registerUser={this.registerUser}
           logout={this.logout}
           handleSession={this.handleSession}
+          getUser={this.getUser}
         />
 
+      
         <div className="parallax" />
 
         <div align="center">
@@ -156,8 +174,8 @@ class App extends React.Component {
             handleYelp={this.handleYelp}
             renderIndivCafe={this.renderIndivCafe}
           />
-          
         </div>
+        {!!this.state.membership || <TestAds/>}
 
         <div>
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import PaymentForm from './PaymentForm.jsx';
 import {
   Navbar,
   NavItem,
@@ -35,9 +37,15 @@ class Header extends React.Component {
 
     this.showFavorites = this.showFavorites.bind(this);
     this.closeFavorites = this.closeFavorites.bind(this);
-
+    
     this.showCreateChat = this.showCreateChat.bind(this);
     this.closeCreateChat = this.closeCreateChat.bind(this);
+
+    this.toggleShow = this.toggleShow.bind(this)
+  }
+
+  toggleShow(){
+    this.setState({show: !this.state.show})
   }
 
 
@@ -119,6 +127,10 @@ class Header extends React.Component {
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
                 <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
                 <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
+                {this.props.membership
+                ? <MenuItem>Manage membership</MenuItem>
+                : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
+                }
                 <MenuItem divider />
                 <MenuItem
                   onClick={() => {
@@ -130,6 +142,21 @@ class Header extends React.Component {
               </NavDropdown>
             </Nav>
           </Navbar>
+
+          <Modal style={{}} show={this.state.show} onHide={this.toggleShow}>
+            <Modal.Header style={{background: '#272727'}}closeButton>
+              <Modal.Title style={{color: '#fff'}}>Be a STUD</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <StripeProvider apiKey="pk_test_LwL4RUtinpP3PXzYirX2jNfR">
+              <div className="example">
+                <Elements>
+                  <PaymentForm toggleShow={this.toggleShow} userId={this.props.userId} getUser={this.props.getUser}/>
+                </Elements>
+              </div>
+            </StripeProvider>
+            </Modal.Body>
+          </Modal>
 
           <Favorites
             userId={this.props.userId}
