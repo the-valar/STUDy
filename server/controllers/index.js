@@ -200,6 +200,17 @@ app.post('/favorites', (req, res) => {
   });
 });
 
+app.post('/bio', (req, res) => {
+  models.updateBio(req.body, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
+
 app.get('/favorites', (req, res) => {
   // req.query should have user_id as a key
 
