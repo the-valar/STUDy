@@ -177,7 +177,6 @@ class App extends React.Component {
           />
           
         </div>
-        <ReviewFeed currentUserId={this.state.userId}/>
         {!!this.state.membership || <TestAds/>}
 
         <div>
@@ -193,6 +192,7 @@ class App extends React.Component {
         </div>
 
         <Alert stack={{ limit: 1 }} />
+        <ReviewFeed currentUserId={this.state.userId}/>
       </div>
     );
   }
