@@ -6,6 +6,7 @@ import {
   GoogleMap,
   Marker
 } from 'react-google-maps';
+import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import {GOOGLE_MAPS_API_KEY} from '../../config_example.js';
 
 const Map = compose(
@@ -18,12 +19,14 @@ const Map = compose(
   withScriptjs,
   withGoogleMap
 )((props) => {
+  let {latitude, longitude} = props.cafes[0].coordinates;
+
   return (
     <GoogleMap
       defaultZoom={14}
-      defaultCenter={{ lat: -34, lng: 150 }}
+      defaultCenter={{ lat: latitude, lng: longitude }}
     >
-      {props.isMarkerShown && <Marker position={{ lat: -34, lng: 150 }} />}
+      {props.isMarkerShown && <Marker position={{ lat: latitude, lng: longitude }} />}
     </GoogleMap>
   );
 });
