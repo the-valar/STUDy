@@ -7,11 +7,13 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 
-import StudyChat from './components/StudyChat.jsx';
+import FlashcardMain from './components/FlashcardMain.jsx'
 import Favorites from './components/Favorites.jsx';
 
 import './s-alert-default.css';
 import './style.css';
+
+import {Tabs, Tab} from 'react-bootstrap';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,7 +28,7 @@ class App extends React.Component {
       loggedIn: false,
       showIndivCafe: false,
       showFavorites: false,
-      showStudyChat: false
+      showStudyCards: false
     };
 
     this.handleYelp = this.handleYelp.bind(this);
@@ -163,8 +165,8 @@ class App extends React.Component {
 
         <div className="parallax" />
 
-        {this.state.showStudyChat ? 
-          <StudyChat />
+        {this.state.showStudyCards ? 
+          <FlashcardMain username = {this.state.username} />
           : null
         }
 
