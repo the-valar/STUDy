@@ -13,6 +13,8 @@ import Favorites from './components/Favorites.jsx';
 import './s-alert-default.css';
 import './style.css';
 
+import {Tabs, Tab} from 'react-bootstrap';
+
 class App extends React.Component {
   constructor(props) {
     super(props);

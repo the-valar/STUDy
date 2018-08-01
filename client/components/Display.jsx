@@ -6,7 +6,9 @@ import {
   Thumbnail,
   Button,
   Carousel,
-  Modal
+  Modal,
+  Tabs,
+  Tab
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
@@ -16,6 +18,7 @@ import ShowReviews from './ShowReviews.jsx';
 import Review from './Review.jsx';
 import AmazonBar from './AmazonBar.jsx';
 import '../style.css';
+import Map from './Map.jsx';
 
 class Display extends React.Component {
   constructor(props) {
@@ -29,7 +32,8 @@ class Display extends React.Component {
       submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
-      comfortRating: 0
+      comfortRating: 0,
+      showMap: false
     };
 
     this.cafeView = this.cafeView.bind(this);
@@ -41,6 +45,7 @@ class Display extends React.Component {
     this.handleAtmosphere = this.handleAtmosphere.bind(this);
     this.handleComfort = this.handleComfort.bind(this);
     this.handleFood = this.handleFood.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
 
     this.addToFave = this.addToFave.bind(this);
   }
@@ -198,6 +203,20 @@ class Display extends React.Component {
     });
   }
 
+  
+  handleSelect(key) {
+    console.log(key)
+    if (key === 1) {
+      this.setState({
+        showMap: false
+      });
+    } else {
+      this.setState({
+        showMap: true
+      });
+    }
+  }
+
   addToFave() {
     axios
       .post('/favorites', {
@@ -217,38 +236,50 @@ class Display extends React.Component {
     } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe) {
       return (
         <div>
-          <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-            {this.props.cafes.map((cafe) => {
-              return (
-                <div key={cafe.id}>
-                  <Thumbnail
-                    src={cafe.image_url}
-                    height="250"
-                    onClick={() => this.cafeView(cafe)}
-                  >
-                    <h3>{cafe.name}</h3>
-                    <p>
-                      {cafe.location.address1}, {cafe.location.city},{' '}
-                      {cafe.location.state}, {cafe.location.zip_code}
-                    </p>
-                  </Thumbnail>
-                </div>
-              );
-            })}
-          </StackGrid>
-
-          <ScrollToTop showUnder={100}>
+          <Tabs defaultActiveKey={1} id="search-map" onSelect={this.handleSelect}>
+            <Tab eventKey={1} title="Results"></Tab>
+            <Tab eventKey={2} title="Map"></Tab>
+          </Tabs>
+          {this.state.showMap ? (
             <div>
-              <img
-                src="http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png"
-                height="50"
-                style={{ display: 'block', margin: 'auto' }}
-              />
-              <div>Back to Top</div>
+              <Map isMarkerShown cafes={this.props.cafes} />
             </div>
-          </ScrollToTop>
+          ) : (
+              <div>
+                <StackGrid columnWidth={300} monitorImagesLoaded={true}>
+                  {this.props.cafes.map((cafe) => {
+                    return (
+                      <div key={cafe.id}>
+                        <Thumbnail
+                          src={cafe.image_url}
+                          height="250"
+                          onClick={() => this.cafeView(cafe)}
+                        >
+                          <h3>{cafe.name}</h3>
+                          <p>
+                            {cafe.location.address1}, {cafe.location.city},{' '}
+                            {cafe.location.state}, {cafe.location.zip_code}
+                          </p>
+                        </Thumbnail>
+                      </div>
+                    );
+                  })}
+                </StackGrid>
 
-          <div style={{ marginBottom: '5%' }} className="parallax" />
+                <ScrollToTop showUnder={100}>
+                  <div>
+                    <img
+                      src="http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png"
+                      height="50"
+                      style={{ display: 'block', margin: 'auto' }}
+                    />
+                    <div>Back to Top</div>
+                  </div>
+                </ScrollToTop>
+
+                <div style={{ marginBottom: '5%' }} className="parallax" /></div>
+            )}
+
         </div>
       );
     } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
