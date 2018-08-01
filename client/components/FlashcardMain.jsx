@@ -89,7 +89,7 @@ class FlashcardMain extends React.Component {
         let newDeck = {
             id: 1,
             name: this.state.nameOfNewDeck,
-            cards: this.state.deck
+            cards: this.state.createdDeck
         }
         this.setState({createdDeck: [], nameOfNewDeck: ''})
         axios.post('/flashcards', {newDeck: newDeck, user_id: this.props.user_id})
