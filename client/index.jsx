@@ -24,7 +24,13 @@ class App extends React.Component {
       username: '',
       password: '',
       userId: '',
-      creditCard: '',
+      creditCard: {
+        number: '',
+        name: '',
+        code: '',
+        month: '',
+        year: '',
+      },
       loggedIn: false,
       showIndivCafe: false,
       showFavorites: false,
@@ -35,7 +41,7 @@ class App extends React.Component {
 
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
-    this.handleCreditCard = this.handleCreditCard.bind(this);
+    this.handleCreditCardNumber = this.handleCreditCardNumber.bind(this);
 
     this.loginUser = this.loginUser.bind(this);
     this.registerUser = this.registerUser.bind(this);
@@ -68,9 +74,9 @@ class App extends React.Component {
     });
   }
   
-  handleCreditCard(e) {
+  handleCreditCardNumber(e) {
     this.setState ({
-      creditCard: e.target.value
+      creditCard[number]: e.target.value
     })
   }
   
@@ -167,7 +173,7 @@ class App extends React.Component {
           loggedIn={this.state.loggedIn}
           handleUser={this.handleUser}
           handlePassword={this.handlePassword}
-          handleCreditCard={this.handleCreditCard}
+          handleCreditCardNumber={this.handleCreditCardNumber}
           loginUser={this.loginUser}
           registerUser={this.registerUser}
           logout={this.logout}
