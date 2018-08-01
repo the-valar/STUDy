@@ -166,7 +166,7 @@ class App extends React.Component {
         <div className="parallax" />
 
         {this.state.showStudyCards ? 
-          <FlashcardMain username = {this.state.username} />
+          <FlashcardMain user_id = {this.state.userId} />
           : null
         }
 

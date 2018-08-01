@@ -230,10 +230,12 @@ app.get('/*', auth, (req, res) => {
 });
 
 app.post('/flashcards', (req, res) => {
-  let {username, newDeck} = req.body
-  console.log(username, newDeck)
-  //send to db
-  res.sendStatus(201)
+  let {user_id, newDeck} = req.body
+  console.log('here is the newDeck: ', newDeck)
+  models.saveFlashcardDeck(user_id, newDeck, (err) => {
+    if (err) console.log('In the server, err sending to the db', err)
+    else res.sendStatus(201)
+  })
 })
 
 const port = process.env.PORT || 8080;

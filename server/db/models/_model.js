@@ -319,6 +319,22 @@ let getFullReviews = function({ location_id }, cb) {
   });
 };
 
+let saveFlashcardDeck = function(user_id, newDeck, cb) {
+  var command = `INSERT INTO flashcard_decks (user_id, title, front, back, card_id)
+                VALUES (?, ?, ?, ?, ?)`
+  db.getConnection((err, conn) => {
+    newDeck.cards.forEach((card) => {
+      var params = [user_id, newDeck.name, card.front, card.back, card.id]
+      conn.query(command, params, (err) => {
+        if (err) console.log(err)
+      })
+    })
+    cb(null)
+    conn.release();
+  })
+  
+}
+
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
@@ -332,5 +348,6 @@ module.exports = {
   addComment: addComment,
   getComment: getComment,
   addPics: addPics,
-  getFullReviews: getFullReviews
+  getFullReviews: getFullReviews,
+  saveFlashcardDeck: saveFlashcardDeck
 };
