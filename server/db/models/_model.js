@@ -215,6 +215,24 @@ let updateBio = function({user_id, bio}, cb) {
   });
 };
 
+let getBio = function({user_id}, cb) {
+  db.getConnection((err, conn) => {
+    conn.query(
+      `select bio from users where users.id = ${Number(user_id)}`,
+      (err, results) => {
+        if (err) {
+          console.error('Error getting bio', err);
+        } else {
+          console.log('Bio gotten', results);
+          cb(null, results);
+        }
+      }
+    );
+    conn.release();
+  });
+};
+
+
 
 
 let addFavorite = function({ user_id, location_id }, cb) {
@@ -408,4 +426,5 @@ module.exports = {
   postSubComment: postSubComment,
   updateMembership: updateMembership,
   updateBio: updateBio,
+  getBio: getBio,
 };
