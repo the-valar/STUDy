@@ -13,8 +13,12 @@ class PaymentForm extends Component {
     let {token} = await this.props.stripe.createToken({name: "Name"});
     let response = await axios.post("/charge", {tokenId: token.id});
     if (response.data.status === 'succeeded'){
-      this.props.toggleShow()
-      alert("Purchase Complete!")
+      let res = await axios.post("/member",{userId: this.props.userId});
+      if(res.data){
+        this.props.toggleShow()
+        this.props.getUser()
+        alert("You are a STUD now!!!")
+      }
     } 
   }
 
@@ -24,7 +28,6 @@ class PaymentForm extends Component {
         iconColor: '#c4f0ff',
         color: '#fff',
         fontWeight: 500,
-        // fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
         fontSize: '16px',
         fontSmoothing: 'antialiased',
 
@@ -54,6 +57,8 @@ class PaymentForm extends Component {
             <CardElement iconStyle='solid' style={elementStyle}/>
           </div>
         </div>
+        <div style={{textAlign: "center"}}>Remove ads and many more benefits for only <span style={{fontSize: '125%', color: 'red'}}>$9.99!</span></div>
+
         <button className='field-button'onClick={this.submit}>Start membership</button>
       </div>
     );

@@ -112,7 +112,7 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
 let login = function({ username }, cb) {
   db.getConnection((err, conn) => {
     conn.query(
-      `SELECT id, password FROM users WHERE username=?`,
+      `SELECT id, password, membership FROM users WHERE username=?`,
       username,
       (err, result) => {
         if (!result.length) {
@@ -239,12 +239,12 @@ let getFavorite = function({ user_id }, cb) {
   });
 };
 
-let addComment = function({ user_id, location_id, text, parent_id }, cb) {
-  var params = [text, user_id, location_id, parent_id];
+let addComment = function({ user_id, location_id, text, parent_id, rating_id }, cb) {
+  var params = [text, user_id, location_id, parent_id, rating_id];
 
   db.getConnection((err, conn) => {
     conn.query(
-      `INSERT INTO comments (text, user_id, location, parent_id) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO comments (text, user_id, location, parent_id, rating_id) VALUES (?, ?, ?, ?, ?)`,
       params,
       (err, results) => {
         if (err) {
@@ -322,22 +322,29 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let orderStatement = parentId === '0' ? 'ORDER BY c.id DESC LIMIT 10' : 'ORDER BY c.id'
-  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  let childSqlStatement = `SELECT l.name, l.city, l.state, l.address, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
   JOIN locations as l ON l.id=c.location
-  JOIN ratings as r ON r.location=l.id
   JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
   GROUP BY c.text
-  ${orderStatement}`;
+  ORDER BY c.id`;
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  FROM comments as c
+  JOIN locations as l ON l.id=c.location
+  JOIN ratings as r ON r.id=c.rating_id
+  JOIN users as u ON c.user_id=u.id
+  WHERE parent_id=?
+  GROUP BY c.text
+  ORDER BY c.id DESC LIMIT 10`;
+
+  let sqlToggle = parentId === '0' ? sqlStatement : childSqlStatement;
   
   db.getConnection((err, conn) => {
-    conn.query(sqlStatement, [parentId], (err, results) => {
+    conn.query(sqlToggle, [parentId], (err, results) => {
       if (err) {
         cb(err)
       } else {
-        console.log('results in the database',parentId, results)
         cb(null, results);
       }
       conn.release();
@@ -351,6 +358,20 @@ let postSubComment = ({parentId, location, userId, text}, cb) => {
 
   db.getConnection((err, conn) => {
     conn.query(sqlStatement, params, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let updateMembership = (userId, cb) => {
+  let sqlStatement = `UPDATE users SET membership = 1 WHERE id = ${userId}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
       if (err) {
         cb(err)
       } else {
@@ -376,5 +397,6 @@ module.exports = {
   addPics: addPics,
   getFullReviews: getFullReviews,
   getReviewByParentId: getReviewByParentId,
-  postSubComment: postSubComment
+  postSubComment: postSubComment,
+  updateMembership: updateMembership,
 };

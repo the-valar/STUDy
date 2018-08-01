@@ -127,7 +127,10 @@ class Header extends React.Component {
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
                 <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
                 <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
-                <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
+                {this.props.membership
+                ? <MenuItem>Manage membership</MenuItem>
+                : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
+                }
                 <MenuItem divider />
                 <MenuItem
                   onClick={() => {
@@ -148,7 +151,7 @@ class Header extends React.Component {
               <StripeProvider apiKey="pk_test_LwL4RUtinpP3PXzYirX2jNfR">
               <div className="example">
                 <Elements>
-                  <PaymentForm toggleShow={this.toggleShow}/>
+                  <PaymentForm toggleShow={this.toggleShow} userId={this.props.userId} getUser={this.props.getUser}/>
                 </Elements>
               </div>
             </StripeProvider>

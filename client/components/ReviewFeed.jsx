@@ -27,16 +27,12 @@ class ReviewFeed extends React.Component {
   }
   componentDidMount() {
     this.getParentReviews()
-    // this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
+    this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
   }
   render() {
-    let reviews = this.state.reviews.map((review) => {
-      console.log(review)
-      return (
-        <ReviewFeedParent currentUserId={this.props.currentUserId} key={review.id} review={review} />
-
-      )
-    })
+    let reviews = this.state.reviews.map((review) => (
+      <ReviewFeedParent currentUserId={this.props.currentUserId} key={review.id} review={review} />
+    ))
     return (
       <div>
         What the community is saying about their recent study spots

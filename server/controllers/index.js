@@ -86,6 +86,10 @@ app.get('/search', (req, res) => {
     });
 });
 
+app.get('/current_user', (req, res) => {
+  res.send(req.session.userData)
+})
+
 app.post('/login', (req, res) => {
   // both login and register req.query should have [username, password] as keys
 
@@ -98,16 +102,27 @@ app.post('/login', (req, res) => {
           var sess = {
             username: req.body.username,
             userId: data[0].id,
+            membership: data[0].membership,
             login: true
           };
 
           req.session.userData = sess;
-          res.send(JSON.stringify(data[0].id));
+          res.send({id: data[0].id, membership: data[0].membership});
         }
       });
     }
   });
 });
+
+app.post('/member', (req,res) => {
+  req.session.userData.membership = 1
+  models.updateMembership(req.body.userId, (err, data) => {
+    if(err){
+      console.error(err)
+    }
+    res.send(data)
+  })
+})
 
 app.post('/register', (req, res) => {
   models.register(req.body, (err, data) => {
@@ -198,7 +213,7 @@ app.get('/favorites', (req, res) => {
 });
 
 app.post('/comments', (req, res) => {
-  // req.body should have user_id, location_id, parent_id, text as keys
+  // req.body should have user_id, location_id, parent_id, rating_id, text as keys
 
   models.addComment(req.body, (err, data) => {
     if (err) {
@@ -263,7 +278,6 @@ app.get('/reviewsByParentId', (req, res) => {
     if (err) {
       console.error('there was an error fetching the reviews by parent id', err)
     } else {
-      console.log(data)
       res.send(data);
     }
   })
