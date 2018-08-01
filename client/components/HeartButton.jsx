@@ -1,14 +1,73 @@
-import axios from 'axios'
-import React from 'react'
+import axios from "axios";
+import React from "react";
 
-function HeartButton({ user_id, location_id }) {
-  let post = () => {
-    axios.post("/favorites", {
-      user_id: user_id,
-      location_id: location_id
-    }).then((e) => console.log('this happened'))
-  };
-  return <p className="emoji" onClick={post}>❤️</p>;
+class HeartButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false,
+      isAlreadyFave: false
+    };
+    // figure if we are logged in
+    if (this.props.user_id) {
+      this.state.loggedIn = true;
+      this.checkFaved = this.checkFaved.bind(this);
+      console.log(this.props.favorites);
+    }
+    this.addToFave = this.addToFave.bind(this)
+  }
+
+  componentWillReceiveProps() {
+    if (this.props.favorites) {
+      let faves = this.props.favorites.map(elem => elem.id)
+      console.table(faves);
+      console.log(this.props.location_id);
+      if (faves.includes(this.props.location_id)) {
+        this.setState({isAlreadyFave: true})
+      }
+    }
+  }
+  checkFaved() {
+    axios.get(`/favorites?q=${this.props.user_id}`).then(e => console.warn(e));
+  }
+  
+  addToFave() {
+    axios
+      .post('/favorites', {
+        user_id: this.props.user_id,
+        location_id: this.props.location_id
+      })
+      .then((response) => {
+        console.log(response);
+        this.setState({isAlreadyFave: !this.state.isAlreadyFave})
+      });
+  }
+
+  render() {
+    return (
+      <a
+        className={this.state.isAlreadyFave ? "active" : "emoji"}
+        onClick={this.addToFave}
+      >
+        ❤️
+      </a>
+    );
+  }
 }
+
+// ({ user_id, location_id }) {
+//   let post = () => {
+//     if (!user_id || !location_id) return;
+//     axios
+//       .post("/favorites", {
+//         user_id: user_id,
+//         location_id: location_id
+//       })
+//       .then(e => console.log("this happened")
+//       .then(e => pressed = !pressed));
+//   };
+//   var pressed = false;
+
+// }
 
 export default HeartButton;

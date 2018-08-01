@@ -15,6 +15,7 @@ import axios from 'axios';
 import ShowReviews from './ShowReviews.jsx';
 import Review from './Review.jsx';
 import '../style.css';
+import HeartButton from './HeartButton.jsx';
 
 class Display extends React.Component {
   constructor(props) {
@@ -28,7 +29,8 @@ class Display extends React.Component {
       submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
-      comfortRating: 0
+      comfortRating: 0,
+      favorites: []
     };
 
     this.cafeView = this.cafeView.bind(this);
@@ -209,6 +211,24 @@ class Display extends React.Component {
         console.log(response);
       });
   }
+  componentWillReceiveProps(){
+    if (!this.props.loggedIn) return
+    console.log('mounting')
+    axios
+    .get('/favorites', {
+      params: {
+        user_id: this.props.userId
+      }
+    })
+    .then((response) => {
+      this.setState({
+        favorites: response.data
+      });
+    })
+    .catch((err) => {
+      console.error('Error getting favorites', err);
+    });
+  }
 
   render() {
     // page shows no search results
@@ -227,7 +247,9 @@ class Display extends React.Component {
                     height="250"
                     onClick={() => this.cafeView(cafe)}
                   >
-                    <h3>{cafe.name}</h3>
+                    <h3>{cafe.name}</h3> 
+                    <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={cafe.id}/>
+
                     <p>
                       {cafe.location.address1}, {cafe.location.city},{' '}
                       {cafe.location.state}, {cafe.location.zip_code}
@@ -259,6 +281,7 @@ class Display extends React.Component {
           <div align="center" style={{ marginBottom: 50 }}>
             {/* current cafe name & avg star ratings */}
             <h3>{this.state.currentCafe.name}</h3>
+            <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={this.state.currentCafe.id}/>
             <ShowReviews
               reviews={this.state.currentCafeReviews.data}
               cafe={this.state.currentCafe}
@@ -422,6 +445,8 @@ class Display extends React.Component {
                     onClick={() => this.cafeView(cafe)}
                   >
                     <h3>{cafe.name}</h3>
+                     <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={cafe.id}/>
+
                     <p>
                       {cafe.location.address1}, {cafe.location.city},{' '}
                       {cafe.location.state}, {cafe.location.zip_code}
