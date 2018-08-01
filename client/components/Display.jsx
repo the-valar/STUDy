@@ -222,7 +222,6 @@ class Display extends React.Component {
   }
   componentWillReceiveProps(){
     if (!this.props.loggedIn) return
-    console.log('mounting')
     axios
     .get('/favorites', {
       params: {

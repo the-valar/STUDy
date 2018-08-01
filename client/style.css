@@ -354,3 +354,12 @@ a:focus {
   grid-gap: 5px;
   padding: 25px;
 }
+/* 
+.bio .bio > div{
+
+} */
+
+.rightSide{
+  display: grid;
+  grid-template-rows:  1fr 1fr;
+}

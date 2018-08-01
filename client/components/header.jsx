@@ -158,11 +158,6 @@ class Header extends React.Component {
             </Modal.Body>
           </Modal>
 
-          <Favorites
-            userId={this.props.userId}
-            showFavorites={this.state.showFavorites}
-            closeFavorites={this.closeFavorites}/>
-
           <CreateChat 
             userId={this.props.userId} 
             showCreateChat={this.state.showCreateChat}
