@@ -321,8 +321,7 @@ let getFullReviews = function({ location_id }, cb) {
   });
 };
 
-<<<<<<< HEAD
-=======
+
 let saveFlashcardDeck = function(user_id, newDeck, cb) {
   var command = `INSERT INTO flashcard_decks (user_id, title, front, back, card_id)
                 VALUES (?, ?, ?, ?, ?)`
@@ -339,7 +338,6 @@ let saveFlashcardDeck = function(user_id, newDeck, cb) {
   
 }
 
->>>>>>> 889461a906646d4c24cf09d9a7561850e846bb56
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
