@@ -242,7 +242,7 @@ class Display extends React.Component {
           </Tabs>
           {this.state.showMap ? (
             <div>
-              <Map isMarkerShown cafes={this.props.cafes} />
+              <Map cafes={this.props.cafes} />
             </div>
           ) : (
               <div>
