@@ -129,6 +129,7 @@ let login = function({ username }, cb) {
 };
 
 let register = function({ username, password, creditCard }, cb) {
+
   bcrypt.hash(password, null, null, (err, hash) => {
     if (err) {
       console.error('Error hashing password', err);
@@ -138,6 +139,7 @@ let register = function({ username, password, creditCard }, cb) {
       db.getConnection((err, conn) => {
         conn.query(
           `INSERT INTO users (username, password, creditCard) VALUES (?, ?, ?)`,
+
           params,
           (err, result) => {
             if (err) {
@@ -319,6 +321,25 @@ let getFullReviews = function({ location_id }, cb) {
   });
 };
 
+<<<<<<< HEAD
+=======
+let saveFlashcardDeck = function(user_id, newDeck, cb) {
+  var command = `INSERT INTO flashcard_decks (user_id, title, front, back, card_id)
+                VALUES (?, ?, ?, ?, ?)`
+  db.getConnection((err, conn) => {
+    newDeck.cards.forEach((card) => {
+      var params = [user_id, newDeck.name, card.front, card.back, card.id]
+      conn.query(command, params, (err) => {
+        if (err) console.log(err)
+      })
+    })
+    cb(null)
+    conn.release();
+  })
+  
+}
+
+>>>>>>> 889461a906646d4c24cf09d9a7561850e846bb56
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
@@ -332,5 +353,10 @@ module.exports = {
   addComment: addComment,
   getComment: getComment,
   addPics: addPics,
+<<<<<<< HEAD
   getFullReviews: getFullReviews
+=======
+  getFullReviews: getFullReviews,
+  saveFlashcardDeck: saveFlashcardDeck
+>>>>>>> 889461a906646d4c24cf09d9a7561850e846bb56
 };

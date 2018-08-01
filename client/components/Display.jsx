@@ -236,16 +236,16 @@ class Display extends React.Component {
     } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe) {
       return (
         <div>
-          <Tabs defaultActiveKey={1} id="search-map" onSelect={this.handleSelect}>
+          <Tabs id="search-map" onSelect={this.handleSelect} activeKey={this.state.showMap ? 2 : 1}>
             <Tab eventKey={1} title="Results"></Tab>
             <Tab eventKey={2} title="Map"></Tab>
           </Tabs>
           {this.state.showMap ? (
-            <div>
-              <Map isMarkerShown cafes={this.props.cafes} />
+            <div style={{marginTop: '1%'}}>
+              <Map cafes={this.props.cafes} cafeView={this.cafeView} />
             </div>
           ) : (
-              <div>
+              <div style={{marginTop: '1%'}}>
                 <StackGrid columnWidth={300} monitorImagesLoaded={true}>
                   {this.props.cafes.map((cafe) => {
                     return (
@@ -443,6 +443,17 @@ class Display extends React.Component {
           </div>
 
           {/* list of cafes from search */}
+          <Tabs id="search-map" onSelect={this.handleSelect} activeKey={this.state.showMap ? 2 : 1}>
+            <Tab eventKey={1} title="Results"></Tab>
+            <Tab eventKey={2} title="Map"></Tab>
+          </Tabs>
+          {this.state.showMap ? (
+            <div style={{marginTop: '1%'}}>
+              <Map cafes={this.props.cafes} cafeView={this.cafeView} />
+            </div>
+          ) : (
+          
+          <div style={{marginTop: '1%'}}>
           <StackGrid columnWidth={300} monitorImagesLoaded={true}>
             {this.props.cafes.map((cafe) => {
               return (
@@ -464,7 +475,8 @@ class Display extends React.Component {
           </StackGrid>
 
           <div className="parallax" />
-
+          </div>
+          )}
           {/* Modal popup when review is submitted */}
           <Modal
             id="reviewSubmissionModal"
