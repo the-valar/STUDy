@@ -43,3 +43,13 @@ CREATE TABLE comments (
   location VARCHAR(255),
   FOREIGN KEY (location) REFERENCES locations(id) 
 );
+
+CREATE TABLE flashcard_decks (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  title VARCHAR(25),
+  front VARCHAR(30),
+  back VARCHAR(300),
+  card_id INT
+);
