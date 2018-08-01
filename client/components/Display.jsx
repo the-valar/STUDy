@@ -16,6 +16,7 @@ import ShowReviews from './ShowReviews.jsx';
 import Review from './Review.jsx';
 import AmazonBar from './AmazonBar.jsx';
 import '../style.css';
+import Map from './Map.jsx';
 
 class Display extends React.Component {
   constructor(props) {
@@ -29,7 +30,8 @@ class Display extends React.Component {
       submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
-      comfortRating: 0
+      comfortRating: 0,
+      showMap: true
     };
 
     this.cafeView = this.cafeView.bind(this);
@@ -215,42 +217,48 @@ class Display extends React.Component {
       return null;
       // page shows search results after successful search
     } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe) {
-      return (
-        <div>
-          <StackGrid columnWidth={300} monitorImagesLoaded={true}>
-            {this.props.cafes.map((cafe) => {
-              return (
-                <div key={cafe.id}>
-                  <Thumbnail
-                    src={cafe.image_url}
-                    height="250"
-                    onClick={() => this.cafeView(cafe)}
-                  >
-                    <h3>{cafe.name}</h3>
-                    <p>
-                      {cafe.location.address1}, {cafe.location.city},{' '}
-                      {cafe.location.state}, {cafe.location.zip_code}
-                    </p>
-                  </Thumbnail>
-                </div>
-              );
-            })}
-          </StackGrid>
-
-          <ScrollToTop showUnder={100}>
-            <div>
-              <img
-                src="http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png"
-                height="50"
-                style={{ display: 'block', margin: 'auto' }}
-              />
-              <div>Back to Top</div>
-            </div>
-          </ScrollToTop>
-
-          <div style={{ marginBottom: '5%' }} className="parallax" />
-        </div>
-      );
+      if (this.state.showMap) {
+        return ( 
+          <Map cafes={this.props.cafes} />
+        );
+      } else {
+        return (
+          <div>
+            <StackGrid columnWidth={300} monitorImagesLoaded={true}>
+              {this.props.cafes.map((cafe) => {
+                return (
+                  <div key={cafe.id}>
+                    <Thumbnail
+                      src={cafe.image_url}
+                      height="250"
+                      onClick={() => this.cafeView(cafe)}
+                    >
+                      <h3>{cafe.name}</h3>
+                      <p>
+                        {cafe.location.address1}, {cafe.location.city},{' '}
+                        {cafe.location.state}, {cafe.location.zip_code}
+                      </p>
+                    </Thumbnail>
+                  </div>
+                );
+              })}
+            </StackGrid>
+  
+            <ScrollToTop showUnder={100}>
+              <div>
+                <img
+                  src="http://www.pngmart.com/files/3/Up-Arrow-PNG-Picture.png"
+                  height="50"
+                  style={{ display: 'block', margin: 'auto' }}
+                />
+                <div>Back to Top</div>
+              </div>
+            </ScrollToTop>
+  
+            <div style={{ marginBottom: '5%' }} className="parallax" />
+          </div>
+        );
+      }
     } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
       return (
         <div>
