@@ -11,3 +11,4 @@ server/db/db.js
 client/bundle.js
 package-lock.json
 config_example.js
+config.js
