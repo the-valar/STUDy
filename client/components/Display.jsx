@@ -14,6 +14,7 @@ import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import ShowReviews from './ShowReviews.jsx';
 import Review from './Review.jsx';
+import AmazonBar from './AmazonBar.jsx';
 import '../style.css';
 
 class Display extends React.Component {
@@ -309,8 +310,9 @@ class Display extends React.Component {
                 </Col>
               </Row>
             </Grid>
+            <AmazonBar/>
 
-            <Carousel>
+            <Carousel bsClass='sidebysideRight carousel'>
               <Carousel.Item>
                 <img
                   style={{ maxWidth: '600px', height: '50%' }}

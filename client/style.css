@@ -65,3 +65,10 @@ a:focus {
 #reviewSubmissionModal .modal-content {
   margin-top: 60%
 }
+.sidebysideLeft {
+  float:left;
+  display: inline-block;
+}
+.sidebysideRight {
+  display: inline-block;
+}
