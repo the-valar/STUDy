@@ -12,6 +12,7 @@ class FlashcardMain extends React.Component {
             nameOfNewDeck: '',
             frontOfNewCard: '',
             backOfNewCard: '',
+            createdDeck: [],
             deck: {
                 id: 1,
                 name: 'Example Deck',
@@ -43,6 +44,9 @@ class FlashcardMain extends React.Component {
         this.toggleStudy = this.toggleStudy.bind(this)
         this.toggleDeckCreation = this.toggleDeckCreation.bind(this)
         this.handleValueChange = this.handleValueChange.bind(this)
+        this.handleSaveCard = this.handleSaveCard.bind(this)
+        this.handleDeleteCard = this.handleDeleteCard.bind(this)
+        this.handleSaveDeck = this.handleSaveDeck.bind(this)
     }
 
     //method section
@@ -63,6 +67,36 @@ class FlashcardMain extends React.Component {
         this.setState({ [key]: e.target.value })
     }
 
+    handleSaveCard() {
+        let id = this.state.createdDeck.length+1
+        let front = this.state.frontOfNewCard;
+        let back = this.state.backOfNewCard;
+        let newCard = {id: id, front: front, back: back}
+        let deck = this.state.createdDeck
+        deck.push(newCard)
+        this.setState({createdDeck: deck, frontOfNewCard: '', backOfNewCard: ''})
+    }
+
+    handleDeleteCard(ind) {
+        let deck = this.state.createdDeck
+        deck.splice(ind, 1)
+        deck.forEach((card, i) => card.id = i+1 )
+        console.log(deck)
+        this.setState({createdDeck: deck})
+    }
+
+    handleSaveDeck() {
+        let newDeck = {
+            id: 1,
+            name: this.state.nameOfNewDeck,
+            cards: this.state.deck
+        }
+        this.setState({createdDeck: [], nameOfNewDeck: ''})
+        axios.post('/flashcards', newDeck)
+             .then((response) => console.log('success! we saved that deck'))
+             .catch((err) => console.error('something went wrong saving that deck...', err))
+        }
+
 
     //render section
     render() {
@@ -82,15 +116,27 @@ class FlashcardMain extends React.Component {
                         //Deck Creation
                             <div>
                                 <input type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} />
                                 <br/>
                                 <input type='text' placeholder='Front of Card' id = 'frontOfNewCard'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
                                  <input type='text' placeholder='Back of Card' id = 'backOfNewCard'
-                                 onChange = {this.handleValueChange} />
+                                 onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
                                 <br/>
-                                <button>Save this Card</button>
-                                <button onClick = {this.toggleDeckCreation} >save this deck</button>
+                                <button onClick = {this.handleSaveCard} >Save this Card</button>
+                                <button onClick = {this.handleSaveDeck} >Save this deck</button>
+                                <button onClick = {this.toggleDeckCreation}>Back to Flashcard Decks</button>
+
+                                <div className='madeCardContainer'>
+                                    {this.state.createdDeck.map((card, ind) => {
+                                        return(
+                                            <div className='cardContainer'>
+                                                <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
+                                                <button onClick={() => this.handleDeleteCard(ind)} className='removeCard'>remove this card</button>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
         
                         :
