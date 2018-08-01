@@ -189,7 +189,8 @@ class App extends React.Component {
 
         {
           this.state.showStudyCards ? 
-          <FlashcardMain user_id = {this.state.userId} fetchDeckNames = {this.fetchDeckNames} />
+          <FlashcardMain user_id = {this.state.userId} fetchDeckNames = {this.fetchDeckNames} 
+          deckNames = {this.state.flashcardDeckNames} />
           : 
           <div>
             {

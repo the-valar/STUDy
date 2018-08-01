@@ -148,6 +148,11 @@ class FlashcardMain extends React.Component {
                             <p>Select a flashcard deck to study with!</p>
                             <select>
                                 <option value=''></option>
+                                {this.props.deckNames.map((name) => {
+                                    return(
+                                        <option value={name}>{name}</option>
+                                    )
+                                })}
                             </select>
                             <br/>
                             <button onClick = {this.toggleStudy} >Study this Deck</button>
