@@ -25,7 +25,7 @@ class App extends React.Component {
       loggedIn: false,
       showIndivCafe: false,
       showFavorites: false,
-      showStudyChat: false
+      showStudyCards: false
     };
 
     this.handleYelp = this.handleYelp.bind(this);
@@ -152,7 +152,7 @@ class App extends React.Component {
 
         <div className="parallax" />
 
-        {this.state.showStudyChat ? 
+        {this.state.showStudyCards ? 
           <FlashcardMain username = {this.state.username} />
           : null
         }
