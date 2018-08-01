@@ -6,7 +6,6 @@ import Alert from 'react-s-alert';
 import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
-import ReviewFeed from './components/ReviewFeed.jsx';
 
 import './s-alert-default.css';
 import './style.css';
@@ -156,7 +155,6 @@ class App extends React.Component {
             handleYelp={this.handleYelp}
             renderIndivCafe={this.renderIndivCafe}
           />
-          <ReviewFeed />
         </div>
 
         <div>
