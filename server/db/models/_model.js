@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 const db = require('../db_config.js');
 const mysql = require('mysql');
- 
+
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {
     for (let spot = 0; spot < studySpotList.length; spot++) {
@@ -198,6 +198,25 @@ let getRating = function({ location_id }, cb) {
   });
 };
 
+let updateBio = function({user_id, bio}, cb) {
+  db.getConnection((err, conn) => {
+    conn.query(
+      `UPDATE users SET bio = '${bio}' where id = ${user_id}`,
+      (err, results) => {
+        if (err) {
+          console.error('Error updating bio', err);
+        } else {
+          console.log('Bio updated', results);
+          cb(null, results);
+        }
+      }
+    );
+    conn.release();
+  });
+};
+
+
+
 let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
@@ -278,7 +297,6 @@ let getComment = function({ location_id }, cb) {
     conn.release();
   });
 };
-
 let addPics = function({ pics, location_id }, cb) {
   var params = [pics[0], pics[1], pics[2], location_id];
   var command = `UPDATE locations
@@ -389,4 +407,5 @@ module.exports = {
   getReviewByParentId: getReviewByParentId,
   postSubComment: postSubComment,
   updateMembership: updateMembership,
+  updateBio: updateBio,
 };

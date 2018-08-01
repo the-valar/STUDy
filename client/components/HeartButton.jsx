@@ -12,7 +12,6 @@ class HeartButton extends React.Component {
     if (this.props.user_id) {
       this.state.loggedIn = true;
       this.checkFaved = this.checkFaved.bind(this);
-      console.log(this.props.favorites);
     }
     this.addToFave = this.addToFave.bind(this)
   }
@@ -20,8 +19,6 @@ class HeartButton extends React.Component {
   componentWillReceiveProps() {
     if (this.props.favorites) {
       let faves = this.props.favorites.map(elem => elem.id)
-      console.table(faves);
-      console.log(this.props.location_id);
       if (faves.includes(this.props.location_id)) {
         this.setState({isAlreadyFave: true})
       }
@@ -38,7 +35,6 @@ class HeartButton extends React.Component {
         location_id: this.props.location_id
       })
       .then((response) => {
-        console.log(response);
         this.setState({isAlreadyFave: !this.state.isAlreadyFave})
       });
   }
