@@ -143,6 +143,10 @@ class FlashcardMain extends React.Component {
                         //Deck Selection
                         <div>
                             <p>Select a flashcard deck to study with!</p>
+                            <select>
+                                <option value=''></option>
+                            </select>
+                            <br/>
                             <button onClick = {this.toggleStudy} >Study this Deck</button>
                             <button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</button>
                         </div>

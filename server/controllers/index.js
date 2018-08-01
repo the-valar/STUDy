@@ -238,6 +238,12 @@ app.post('/flashcards', (req, res) => {
   })
 })
 
+app.get('/flashcardDecks', (req, res) => {
+  let {user_id} = req.query
+  console.log('in server.  here is the user id: ', user_id)
+  res.send(['fake1', 'politico'])
+})
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
