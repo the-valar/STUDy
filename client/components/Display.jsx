@@ -219,7 +219,7 @@ class Display extends React.Component {
       return null;
       // page shows search results after successful search
     } else if (this.props.cafes.length > 0 && !this.props.showIndivCafe) {
-      if (this.state.showMap) {
+      if (this.props.showMap) {
         return ( 
           <div>
             <Map isMarkerShown cafes={this.props.cafes} />
@@ -228,6 +228,10 @@ class Display extends React.Component {
       } else {
         return (
           <div>
+            <Tabs defaultActiveKey={1} id="search-map">
+              <Tab eventKey={1} title="Results"></Tab>
+              <Tab eventKey={2} title="Map"></Tab>
+            </Tabs>
             <StackGrid columnWidth={300} monitorImagesLoaded={true}>
               {this.props.cafes.map((cafe) => {
                 return (

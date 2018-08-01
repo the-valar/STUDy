@@ -28,6 +28,5 @@ const Map = compose(
   );
 });
 
-
 export default Map;
 
