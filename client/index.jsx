@@ -178,34 +178,37 @@ class App extends React.Component {
 
         <div className="parallax" />
 
-        {this.state.showStudyCards ? 
-          <FlashcardMain user_id = {this.state.userId} />
-          : null
-        }
-
         {
-          this.state.showFavorites ?
-          <Favorites />
-          : null
+          this.state.showStudyCards ? 
+          <FlashcardMain user_id = {this.state.userId} />
+          : 
+          <div>
+            {
+              this.state.showFavorites ?
+              <Favorites />
+              : null
+            }
+
+            <div align="center">
+              <Search
+                handleYelp={this.handleYelp}
+                renderIndivCafe={this.renderIndivCafe}
+              />
+            </div>
+
+            <div>
+              <Display
+                cafes={this.state.cafes}
+                username={this.state.username}
+                userId={this.state.userId}
+                loggedIn={this.state.loggedIn}
+                showIndivCafe={this.state.showIndivCafe}
+                renderIndivCafe={this.renderIndivCafe}
+              />
+            </div>
+          </div>
         }
 
-        <div align="center">
-          <Search
-            handleYelp={this.handleYelp}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-        </div>
-
-        <div>
-          <Display
-            cafes={this.state.cafes}
-            username={this.state.username}
-            userId={this.state.userId}
-            loggedIn={this.state.loggedIn}
-            showIndivCafe={this.state.showIndivCafe}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-        </div>
 
         <Alert stack={{ limit: 1 }} />
       </div>
