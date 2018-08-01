@@ -7,7 +7,7 @@ import Header from './components/header.jsx';
 import Search from './components/Search.jsx';
 import Display from './components/Display.jsx';
 
-import StudyChat from './components/StudyChat.jsx';
+import FlashcardMain from './components/FlashcardMain.jsx'
 import Favorites from './components/Favorites.jsx';
 
 import './s-alert-default.css';
@@ -153,7 +153,7 @@ class App extends React.Component {
         <div className="parallax" />
 
         {this.state.showStudyChat ? 
-          <StudyChat />
+          <FlashcardMain />
           : null
         }
 
