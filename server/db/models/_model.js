@@ -128,16 +128,16 @@ let login = function({ username }, cb) {
   });
 };
 
-let register = function({ username, password }, cb) {
+let register = function({ username, password, creditCard }, cb) {
   bcrypt.hash(password, null, null, (err, hash) => {
     if (err) {
       console.error('Error hashing password', err);
     } else {
-      var params = [username, hash];
+      var params = [username, hash, creditCard];
 
       db.getConnection((err, conn) => {
         conn.query(
-          `INSERT INTO users (username, password) VALUES (?, ?)`,
+          `INSERT INTO users (username, password, creditCard) VALUES (?, ?, ?)`,
           params,
           (err, result) => {
             if (err) {

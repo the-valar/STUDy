@@ -100,6 +100,7 @@ app.post('/register', (req, res) => {
       var sess = {
         username: req.body.username,
         userId: data.insertId,
+        creditCard: req.body.creditCard,
         login: true
       };
 
