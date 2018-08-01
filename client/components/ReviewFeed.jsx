@@ -35,7 +35,10 @@ class ReviewFeed extends React.Component {
     ))
     return (
       <div>
-        What the community is saying about their recent study spots
+        <div className="review-feed-spacing"></div>
+        <h4 className="review-feed-title">
+        What the community is saying about their recent study spots:
+        </h4>
         {reviews}
       </div>
     )
