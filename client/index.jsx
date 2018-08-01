@@ -45,6 +45,9 @@ class App extends React.Component {
 
     this.handleYelp = this.handleYelp.bind(this);
     this.renderIndivCafe = this.renderIndivCafe.bind(this);
+
+    this.showStudyCards = this.showStudyCards.bind(this);
+    this.showMain = this.showMain.bind(this);
   }
 
   handleYelp(data) {
@@ -145,6 +148,14 @@ class App extends React.Component {
     });
   }
 
+  showStudyCards() {
+    this.setState({showStudyCards: true})
+  }
+
+  showMain() {
+    this.setState({showStudyCards: false})
+  }
+
   render() {
     return (
       <div align="center">
@@ -161,21 +172,44 @@ class App extends React.Component {
           registerUser={this.registerUser}
           logout={this.logout}
           handleSession={this.handleSession}
+          showMain={this.showMain}
+          showStudyCards={this.showStudyCards}
         />
 
         <div className="parallax" />
 
-        {this.state.showStudyCards ? 
-          <FlashcardMain user_id = {this.state.userId} />
-          : null
-        }
-
         {
-          this.state.showFavorites ?
-          <Favorites />
-          : null
+          this.state.showStudyCards ? 
+          <FlashcardMain user_id = {this.state.userId} />
+          : 
+          <div>
+            {
+              this.state.showFavorites ?
+              <Favorites />
+              : null
+            }
+
+            <div align="center">
+              <Search
+                handleYelp={this.handleYelp}
+                renderIndivCafe={this.renderIndivCafe}
+              />
+            </div>
+
+            <div>
+              <Display
+                cafes={this.state.cafes}
+                username={this.state.username}
+                userId={this.state.userId}
+                loggedIn={this.state.loggedIn}
+                showIndivCafe={this.state.showIndivCafe}
+                renderIndivCafe={this.renderIndivCafe}
+              />
+            </div>
+          </div>
         }
 
+<<<<<<< HEAD
         <div align="center">
           <Search
             handleYelp={this.handleYelp}
@@ -194,6 +228,8 @@ class App extends React.Component {
             renderIndivCafe={this.renderIndivCafe}
           />
         </div>
+=======
+>>>>>>> 20d5e01ad18d74c2e44b52d20f235689c8102a4c
 
         <Alert stack={{ limit: 1 }} />
       </div>
