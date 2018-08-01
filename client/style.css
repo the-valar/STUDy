@@ -182,6 +182,47 @@ a:focus {
   cursor: pointer;
 }
 
+.parent-comment {
+  position: relative;
+  outline: 2px solid #525252;
+  width: calc(100% - 250px);
+  margin: 20px;
+  box-shadow: 5px 5px 8px #525252;
+}
+
+.parent-comment-heading {
+  text-align: left;
+  padding: 2px;
+  margin: 5px;
+  color: #a02525e8;
+  display: block;
+}
+
+.parent-comment-text {
+  text-align: left;
+  padding: 2px;
+  margin: 5px;
+  display: block;
+}
+
+.parent-comment-btn {
+  margin: 5px;
+  padding: 5px;
+  display: block;
+}
+
+.parent-comment-spacing {
+  background-color: #525252;
+  width: 98% ;
+  height: 1px;
+  margin: 2px;
+}
+
+/* .field-button:active {
+  background-color: #d782d9;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 #e298d8;
+} */
 
 /* ads CSS */
 

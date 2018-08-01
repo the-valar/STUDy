@@ -258,12 +258,12 @@ let getFavorite = function({ user_id }, cb) {
   });
 };
 
-let addComment = function({ user_id, location_id, text, parent_id }, cb) {
-  var params = [text, user_id, location_id, parent_id];
+let addComment = function({ user_id, location_id, text, parent_id, rating_id }, cb) {
+  var params = [text, user_id, location_id, parent_id, rating_id];
 
   db.getConnection((err, conn) => {
     conn.query(
-      `INSERT INTO comments (text, user_id, location, parent_id) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO comments (text, user_id, location, parent_id, rating_id) VALUES (?, ?, ?, ?, ?)`,
       params,
       (err, results) => {
         if (err) {
@@ -340,16 +340,26 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  let childSqlStatement = `SELECT l.name, l.city, l.state, l.address, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
-  JOIN locations as l ON c.location=l.id
-  JOIN ratings as r ON r.location=l.id
+  JOIN locations as l ON l.id=c.location
   JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
-  GROUP BY c.text`;
+  GROUP BY c.text
+  ORDER BY c.id`;
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  FROM comments as c
+  JOIN locations as l ON l.id=c.location
+  JOIN ratings as r ON r.id=c.rating_id
+  JOIN users as u ON c.user_id=u.id
+  WHERE parent_id=?
+  GROUP BY c.text
+  ORDER BY c.id DESC LIMIT 10`;
+
+  let sqlToggle = parentId === '0' ? sqlStatement : childSqlStatement;
   
   db.getConnection((err, conn) => {
-    conn.query(sqlStatement, [parentId], (err, results) => {
+    conn.query(sqlToggle, [parentId], (err, results) => {
       if (err) {
         cb(err)
       } else {

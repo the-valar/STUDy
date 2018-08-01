@@ -117,14 +117,16 @@ class Display extends React.Component {
         comfort: this.state.comfortRating,
         food: this.state.foodRating
       })
-      .then(() => {
+      .then((response) => {
+        console.log('the response after posting the rating', response)
         // submits review stars
         axios
           .post('/comments', {
             user_id: this.props.userId,
             location_id: this.state.currentCafe.id,
             text: this.state.review,
-            parent_id: 0
+            parent_id: 0,
+            rating_id: response.data.insertId
           })
           .then(() => {
             axios
