@@ -13,6 +13,8 @@ import Favorites from './components/Favorites.jsx';
 import './s-alert-default.css';
 import './style.css';
 
+import {Tabs, Tab} from 'react-bootstrap';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -171,7 +173,9 @@ class App extends React.Component {
         </div>
 
         <div>
-          <Display
+          <Tabs defaultActiveKey={2} id="uncontrolled-tab-example">
+            <Tab eventKey={1} title="Tab 1">
+            <Display
             cafes={this.state.cafes}
             username={this.state.username}
             userId={this.state.userId}
@@ -179,6 +183,26 @@ class App extends React.Component {
             showIndivCafe={this.state.showIndivCafe}
             renderIndivCafe={this.renderIndivCafe}
           />
+            </Tab>
+            <Tab eventKey={2} title="Tab 2">
+            <Display
+            cafes={this.state.cafes}
+            username={this.state.username}
+            userId={this.state.userId}
+            loggedIn={this.state.loggedIn}
+            showIndivCafe={this.state.showIndivCafe}
+            renderIndivCafe={this.renderIndivCafe}
+          />
+            </Tab>
+          </Tabs>
+          {/* <Display
+            cafes={this.state.cafes}
+            username={this.state.username}
+            userId={this.state.userId}
+            loggedIn={this.state.loggedIn}
+            showIndivCafe={this.state.showIndivCafe}
+            renderIndivCafe={this.renderIndivCafe}
+          /> */}
         </div>
 
         <Alert stack={{ limit: 1 }} />

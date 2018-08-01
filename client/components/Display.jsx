@@ -6,7 +6,9 @@ import {
   Thumbnail,
   Button,
   Carousel,
-  Modal
+  Modal,
+  Tabs,
+  Tab
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
