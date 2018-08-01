@@ -112,7 +112,7 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
 let login = function({ username }, cb) {
   db.getConnection((err, conn) => {
     conn.query(
-      `SELECT id, password FROM users WHERE username=?`,
+      `SELECT id, password, membership FROM users WHERE username=?`,
       username,
       (err, result) => {
         if (!result.length) {
@@ -358,6 +358,20 @@ let postSubComment = ({parentId, location, userId, text}, cb) => {
   })
 }
 
+let updateMembership = (userId, cb) => {
+  let sqlStatement = `UPDATE users SET membership = 1 WHERE id = ${userId}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
 module.exports = {
   saveSpots: saveSpots,
   getRelevantFirst: getRelevantFirst,
@@ -373,5 +387,6 @@ module.exports = {
   addPics: addPics,
   getFullReviews: getFullReviews,
   getReviewByParentId: getReviewByParentId,
-  postSubComment: postSubComment
+  postSubComment: postSubComment,
+  updateMembership: updateMembership,
 };
