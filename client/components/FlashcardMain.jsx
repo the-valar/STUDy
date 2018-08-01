@@ -12,6 +12,7 @@ class FlashcardMain extends React.Component {
             nameOfNewDeck: '',
             frontOfNewCard: '',
             backOfNewCard: '',
+            createdDeck: [],
             deck: {
                 id: 1,
                 name: 'Example Deck',
@@ -43,6 +44,7 @@ class FlashcardMain extends React.Component {
         this.toggleStudy = this.toggleStudy.bind(this)
         this.toggleDeckCreation = this.toggleDeckCreation.bind(this)
         this.handleValueChange = this.handleValueChange.bind(this)
+        this.handleSaveCard = this.handleSaveCard.bind(this)
     }
 
     //method section
@@ -61,6 +63,20 @@ class FlashcardMain extends React.Component {
         e.preventDefault()
         let key = e.target.id
         this.setState({ [key]: e.target.value })
+    }
+
+    handleSaveCard() {
+        let id = this.state.createdDeck.length+1
+        let front = this.state.frontOfNewCard;
+        let back = this.state.backOfNewCard;
+        let newCard = {id: id, front: front, back: back}
+        let deck = this.state.createdDeck
+        deck.push(newCard)
+        this.setState({createdDeck: deck, frontOfNewCard: '', backOfNewCard: ''})
+    }
+
+    handleDeleteCard() {
+        //
     }
 
 
@@ -89,8 +105,19 @@ class FlashcardMain extends React.Component {
                                  <input type='text' placeholder='Back of Card' id = 'backOfNewCard'
                                  onChange = {this.handleValueChange} />
                                 <br/>
-                                <button>Save this Card</button>
+                                <button onClick = {this.handleSaveCard} >Save this Card</button>
                                 <button onClick = {this.toggleDeckCreation} >save this deck</button>
+
+                                <div className='madeCardContainer'>
+                                    {this.state.createdDeck.map((card, ind) => {
+                                        return(
+                                            <div className='cardContainer'>
+                                                <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
+                                                <button className='removeCard'>remove this card</button>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
         
                         :
