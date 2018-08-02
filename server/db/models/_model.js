@@ -219,7 +219,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
   });
 };
 
-let getFavorite = function({ user_id }, cb) {
+let getFavorite = function(user_id, cb) {
   var command = `SELECT id, name, city, state, address, image1, image2, image3
                  FROM users_locations
                  JOIN locations ON locations.id=users_locations.location_id

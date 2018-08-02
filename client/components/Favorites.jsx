@@ -13,6 +13,29 @@ class Favorites extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getUserFavorites();
+  }
+  
+  getUserFavorites() {
+    console.log(this.props.userId);
+    axios
+    .get('/favorites', {
+      params: {
+        user_id: this.props.userId
+      }
+    })
+    .then((response) => {
+      console.log(response);
+      // this.setState({
+      //   favorites: response.data
+      // });
+    })
+    .catch((err) => {
+      console.error('Error getting favorites', err);
+    });
+  }
+
   modalBody() {
     if (this.state.favorites.length) {
       return (
@@ -42,23 +65,6 @@ class Favorites extends React.Component {
         </div>
       );
     }
-  }
-
-  componentWillMount() {
-    axios
-      .get('/favorites', {
-        params: {
-          user_id: this.props.userId
-        }
-      })
-      .then((response) => {
-        this.setState({
-          favorites: response.data
-        });
-      })
-      .catch((err) => {
-        console.error('Error getting favorites', err);
-      });
   }
 
   render() {
