@@ -12,10 +12,6 @@ class Favorites extends React.Component {
       favorites: []
     };
   }
-
-  componentDidMount() {
-    this.getUserFavorites();
-  }
   
   getUserFavorites() {
     console.log(this.props.userId);
