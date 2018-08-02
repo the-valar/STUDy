@@ -1,5 +1,6 @@
 import React from 'react'
 import FlashcardApp from 'react-flashcard-app'
+import {Button, FormControl, FormGroup, Glyphicon, ButtonToolbar} from 'react-bootstrap'
 
 const axios = require('axios')
 
@@ -22,22 +23,7 @@ class FlashcardMain extends React.Component {
                     id: 1,
                     front: 'Lorem',
                     back: 'dolor',
-                  },
-                  {
-                    id: 2,
-                    front: 'sit',
-                    back: 'amet',
-                  },
-                  {
-                    id: 3,
-                    front: 'consetetur',
-                    back: 'sadipscing',
-                  },
-                  {
-                    id: 4,
-                    front: 'sed',
-                    back: 'diam',
-                  },
+                  }
                 ],
               }
         }
@@ -58,7 +44,8 @@ class FlashcardMain extends React.Component {
 
     toggleStudy() {
         let old = this.state.showDeck;
-        this.setState({showDeck: !old})
+        this.setState({showDeck: !old}, () => window.scrollTo({
+            top: 310, behavior: 'smooth'}))
     }
 
     toggleDeckCreation() {
@@ -116,9 +103,11 @@ class FlashcardMain extends React.Component {
         if (this.state.showDeck) {
             return (
                 //Study selected Deck
-                <div>
+                <div style={{marginBottom: '45px'}} >
                     <FlashcardApp data = {this.state.deck} />
-                    <button onClick = {this.toggleStudy} >Back to Flashcard Choice</button>
+                    <Button onClick = {this.toggleStudy} bsStyle="warning"
+                        >Back to Flashcard Choice
+                    </Button>
                 </div>
             )
         } else {
@@ -128,24 +117,55 @@ class FlashcardMain extends React.Component {
                         this.state.createDeck ?
                         //Deck Creation
                             <div>
-                                <input type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
-                                 onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} />
+                                
+                                <div style={{width: '20%'}}>
+                                    <FormControl type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
+                                    onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} 
+                                    style={{textAlign: 'center'}} />
+                                </div>
+
+                                <Button onClick = {this.handleSaveDeck} 
+                                    bsStyle="success" style={{margin: '10px'}} >
+                                    Save this deck
+                                </Button>
+                                <Button onClick = {this.toggleDeckCreation} 
+                                    bsStyle="warning" className='backToFlash' >
+                                    Back to Flashcard Decks
+                                </Button>
                                 <br/>
-                                <input type='text' placeholder='Front of Card' id = 'frontOfNewCard'
-                                 onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
-                                 <input type='text' placeholder='Back of Card' id = 'backOfNewCard'
-                                 onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
+
+                                
+                                <div style={{width: '40%'}} >
+                                    <FormControl type='text' placeholder='Front of Card' id = 'frontOfNewCard'
+                                    onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
+                                    <FormControl componentClass="textarea" placeholder='Back of Card' id = 'backOfNewCard'
+                                    onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
+                                    
+                                    <Button onClick = {this.handleSaveCard} 
+                                        bsStyle="primary" style={{margin: '10px'}} >
+                                        Save this Card
+                                    </Button>
+                                </div>
+                                
                                 <br/>
-                                <button onClick = {this.handleSaveCard} >Save this Card</button>
-                                <button onClick = {this.handleSaveDeck} >Save this deck</button>
-                                <button onClick = {this.toggleDeckCreation}>Back to Flashcard Decks</button>
 
                                 <div className='madeCardContainer'>
                                     {this.state.createdDeck.map((card, ind) => {
                                         return(
-                                            <div className='cardContainer'>
-                                                <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
-                                                <button onClick={() => this.handleDeleteCard(ind)} className='removeCard'>remove this card</button>
+                                            <div className='newCardContainer'>
+                                                <div className="newCardFront">
+                                                    {card.front}
+                                                </div>
+
+                                                <div className='newCardBack'>
+                                                    {card.back}
+                                                </div>
+                                                
+                                                
+                                                <Button onClick={() => this.handleDeleteCard(ind)} 
+                                                    className='removeCard' bsStyle='link' >
+                                                    <Glyphicon glyph='remove' />
+                                                </Button>
                                             </div>
                                         )
                                     })}
@@ -154,19 +174,25 @@ class FlashcardMain extends React.Component {
         
                         :
                         //Deck Selection
-                        <div>
-                            <p>Select a flashcard deck to study with!</p>
-                            <select onChange={this.handleDeckChange} >
-                                <option  value=''></option>
+                        <div style={{width: '70%' }}>
+                            <FormControl componentClass='select' onChange={this.handleDeckChange} 
+                                placeholder='select a flashcard deck'>
+                                <option  value=''>select a flashcard deck</option>
                                 {this.props.deckNames.map((name) => {
                                     return(
                                         <option value={name}>{name}</option>
                                     )
                                 })}
-                            </select>
+                            </FormControl>
                             <br/>
-                            <button onClick = {this.toggleStudy} >Study this Deck</button>
-                            <button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</button>
+                            <Button onClick = {this.toggleStudy}
+                                bsStyle='primary' style={{margin: '10px'}}
+                                >Study this Deck
+                            </Button>
+                            <Button onClick = {this.toggleDeckCreation}
+                                bsStyle='primary' style={{margin: '10px'}}
+                                >Create a new flashcard deck
+                            </Button>
                         </div>
                     }
                 </div>
