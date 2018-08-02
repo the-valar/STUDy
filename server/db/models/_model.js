@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 
 const db = require('../db_config.js');
+const mysql = require('mysql');
 
 let saveSpots = function(studySpotList) {
   db.getConnection((err, conn) => {
@@ -111,7 +112,7 @@ let getAveragesAndReviewCount = function({ location_id }, cb) {
 let login = function({ username }, cb) {
   db.getConnection((err, conn) => {
     conn.query(
-      `SELECT id, password FROM users WHERE username=?`,
+      `SELECT id, password, membership FROM users WHERE username=?`,
       username,
       (err, result) => {
         if (!result.length) {
@@ -197,6 +198,43 @@ let getRating = function({ location_id }, cb) {
   });
 };
 
+let updateBio = function({user_id, bio}, cb) {
+  db.getConnection((err, conn) => {
+    conn.query(
+      `UPDATE users SET bio = '${bio}' where id = ${user_id}`,
+      (err, results) => {
+        if (err) {
+          console.error('Error updating bio', err);
+        } else {
+          console.log('Bio updated', results);
+          cb(null, results);
+        }
+      }
+    );
+    conn.release();
+  });
+};
+
+let getBio = function({user_id}, cb) {
+  db.getConnection((err, conn) => {
+    conn.query(
+      `select bio from users where users.id = ${Number(user_id)}`,
+      (err, results) => {
+        if (err) {
+          console.error('Error getting bio', err);
+        } else {
+          console.log('Bio gotten', results);
+          cb(null, results);
+        }
+      }
+    );
+    conn.release();
+  });
+};
+
+
+
+
 let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
 
@@ -217,6 +255,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
   });
 };
 
+
 let getFavorite = function({ user_id }, cb) {
   var command = `SELECT id, name, city, state, address, image1, image2, image3
                  FROM users_locations
@@ -226,7 +265,7 @@ let getFavorite = function({ user_id }, cb) {
   db.getConnection((err, conn) => {
     conn.query(command, (err, results) => {
       if (err) {
-        console.error('Error getting user favorites', err);
+        console.log('Error getting user favorites', err);
       } else {
         console.log('Retrieved all user favorites', results);
         // Return user favorites for use in cb
@@ -238,12 +277,12 @@ let getFavorite = function({ user_id }, cb) {
   });
 };
 
-let addComment = function({ user_id, location_id, text, parent_id }, cb) {
-  var params = [text, user_id, location_id, parent_id];
+let addComment = function({ user_id, location_id, text, parent_id, rating_id }, cb) {
+  var params = [text, user_id, location_id, parent_id, rating_id];
 
   db.getConnection((err, conn) => {
     conn.query(
-      `INSERT INTO comments (text, user_id, location, parent_id) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO comments (text, user_id, location, parent_id, rating_id) VALUES (?, ?, ?, ?, ?)`,
       params,
       (err, results) => {
         if (err) {
@@ -277,7 +316,6 @@ let getComment = function({ location_id }, cb) {
     conn.release();
   });
 };
-
 let addPics = function({ pics, location_id }, cb) {
   var params = [pics[0], pics[1], pics[2], location_id];
   var command = `UPDATE locations
@@ -321,15 +359,56 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let sqlStatement = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id
+  let childSqlStatement = `SELECT l.name, l.city, l.state, l.address, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
   FROM comments as c
-  JOIN locations ON c.location=locations.id
-  JOIN ratings as r ON r.location=locations.id
+  JOIN locations as l ON l.id=c.location
+  JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
-  GROUP BY c.text`;
+  GROUP BY c.text
+  ORDER BY c.id`;
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  FROM comments as c
+  JOIN locations as l ON l.id=c.location
+  JOIN ratings as r ON r.id=c.rating_id
+  JOIN users as u ON c.user_id=u.id
+  WHERE parent_id=?
+  GROUP BY c.text
+  ORDER BY c.id DESC LIMIT 10`;
+
+  let sqlToggle = parentId === '0' ? sqlStatement : childSqlStatement;
   
   db.getConnection((err, conn) => {
-    conn.query(sqlStatement, [parentId], (err, results) => {
+    conn.query(sqlToggle, [parentId], (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let postSubComment = ({parentId, location, userId, text}, cb) => {
+  let sqlStatement = 'INSERT INTO comments (parent_id, location, user_id, text) VALUES (?, ?, ?, ?)';
+  let params = [parentId, location, userId, text];
+
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, params, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let updateMembership = (userId, cb) => {
+  let sqlStatement = `UPDATE users SET membership = 1 WHERE id = ${userId}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
       if (err) {
         cb(err)
       } else {
@@ -354,5 +433,9 @@ module.exports = {
   getComment: getComment,
   addPics: addPics,
   getFullReviews: getFullReviews,
-  getReviewByParentId: getReviewByParentId
+  getReviewByParentId: getReviewByParentId,
+  postSubComment: postSubComment,
+  updateMembership: updateMembership,
+  updateBio: updateBio,
+  getBio: getBio,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReviewFeedParent from './ReviewFeedParent.jsx';
 
 class ReviewFeed extends React.Component {
   constructor(props) {
@@ -16,7 +17,6 @@ class ReviewFeed extends React.Component {
         parentId: 0
     }})
       .then((response) => {
-        console.log('response for getting parent reviews', response)
         this.setState({
           reviews: response.data
         })
@@ -27,9 +27,22 @@ class ReviewFeed extends React.Component {
   }
   componentDidMount() {
     this.getParentReviews()
+    this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
   }
   render() {
-    return (<div>Hello</div>)
+    let reviews = this.state.reviews.map((review) => (
+      <ReviewFeedParent currentUserId={this.props.currentUserId} key={review.id} review={review} />
+    ))
+    return (
+      <div>
+        <div className="review-feed-spacing"></div>
+        <h4 className="review-feed-title">
+        What the community is saying about their recent study spots:
+        </h4>
+        <button onClick={this.props.showReviewFeed} className="review-feed-exit">CLOSE</button>
+        {reviews}
+      </div>
+    )
   }
 }
 

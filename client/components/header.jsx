@@ -1,4 +1,6 @@
 import React from 'react';
+import {Elements, StripeProvider} from 'react-stripe-elements';
+import PaymentForm from './PaymentForm.jsx';
 import {
   Navbar,
   NavItem,
@@ -12,7 +14,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 
-import Favorites from './Favorites.jsx';
+import Profile from './Profile.jsx';
 import CreateChat from './CreateChat.jsx';
 
 class Header extends React.Component {
@@ -24,7 +26,9 @@ class Header extends React.Component {
       showSignup: false,
       showFavorites: false,
       showCreateChat: false,
-      favorites: []
+      showReviewFeed: false,
+      favorites: [],
+      showProfile: false, //keep false by default
     };
 
     this.showLogin = this.showLogin.bind(this);
@@ -35,9 +39,16 @@ class Header extends React.Component {
 
     this.showFavorites = this.showFavorites.bind(this);
     this.closeFavorites = this.closeFavorites.bind(this);
-
+    
     this.showCreateChat = this.showCreateChat.bind(this);
     this.closeCreateChat = this.closeCreateChat.bind(this);
+
+    this.toggleShow = this.toggleShow.bind(this)
+    this.toggleProfile = this.toggleProfile.bind(this)
+  }
+
+  toggleShow(){
+    this.setState({show: !this.state.show})
   }
 
 
@@ -46,6 +57,12 @@ class Header extends React.Component {
 
     this.setState({
       showLogin: false
+    });
+  }
+
+  toggleProfile() {
+    this.setState({
+      showProfile: !this.state.showProfile
     });
   }
 
@@ -119,25 +136,45 @@ class Header extends React.Component {
 
             <Nav pullRight>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <MenuItem>Signed in as {this.props.username}</MenuItem>
-                <MenuItem onClick={this.showCreateChat}>Create/ Join STUD(y) Chat</MenuItem>
-                <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
-                <MenuItem divider />
-                <MenuItem
-                  onClick={() => {
-                    return this.props.logout();
-                  }}
-                >
-                  Logout
-                </MenuItem>
+                  <MenuItem>Signed in as {this.props.username}</MenuItem>
+                  <MenuItem onClick={this.showCreateChat}>Create/ Join STUD(y) Chat</MenuItem>
+                  <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
+              </NavDropdown>
+              <NavDropdown title="Settings" id="basic-nav-dropdown">
+                   <MenuItem onClick={this.toggleProfile}>Profile</MenuItem>
+                    {
+                      this.state.showProfile ?   
+                    (<Profile toggleProfile={this.toggleProfile} showProfile={this.state.showProfile} userId={this.props.userId} user={this.props.username} profilePic="https://pbs.twimg.com/profile_images/702479650237366272/HyN65Fu7_400x400.jpg"/>)                
+                    :
+                    null             
+                    }
+
+                    {this.props.membership
+                    ? <MenuItem>Manage membership</MenuItem>
+                    : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
+                    }
+                    <MenuItem onClick={this.props.showReviewFeed}>Review Feed</MenuItem>
+
+                    <MenuItem divider />
+                    <MenuItem onClick={() => {return this.props.logout()}}>Logout</MenuItem>         
               </NavDropdown>
             </Nav>
           </Navbar>
 
-          <Favorites
-            userId={this.props.userId}
-            showFavorites={this.state.showFavorites}
-            closeFavorites={this.closeFavorites}/>
+          <Modal style={{}} show={this.state.show} onHide={this.toggleShow}>
+            <Modal.Header style={{background: '#272727'}}closeButton>
+              <Modal.Title style={{color: '#fff'}}>Be a STUD</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <StripeProvider apiKey="pk_test_LwL4RUtinpP3PXzYirX2jNfR">
+              <div className="example">
+                <Elements>
+                  <PaymentForm toggleShow={this.toggleShow} userId={this.props.userId} getUser={this.props.getUser}/>
+                </Elements>
+              </div>
+            </StripeProvider>
+            </Modal.Body>
+          </Modal>
 
           <CreateChat 
             getGroups={this.props.getGroups}
