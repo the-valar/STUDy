@@ -26,10 +26,10 @@ class Favorites extends React.Component {
       }
     })
     .then((response) => {
-      console.log(response);
-      // this.setState({
-      //   favorites: response.data
-      // });
+      console.log(response.data);
+      this.setState({
+        favorites: response.data
+      });
     })
     .catch((err) => {
       console.error('Error getting favorites', err);
