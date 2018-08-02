@@ -240,7 +240,14 @@ app.get('/flashcardDecks', (req, res) => {
       res.send(arr)
     }
   })
-  // res.send(['fake1', 'politico'])
+})
+
+app.get('/flashcardDeck', (req, res) => {
+  let {user_id, deckName} = req.query
+  // console.log('in server.  here are the get deck params: ', user_id, deckName)
+  models.fetchFullDeck(user_id, deckName, (data) => {
+    console.log(data)
+  })
 })
 
 app.get('/*', auth, (req, res) => {

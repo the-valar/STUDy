@@ -13,6 +13,7 @@ class FlashcardMain extends React.Component {
             frontOfNewCard: '',
             backOfNewCard: '',
             createdDeck: [],
+            selectedDeckName: '',
             deck: {
                 id: 1,
                 name: 'Example Deck',
@@ -47,6 +48,7 @@ class FlashcardMain extends React.Component {
         this.handleSaveCard = this.handleSaveCard.bind(this)
         this.handleDeleteCard = this.handleDeleteCard.bind(this)
         this.handleSaveDeck = this.handleSaveDeck.bind(this)
+        this.handleDeckChange = this.handleDeckChange.bind(this)
     }
 
     //method section
@@ -100,6 +102,14 @@ class FlashcardMain extends React.Component {
              .catch((err) => console.error('something went wrong saving that deck...', err))
         }
 
+    handleDeckChange(e) {
+        this.setState({selectedDeckName: e.target.value})
+        axios.get('/flashcardDeck', {params: 
+                    {user_id: this.props.user_id, deckName: e.target.value}})
+             .then((response) => console.log(response.data)) //change to setState
+             .catch((err) => console.error(err))
+    }
+
 
     //render section
     render() {
@@ -146,8 +156,8 @@ class FlashcardMain extends React.Component {
                         //Deck Selection
                         <div>
                             <p>Select a flashcard deck to study with!</p>
-                            <select>
-                                <option value=''></option>
+                            <select onChange={this.handleDeckChange} >
+                                <option  value=''></option>
                                 {this.props.deckNames.map((name) => {
                                     return(
                                         <option value={name}>{name}</option>
