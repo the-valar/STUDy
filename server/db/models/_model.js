@@ -134,8 +134,9 @@ let register = function({ username, password, creditCard }, cb) {
     if (err) {
       console.error('Error hashing password', err);
     } else {
-      var params = [username, hash, creditCard];
-
+      var creditCardJSON = JSON.stringify (creditCardJSON)
+      var params = [username, hash, creditCardJSON];
+      
       db.getConnection((err, conn) => {
         conn.query(
           `INSERT INTO users (username, password, creditCard) VALUES (?, ?, ?)`,
