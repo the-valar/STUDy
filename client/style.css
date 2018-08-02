@@ -159,3 +159,12 @@ a:focus {
   position: relative;
   float: right;
 }
+
+.btn-link.removeCard {
+  color: red;
+  margin-left: 5px;
+}
+
+.backToFlash {
+  margin: 5px 0px 10px 0px;
+}

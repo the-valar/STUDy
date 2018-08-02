@@ -1,6 +1,6 @@
 import React from 'react'
 import FlashcardApp from 'react-flashcard-app'
-import {Button, FormControl, FormGroup} from 'react-bootstrap'
+import {Button, FormControl, FormGroup, Glyphicon, ButtonToolbar} from 'react-bootstrap'
 
 const axios = require('axios')
 
@@ -114,24 +114,46 @@ class FlashcardMain extends React.Component {
                         this.state.createDeck ?
                         //Deck Creation
                             <div>
-                                <input type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
-                                 onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} />
+                                
+                                <div style={{width: '20%'}}>
+                                    <FormControl type= 'text' placeholder='Name of New Deck' id = 'nameOfNewDeck'
+                                    onChange = {this.handleValueChange} value = {this.state.nameOfNewDeck} 
+                                    style={{textAlign: 'center'}} />
+                                </div>
+
+                                <Button onClick = {this.handleSaveCard} 
+                                    bsStyle="primary" style={{margin: '10px'}} >
+                                    Save this Card
+                                </Button>
+                                <Button onClick = {this.handleSaveDeck} 
+                                    bsStyle="success" style={{margin: '10px'}} >
+                                    Save this deck
+                                </Button>
                                 <br/>
-                                <input type='text' placeholder='Front of Card' id = 'frontOfNewCard'
-                                 onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
-                                 <input type='text' placeholder='Back of Card' id = 'backOfNewCard'
-                                 onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
+                                <Button onClick = {this.toggleDeckCreation} 
+                                    bsStyle="warning" className='backToFlash' >
+                                    Back to Flashcard Decks
+                                </Button>
                                 <br/>
-                                <button onClick = {this.handleSaveCard} >Save this Card</button>
-                                <button onClick = {this.handleSaveDeck} >Save this deck</button>
-                                <button onClick = {this.toggleDeckCreation}>Back to Flashcard Decks</button>
+                                <div style={{width: '40%'}} >
+                                    <FormControl type='text' placeholder='Front of Card' id = 'frontOfNewCard'
+                                    onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
+                                    <FormControl componentClass="textarea" placeholder='Back of Card' id = 'backOfNewCard'
+                                    onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
+                                </div>
+                                
+                                <br/>
+
 
                                 <div className='madeCardContainer'>
                                     {this.state.createdDeck.map((card, ind) => {
                                         return(
                                             <div className='cardContainer'>
                                                 <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
-                                                <button onClick={() => this.handleDeleteCard(ind)} className='removeCard'>remove this card</button>
+                                                <Button onClick={() => this.handleDeleteCard(ind)} 
+                                                    className='removeCard' bsStyle='link' >
+                                                    <Glyphicon glyph='remove' />
+                                                </Button>
                                             </div>
                                         )
                                     })}
