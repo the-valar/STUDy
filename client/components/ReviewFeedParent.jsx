@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ReviewFeedChild from './ReviewFeedChild.jsx';
 import StarRatings from 'react-star-ratings';
+import ReactTooltip from 'react-tooltip';
 
 class ReviewFeedParent extends React.Component {
   constructor(props) {
@@ -74,7 +75,6 @@ class ReviewFeedParent extends React.Component {
         console.error('there was an error fetching the child comments', err)
       })
   }
-
   componentDidMount() {
     // this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
     this.checkForChildren();
@@ -82,6 +82,7 @@ class ReviewFeedParent extends React.Component {
 
   render() {
 
+    let membershipStatus = this.props.review.membership > 0 ? <span className="horse" data-tip data-for={`"${this.props.review.id}"`} role="img" aria-label="stud">🐎</span> : null;
     let children = null;
 
     if (this.state.hasChildren) {
@@ -150,7 +151,10 @@ class ReviewFeedParent extends React.Component {
       </div>
       <div className="parent-comment-spacing"></div>
       <div className="parent-comment-text">
-        <h5>{this.props.review.username}:</h5>
+        <h5>{membershipStatus} {this.props.review.username}:</h5>
+        <ReactTooltip id={`"${this.props.review.id}"`} type="error">
+          <p>{this.props.review.username} is a STUD..<br/>check the settings menu for details on becoming a STUD</p>
+        </ReactTooltip>
         <p>{this.props.review.text}</p>
       </div>
       <div className="parent-comment-spacing"></div>
