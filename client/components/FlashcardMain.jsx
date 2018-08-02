@@ -103,7 +103,7 @@ class FlashcardMain extends React.Component {
         if (this.state.showDeck) {
             return (
                 //Study selected Deck
-                <div id='flashcard-app' style={{marginBottom: '45px'}} >
+                <div style={{marginBottom: '45px'}} >
                     <FlashcardApp data = {this.state.deck} />
                     <Button onClick = {this.toggleStudy} bsStyle="warning"
                         >Back to Flashcard Choice
@@ -124,35 +124,44 @@ class FlashcardMain extends React.Component {
                                     style={{textAlign: 'center'}} />
                                 </div>
 
-                                <Button onClick = {this.handleSaveCard} 
-                                    bsStyle="primary" style={{margin: '10px'}} >
-                                    Save this Card
-                                </Button>
                                 <Button onClick = {this.handleSaveDeck} 
                                     bsStyle="success" style={{margin: '10px'}} >
                                     Save this deck
                                 </Button>
-                                <br/>
                                 <Button onClick = {this.toggleDeckCreation} 
                                     bsStyle="warning" className='backToFlash' >
                                     Back to Flashcard Decks
                                 </Button>
                                 <br/>
+
+                                
                                 <div style={{width: '40%'}} >
                                     <FormControl type='text' placeholder='Front of Card' id = 'frontOfNewCard'
                                     onChange = {this.handleValueChange} value = {this.state.frontOfNewCard} />
                                     <FormControl componentClass="textarea" placeholder='Back of Card' id = 'backOfNewCard'
                                     onChange = {this.handleValueChange} value = {this.state.backOfNewCard} />
+                                    
+                                    <Button onClick = {this.handleSaveCard} 
+                                        bsStyle="primary" style={{margin: '10px'}} >
+                                        Save this Card
+                                    </Button>
                                 </div>
                                 
                                 <br/>
 
-
                                 <div className='madeCardContainer'>
                                     {this.state.createdDeck.map((card, ind) => {
                                         return(
-                                            <div className='cardContainer'>
-                                                <span>{ind+1}. Front: {card.front}</span>  <span>Back: {card.back}</span>
+                                            <div className='newCardContainer'>
+                                                <div className="newCardFront">
+                                                    {card.front}
+                                                </div>
+
+                                                <div className='newCardBack'>
+                                                    {card.back}
+                                                </div>
+                                                
+                                                
                                                 <Button onClick={() => this.handleDeleteCard(ind)} 
                                                     className='removeCard' bsStyle='link' >
                                                     <Glyphicon glyph='remove' />

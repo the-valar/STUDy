@@ -162,9 +162,26 @@ a:focus {
 
 .btn-link.removeCard {
   color: red;
-  margin-left: 5px;
+  /* margin-left: 5px; */
+  width: 15%;
 }
 
-.backToFlash {
-  margin: 5px 0px 10px 0px;
+.madeCardContainer {
+  width: 75%;
+}
+
+.newCardContainer {
+  height: 75px
+}
+
+.newCardFront {
+  display: inline-block;
+  width: 30%;
+  text-align: justify;
+}
+
+.newCardBack {
+  display: inline-block;
+  width: 30%;
+  text-align: justify;
 }
