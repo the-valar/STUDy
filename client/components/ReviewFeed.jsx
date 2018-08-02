@@ -39,6 +39,7 @@ class ReviewFeed extends React.Component {
         <h4 className="review-feed-title">
         What the community is saying about their recent study spots:
         </h4>
+        <button onClick={this.props.showReviewFeed} className="review-feed-exit">CLOSE</button>
         {reviews}
       </div>
     )

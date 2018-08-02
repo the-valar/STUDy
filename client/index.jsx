@@ -26,7 +26,8 @@ class App extends React.Component {
       password: '',
       userId: '',
       loggedIn: false,
-      showIndivCafe: false
+      showIndivCafe: false,
+      showReviewFeed: false,
     };
 
     this.handleYelp = this.handleYelp.bind(this);
@@ -44,6 +45,8 @@ class App extends React.Component {
     this.renderIndivCafe = this.renderIndivCafe.bind(this);
 
     this.getUser = this.getUser.bind(this);
+
+    this.showReviewFeed = this.showReviewFeed.bind(this);
   }
 
   handleYelp(data) {
@@ -145,11 +148,50 @@ class App extends React.Component {
     this.setState({membership: response.data.membership})
   }
 
+  showReviewFeed() {
+    console.log('review feed toggle')
+    this.setState({
+      showReviewFeed: !this.state.showReviewFeed
+    })
+  }
+
   componentDidMount(){
     this.getUser()
   }
 
   render() {
+    let defaultState =  
+      <div>       
+      <div className="parallax" />
+
+      <div align="center">
+        <Search
+          handleYelp={this.handleYelp}
+          renderIndivCafe={this.renderIndivCafe}
+        />
+        
+      </div>
+      {!!this.state.membership || <TestAds/>}
+
+      <div>
+
+        <Display
+          cafes={this.state.cafes}
+          username={this.state.username}
+          userId={this.state.userId}
+          loggedIn={this.state.loggedIn}
+          showIndivCafe={this.state.showIndivCafe}
+          renderIndivCafe={this.renderIndivCafe}
+        />
+      </div>
+
+      <Alert stack={{ limit: 1 }} />
+    </div>
+
+    let reviewFeed = <ReviewFeed showReviewFeed={this.showReviewFeed} currentUserId={this.state.userId}/>
+
+    let ourHomePage = this.state.showReviewFeed ? reviewFeed : defaultState;
+
     return (
       <div align="center">
         <Header
@@ -165,34 +207,11 @@ class App extends React.Component {
           logout={this.logout}
           handleSession={this.handleSession}
           getUser={this.getUser}
+          showReviewFeed={this.showReviewFeed}
         />
 
-      
-        <div className="parallax" />
+      {ourHomePage}
 
-        <div align="center">
-          <Search
-            handleYelp={this.handleYelp}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-          
-        </div>
-        {!!this.state.membership || <TestAds/>}
-
-        <div>
-
-          <Display
-            cafes={this.state.cafes}
-            username={this.state.username}
-            userId={this.state.userId}
-            loggedIn={this.state.loggedIn}
-            showIndivCafe={this.state.showIndivCafe}
-            renderIndivCafe={this.renderIndivCafe}
-          />
-        </div>
-
-        <Alert stack={{ limit: 1 }} />
-        <ReviewFeed currentUserId={this.state.userId}/>
       </div>
     );
   }
