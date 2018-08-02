@@ -337,8 +337,9 @@ let addPics = function({ pics, location_id }, cb) {
 
 let getFullReviews = function({ location_id, parent_id }, cb) {
   var params = [location_id, parent_id]
-  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
+  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, u.username
                   FROM comments as c
+                  JOIN users as u ON u.id=c.user_id
                   JOIN locations ON c.location=locations.id
                   JOIN ratings as r ON r.location=locations.id
                   WHERE locations.id=? AND parent_id=?

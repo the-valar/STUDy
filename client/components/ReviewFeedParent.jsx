@@ -58,7 +58,6 @@ class ReviewFeedParent extends React.Component {
     })
   }
   checkForChildren() {
-    console.log('checking for children')
     axios.get('/reviewsByParentId', {
       params: {
         parentId: this.props.review.id
@@ -77,8 +76,8 @@ class ReviewFeedParent extends React.Component {
   }
 
   componentDidMount() {
+    // this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
     this.checkForChildren();
-    this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
   }
 
   render() {
