@@ -1,5 +1,6 @@
 import React from 'react'
 import FlashcardApp from 'react-flashcard-app'
+import {Button, FormControl, FormGroup} from 'react-bootstrap'
 
 const axios = require('axios')
 
@@ -22,22 +23,7 @@ class FlashcardMain extends React.Component {
                     id: 1,
                     front: 'Lorem',
                     back: 'dolor',
-                  },
-                  {
-                    id: 2,
-                    front: 'sit',
-                    back: 'amet',
-                  },
-                  {
-                    id: 3,
-                    front: 'consetetur',
-                    back: 'sadipscing',
-                  },
-                  {
-                    id: 4,
-                    front: 'sed',
-                    back: 'diam',
-                  },
+                  }
                 ],
               }
         }
@@ -154,19 +140,19 @@ class FlashcardMain extends React.Component {
         
                         :
                         //Deck Selection
-                        <div>
-                            <p>Select a flashcard deck to study with!</p>
-                            <select onChange={this.handleDeckChange} >
-                                <option  value=''></option>
+                        <div style={{width: '70%' }}>
+                            <FormControl componentClass='select' onChange={this.handleDeckChange} 
+                                placeholder='select a flashcard deck'>
+                                <option  value=''>select a flashcard deck</option>
                                 {this.props.deckNames.map((name) => {
                                     return(
                                         <option value={name}>{name}</option>
                                     )
                                 })}
-                            </select>
+                            </FormControl>
                             <br/>
-                            <button onClick = {this.toggleStudy} >Study this Deck</button>
-                            <button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</button>
+                            <Button onClick = {this.toggleStudy} >Study this Deck</Button>
+                            <Button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</Button>
                         </div>
                     }
                 </div>
