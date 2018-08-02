@@ -78,7 +78,8 @@ class App extends React.Component {
         this.setState({
           loggedIn: true,
           userId: response.data.id,
-          membership: response.data.membership
+          membership: response.data.membership,
+          password: ''
         });
       })
       .catch((err) => {
@@ -149,7 +150,6 @@ class App extends React.Component {
   }
 
   showReviewFeed() {
-    console.log('review feed toggle')
     this.setState({
       showReviewFeed: !this.state.showReviewFeed
     })

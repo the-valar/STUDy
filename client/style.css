@@ -182,6 +182,11 @@ a:focus {
   cursor: pointer;
 }
 
+.review-modal-user {
+  margin-left: 15px;
+  color: #a02525
+}
+
 .review-feed-title {
   width: calc(100% - 245px);
   position: relative;
