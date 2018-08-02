@@ -14,7 +14,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 
-import Favorites from './Favorites.jsx';
+import Profile from './Profile.jsx';
 import CreateChat from './CreateChat.jsx';
 
 class Header extends React.Component {
@@ -26,7 +26,8 @@ class Header extends React.Component {
       showSignup: false,
       showFavorites: false,
       showCreateChat: false,
-      favorites: []
+      favorites: [],
+      showProfile: false, //keep false by default
     };
 
     this.showLogin = this.showLogin.bind(this);
@@ -42,6 +43,7 @@ class Header extends React.Component {
     this.closeCreateChat = this.closeCreateChat.bind(this);
 
     this.toggleShow = this.toggleShow.bind(this)
+    this.toggleProfile = this.toggleProfile.bind(this)
   }
 
   toggleShow(){
@@ -54,6 +56,12 @@ class Header extends React.Component {
 
     this.setState({
       showLogin: false
+    });
+  }
+
+  toggleProfile() {
+    this.setState({
+      showProfile: !this.state.showProfile
     });
   }
 
@@ -123,10 +131,14 @@ class Header extends React.Component {
             </Navbar.Header>
 
             <Nav pullRight>
-              <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <MenuItem>Signed in as {this.props.username}</MenuItem>
+              <NavDropdown title="Settings" id="basic-nav-dropdown">
+                <MenuItem onClick={this.toggleProfile}>Profile</MenuItem>
+                {this.state.showProfile ?   
+                (<Profile toggleProfile={this.toggleProfile} showProfile={this.state.showProfile} userId={this.props.userId} user={this.props.username} profilePic="https://pbs.twimg.com/profile_images/702479650237366272/HyN65Fu7_400x400.jpg"/>)                
+                :
+                null             
+                }
                 <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
-                <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
                 {this.props.membership
                 ? <MenuItem>Manage membership</MenuItem>
                 : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>

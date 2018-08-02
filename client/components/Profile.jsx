@@ -33,6 +33,7 @@ class Profile extends React.Component {
     this.renderBio = this.renderBio.bind(this);
     this.sendBio = this.sendBio.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
+    this.getBio();
   }
 
   toggleProfile() {
@@ -44,7 +45,7 @@ class Profile extends React.Component {
   getBio() {
     axios
       .get(`/bio?user_id=${this.props.userId}`)
-      .then(({ data }) => this.setState({ bio: (data[0].bio === null ? 'Add a bio!' : data[0].bio)}));
+      .then(({ data }) => this.setState({ bio: data[0].bio}));
   }
   sendBio() {
     axios
@@ -52,7 +53,7 @@ class Profile extends React.Component {
         user_id: this.props.userId,
         bio: this.state.userInput
       })
-      .then(({ data }) => this.setState({ bio: `${data[0].bio}` }));
+      .then(() => this.setState({ bio: this.state.userInput }));
   }
   toggleForm() {
     this.setState({ toggleForm: !this.state.toggleForm });
@@ -67,7 +68,6 @@ class Profile extends React.Component {
             console.log(this.state.userInput);
             this.sendBio();
             this.setState({ bio: this.state.userInput });
-            this.setState({ userInput: "" });
             this.toggleForm();
           }}
         >
@@ -80,7 +80,6 @@ class Profile extends React.Component {
           <input
             onSubmit={e => {
               e.preventDefault();
-              console.log(this.state.userInput);
               this.sendBio();
               this.toggleForm();
             }}
@@ -88,13 +87,12 @@ class Profile extends React.Component {
           />
         </form>
       );
-    } else if (this.state.bio !== null) {
+  } else {
       return (
         <div>
           <a
             className="emoji"
             onClick={this.toggleForm}
-            
           >
             🖋️
           </a>
@@ -102,13 +100,7 @@ class Profile extends React.Component {
           <p>{this.state.bio}</p>
         </div>
       );
-    } else if (this.state.bio === null) {
-      return (
-        <div>
-          <p>Add a bio!</p>
-        </div>
-      );
-    }
+    } 
   }
 
   componentWillUpdate() {
@@ -118,10 +110,7 @@ class Profile extends React.Component {
   render() {
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.toggleProfile}>
-          Launch Modal
-        </Button>
-        <Modal show={this.state.showProfile} onHide={this.toggleProfile}>
+        <Modal show={this.props.showProfile} onHide={this.props.toggleProfile}>
           <Modal.Body className="upper">
             {/* make this container a css grid */}
             <div className="picture">

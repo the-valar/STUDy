@@ -255,6 +255,7 @@ let addFavorite = function({ user_id, location_id }, cb) {
   });
 };
 
+
 let getFavorite = function({ user_id }, cb) {
   var command = `SELECT id, name, city, state, address, image1, image2, image3
                  FROM users_locations
@@ -264,7 +265,7 @@ let getFavorite = function({ user_id }, cb) {
   db.getConnection((err, conn) => {
     conn.query(command, (err, results) => {
       if (err) {
-        console.error('Error getting user favorites', err);
+        console.log('Error getting user favorites', err);
       } else {
         console.log('Retrieved all user favorites', results);
         // Return user favorites for use in cb
