@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack -d && node server/controllers/index.js",
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/controllers/index.js"
+    "server-dev": "nodemon server/controllers/index.js",
+    "review-feed-test": "mocha tests/reviewFeed.js"
   },
   "repository": {
     "type": "git",
@@ -27,8 +28,11 @@
     "babel-preset-react": "^6.23.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "mocha": "^5.2.0",
     "morgan": "^1.9.0",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.2",
