@@ -44,7 +44,8 @@ class FlashcardMain extends React.Component {
 
     toggleStudy() {
         let old = this.state.showDeck;
-        this.setState({showDeck: !old})
+        this.setState({showDeck: !old}, () => window.scrollTo({
+            top: 310, behavior: 'smooth'}))
     }
 
     toggleDeckCreation() {
@@ -102,9 +103,11 @@ class FlashcardMain extends React.Component {
         if (this.state.showDeck) {
             return (
                 //Study selected Deck
-                <div>
+                <div id='flashcard-app' style={{marginBottom: '45px'}} >
                     <FlashcardApp data = {this.state.deck} />
-                    <button onClick = {this.toggleStudy} >Back to Flashcard Choice</button>
+                    <Button onClick = {this.toggleStudy} bsStyle="warning"
+                        >Back to Flashcard Choice
+                    </Button>
                 </div>
             )
         } else {
@@ -173,8 +176,14 @@ class FlashcardMain extends React.Component {
                                 })}
                             </FormControl>
                             <br/>
-                            <Button onClick = {this.toggleStudy} >Study this Deck</Button>
-                            <Button onClick = {this.toggleDeckCreation} >Create a new flashcard deck</Button>
+                            <Button onClick = {this.toggleStudy}
+                                bsStyle='primary' style={{margin: '10px'}}
+                                >Study this Deck
+                            </Button>
+                            <Button onClick = {this.toggleDeckCreation}
+                                bsStyle='primary' style={{margin: '10px'}}
+                                >Create a new flashcard deck
+                            </Button>
                         </div>
                     }
                 </div>
