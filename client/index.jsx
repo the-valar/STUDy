@@ -42,7 +42,12 @@ class App extends React.Component {
 
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
+    
     this.handleCreditCardNumber = this.handleCreditCardNumber.bind(this);
+    this.handleCreditCardName = this.handleCreditCardName.bind(this);
+    this.handleCreditCardCode = this.handleCreditCardCode.bind(this);
+    this.handleCreditCardMonth = this.handleCreditCardMonth.bind(this);
+    this.handleCreditCardYear = this.handleCreditCardYear.bind(this);
 
     this.loginUser = this.loginUser.bind(this);
     this.registerUser = this.registerUser.bind(this);
@@ -78,8 +83,38 @@ class App extends React.Component {
   }
   
   handleCreditCardNumber(e) {
+    let stateCard = Object.assign({}, this.state.creditCard);
+    stateCard.number = e.target.value
     this.setState ({
-      creditCard[number]: e.target.value
+      creditCard: stateCard
+    })
+  }  
+  handleCreditCardName(e) {
+    let stateCard = Object.assign({}, this.state.creditCard);
+    stateCard.name = e.target.value
+    this.setState ({
+      creditCard: stateCard
+    })
+  }  
+  handleCreditCardCode(e) {
+    let stateCard = Object.assign({}, this.state.creditCard);
+    stateCard.code = e.target.value
+    this.setState ({
+      creditCard: stateCard
+    })
+  }  
+  handleCreditCardMonth(e) {
+    let stateCard = Object.assign({}, this.state.creditCard);
+    stateCard.month = e.target.value
+    this.setState ({
+      creditCard: stateCard
+    })
+  }  
+  handleCreditCardYear(e) {
+    let stateCard = Object.assign({}, this.state.creditCard);
+    stateCard.year = e.target.value
+    this.setState ({
+      creditCard: stateCard
     })
   }
   
@@ -183,6 +218,10 @@ class App extends React.Component {
           handleUser={this.handleUser}
           handlePassword={this.handlePassword}
           handleCreditCardNumber={this.handleCreditCardNumber}
+          handleCreditCardName={this.handleCreditCardName}
+          handleCreditCardCode={this.handleCreditCardCode}
+          handleCreditCardMonth={this.handleCreditCardMonth}
+          handleCreditCardYear={this.handleCreditCardYear}
           loginUser={this.loginUser}
           registerUser={this.registerUser}
           logout={this.logout}
