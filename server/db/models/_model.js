@@ -349,8 +349,19 @@ let fetchDeckNames = function(user_id, cb) {
       if (err) cb(err)
       else cb(null, docs)
     })
-  })
-}
+  });
+};
+
+let fetchFullDeck = function(user_id, deckName, cb) {
+  var command = `SELECT * FROM flashcards WHERE user_id = ${user_id} AND title = '${deckName}'`
+  db.getConnection((err, conn) => {
+    conn.query(command, (err, docs) => {
+      if (err) cb(err)
+      else cb(null, docs)
+    })
+    conn.release()
+  });
+};
 
 module.exports = {
   saveSpots: saveSpots,
@@ -367,5 +378,6 @@ module.exports = {
   addPics: addPics,
   getFullReviews: getFullReviews,
   saveFlashcardDeck: saveFlashcardDeck,
-  fetchDeckNames: fetchDeckNames
+  fetchDeckNames: fetchDeckNames,
+  fetchFullDeck: fetchFullDeck
 };
