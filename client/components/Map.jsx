@@ -74,7 +74,7 @@ const Map = compose(
                       bsStyle="primary"
                       bsSize="small"
                     >
-                      View Details
+                     STUD(y) Details
                     </Button>
                   </div>
                 </InfoWindow>}
