@@ -26,6 +26,7 @@ class Header extends React.Component {
       showSignup: false,
       showFavorites: false,
       showCreateChat: false,
+      showReviewFeed: false,
       favorites: [],
       showProfile: false, //keep false by default
     };
@@ -143,6 +144,7 @@ class Header extends React.Component {
                 ? <MenuItem>Manage membership</MenuItem>
                 : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
                 }
+                <MenuItem onClick={this.props.showReviewFeed}>Review Feed</MenuItem>
                 <MenuItem divider />
                 <MenuItem
                   onClick={() => {

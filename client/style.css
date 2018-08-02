@@ -183,14 +183,26 @@ a:focus {
 }
 
 .review-feed-title {
-  width: calc(100% - 175px);
+  width: calc(100% - 245px);
   position: relative;
   text-align: left;
   color: #525252;
   padding: 5px;
   margin: 5px;
-  font-size: 24px;
+  font-size: 28px;
   text-shadow: 1px 1px #a0252552;
+  display: inline-block;
+}
+
+.review-feed-exit {
+  width: 100px;
+  position: fixed;
+  float: right;
+  margin: 10px;
+  background-color: #a02525b7;
+  color: #fdfcfc;
+  display: inline-block;
+  
 }
 
 .review-feed-spacing {
@@ -213,7 +225,8 @@ a:focus {
 .parent-comment-heading {
   text-align: left;
   padding: 2px;
-  margin-top: 25px;
+  margin-top: 10px;
+  margin-left: 5px;
   color: #a02525e8;
   display: block;
 }
@@ -443,12 +456,16 @@ a:focus {
   grid-gap: 5px;
   padding: 25px;
 }
+
+textarea {
+  resize: none;
+}
 /* 
 .bio .bio > div{
 
 } */
 
-.rightSide{
+.rightSide {
   display: grid;
   grid-template-rows:  1fr 1fr;
 }
