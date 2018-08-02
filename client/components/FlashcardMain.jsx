@@ -15,6 +15,7 @@ class FlashcardMain extends React.Component {
             backOfNewCard: '',
             createdDeck: [],
             selectedDeckName: '',
+            disabled: true,
             deck: {
                 id: 1,
                 name: 'Example Deck',
@@ -93,7 +94,7 @@ class FlashcardMain extends React.Component {
         this.setState({selectedDeckName: e.target.value})
         axios.get('/flashcardDeck', {params: 
                     {user_id: this.props.user_id, deckName: e.target.value}})
-             .then((response) => this.setState({deck: response.data}))
+             .then((response) => this.setState({deck: response.data, disabled: false}))
              .catch((err) => console.error(err))
     }
 
@@ -186,7 +187,8 @@ class FlashcardMain extends React.Component {
                             </FormControl>
                             <br/>
                             <Button onClick = {this.toggleStudy}
-                                bsStyle='primary' style={{margin: '10px'}}
+                                bsStyle='primary' style={{margin: '10px'}} id='studyThisDeck' 
+                                disabled = {this.state.disabled ? true : false}
                                 >Study this Deck
                             </Button>
                             <Button onClick = {this.toggleDeckCreation}
