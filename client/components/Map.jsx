@@ -1,10 +1,17 @@
 import React from 'react';
-import { compose, withProps, withHandlers } from 'recompose';
+import {
+  Thumbnail,
+  Button,
+  Image
+} from 'react-bootstrap';
+import StackGrid from 'react-stack-grid';
+import { compose, withProps, withHandlers, withStateHandlers } from 'recompose';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoWindow
 } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import {GOOGLE_MAPS_API_KEY} from '../../config_example.js';
@@ -23,6 +30,15 @@ const Map = compose(
       console.log(clickedMarkers);
     }
   }),
+  withStateHandlers(() => ({
+    isOpen: false,
+    infoIndex: null
+  }), {
+    showInfo: ({ isOpen, infoIndex }) => (index) => ({
+      isOpen: infoIndex !== index || !isOpen,
+      infoIndex: index
+    })
+  }),
   withScriptjs,
   withGoogleMap
 )((props) => {
@@ -39,13 +55,33 @@ const Map = compose(
         enableRetinaIcons
         gridSize={60}
       >
-        {props.cafes.map((cafe) => {
+        {props.cafes.map((cafe, index) => {
+          cafe.index = index;
           return (
             <Marker
               key={cafe.id}
               position={{ lat: cafe.coordinates.latitude, lng: cafe.coordinates.longitude }}
-              onClick={() => props.cafeView(cafe)}
-            />
+              onClick={() => props.showInfo(cafe.index)}
+            >
+              {(props.isOpen && props.infoIndex === cafe.index) &&
+                <InfoWindow onCloseClick={props.showInfo}>
+                  {/* style={{height: '300px', width: '200px'}} */}
+                  <StackGrid columnWidth={250} monitorImagesLoaded={true}>
+                    <div>
+                      <Thumbnail
+                        src={cafe.image_url}
+                        height="250"
+                      >
+                        <h3>{cafe.name}</h3>
+                        <p>
+                          {cafe.location.address1}, {cafe.location.city},{' '}
+                          {cafe.location.state}, {cafe.location.zip_code}
+                        </p>
+                      </Thumbnail>
+                    </div>
+                  </StackGrid>
+                </InfoWindow>}
+            </Marker>
           );
         })}
       </MarkerClusterer>
