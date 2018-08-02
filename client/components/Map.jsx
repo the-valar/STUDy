@@ -1,10 +1,15 @@
 import React from 'react';
-import { compose, withProps, withHandlers } from 'recompose';
+import {
+  Thumbnail,
+  Button,
+} from 'react-bootstrap';
+import { compose, withProps, withHandlers, withStateHandlers } from 'recompose';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoWindow
 } from 'react-google-maps';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import {GOOGLE_MAPS_API_KEY} from '../../config_example.js';
@@ -23,11 +28,20 @@ const Map = compose(
       console.log(clickedMarkers);
     }
   }),
+  withStateHandlers(() => ({
+    isOpen: false,
+    infoIndex: null
+  }), {
+    showInfo: ({ isOpen, infoIndex }) => (index) => ({
+      isOpen: infoIndex !== index || !isOpen,
+      infoIndex: index
+    })
+  }),
   withScriptjs,
   withGoogleMap
 )((props) => {
   let {latitude, longitude} = props.cafes[0].coordinates;
-  
+  let cafeView = props.cafeView;
   return (
     <GoogleMap
       defaultZoom={16}
@@ -39,13 +53,32 @@ const Map = compose(
         enableRetinaIcons
         gridSize={60}
       >
-        {props.cafes.map((cafe) => {
+        {props.cafes.map((cafe, index) => {
+          cafe.index = index;
           return (
             <Marker
               key={cafe.id}
               position={{ lat: cafe.coordinates.latitude, lng: cafe.coordinates.longitude }}
-              onClick={() => props.cafeView(cafe)}
-            />
+              onClick={() => props.showInfo(cafe.index)}
+            >
+              {(props.isOpen && props.infoIndex === cafe.index) &&
+                <InfoWindow onCloseClick={props.showInfo}>
+                  <div>
+                    <h3>{cafe.name}</h3>
+                    <p>
+                      {cafe.location.address1}, {cafe.location.city},{' '}
+                      {cafe.location.state}, {cafe.location.zip_code}
+                    </p>
+                    <Button 
+                      onClick={() => props.cafeView(cafe)}
+                      bsStyle="primary"
+                      bsSize="small"
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                </InfoWindow>}
+            </Marker>
           );
         })}
       </MarkerClusterer>

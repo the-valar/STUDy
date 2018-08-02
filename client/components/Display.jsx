@@ -52,6 +52,7 @@ class Display extends React.Component {
 
   // function that sets state to clicked cafe
   cafeView(cafe) {
+    window.scrollTo(0, document.getElementById('search-button').offsetTop);
     axios
       .get('/ratings', {
         params: {
@@ -461,7 +462,7 @@ class Display extends React.Component {
                   <Thumbnail
                     src={cafe.image_url}
                     height="250"
-                    onClick={() => this.cafeView(cafe)}
+                    onClick={() =>   this.cafeView(cafe)}
                   >
                     <h3>{cafe.name}</h3>
                     <p>
