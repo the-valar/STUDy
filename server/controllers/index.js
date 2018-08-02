@@ -244,8 +244,8 @@ app.get('/flashcardDecks', (req, res) => {
 
 app.get('/flashcardDeck', (req, res) => {
   let {user_id, deckName} = req.query
-  // console.log('in server.  here are the get deck params: ', user_id, deckName)
-  models.fetchFullDeck(user_id, deckName, (data) => {
+  console.log('in server.  here are the get deck params: ', user_id, deckName)
+  models.fetchFullDeck(user_id, deckName, (err, data) => {
     console.log('here is the info from the db', data)
   })
 })

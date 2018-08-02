@@ -353,7 +353,7 @@ let fetchDeckNames = function(user_id, cb) {
 };
 
 let fetchFullDeck = function(user_id, deckName, cb) {
-  var command = `SELECT * FROM flashcards WHERE user_id = ${user_id}`
+  var command = `SELECT * FROM flashcards WHERE user_id = ${user_id} AND title = '${deckName}'`
   db.getConnection((err, conn) => {
     conn.query(command, (err, docs) => {
       if (err) cb(err)
@@ -381,5 +381,3 @@ module.exports = {
   fetchDeckNames: fetchDeckNames,
   fetchFullDeck: fetchFullDeck
 };
-
-// AND title = ${deckName}
