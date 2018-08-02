@@ -202,14 +202,13 @@ let getRating = function({ location_id }, cb) {
 
 let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
-
   db.getConnection((err, conn) => {
     conn.query(
       `INSERT INTO users_locations VALUES (?, ?)`,
       params,
       (err, results) => {
         if (err) {
-          console.error('Error inserting into favorites', err);
+          console.log('Error inserting into favorites', err);
         } else {
           console.log('Inserted into favorites', results);
           cb(null, results);
