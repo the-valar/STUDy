@@ -30,8 +30,38 @@ app.use(express.static(__dirname + '/../../client'));
 
 const io = require('socket.io')(server);
 
-io.on('connection', function() {
-  console.log('Socket.io is listening')
+io.on('connection', (socket) => {
+  console.log(`Socket.io is listening to id: ${socket.id}`)
+
+  socket.on('JOIN_ROOM',  (room) => {
+    console.log('JOINGING ROOM', room)
+    socket.join(room);
+
+    socket.on('SEND_MESSAGE', (message) => {
+      console.log(`'ROOM:' ${room} | 'MESSAGE RECEIVED: ${message}`)
+      io.sockets.in(room).emit('SEND_MESSAGE', message);
+    })
+
+  });
+});
+
+app.get('/groups', (req, res) => {
+  let { user_id } = req.params
+  console.log(user_id)
+  // TODO: Create and use model to fetch groups by user_id 
+})
+
+app.post('/groups', (req, res) => {
+  let { user_id,  group_name,  group_thumbnail, group_topic } = req.params
+
+  console.log(user_id)
+  // TODO: Create and use model to create groups by user_id 
+})
+
+app.delete('/groups', (req, res) => {
+  let { group_name } = req.params
+  console.log(group_name)
+  // TODO: Create and use model to delete groups by user_id 
 })
 
 
@@ -92,7 +122,7 @@ app.get('/current_user', (req, res) => {
 
 app.post('/login', (req, res) => {
   // both login and register req.query should have [username, password] as keys
-
+  console.log('logging in as: ', req.body)
   models.login(req.body, (err, data) => {
     if (err) {
       res.status(404).send();
