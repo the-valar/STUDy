@@ -196,11 +196,43 @@ class Header extends React.Component {
                       }}
                     />
                     <FormControl
-                      type="creditCard"
-                      placeholder="Credit Card (optional)"
-                      value={this.props.creditCard}
+                      type="text"
+                      placeholder="Card Number"
+                      value={this.props.creditCard.number}
                       onChange={(e) => {
-                        this.props.handleCreditCard(e);
+                        this.props.handleCreditCardNumber(e);
+                      }}
+                    />
+                    <FormControl
+                      type="text"
+                      placeholder="Card Security Code"
+                      value={this.props.creditCard.code}
+                      onChange={(e) => {
+                        this.props.handleCreditCardCode(e);
+                      }}
+                    />
+                    <FormControl
+                      type="text"
+                      placeholder="Card Owner Full Name"
+                      value={this.props.creditCard.name}
+                      onChange={(e) => {
+                        this.props.handleCreditCardName(e);
+                      }}
+                    />
+                    <FormControl
+                      type="text"
+                      placeholder="Card Expiration Month"
+                      value={this.props.creditCard.month}
+                      onChange={(e) => {
+                        this.props.handleCreditCardMonth(e);
+                      }}
+                    />
+                    <FormControl
+                      type="text"
+                      placeholder="Card Expiration Year"
+                      value={this.props.creditCard.year}
+                      onChange={(e) => {
+                        this.props.handleCreditCardYear(e);
                       }}
                     />
                   </FormGroup>
