@@ -106,7 +106,7 @@ class FlashcardMain extends React.Component {
         this.setState({selectedDeckName: e.target.value})
         axios.get('/flashcardDeck', {params: 
                     {user_id: this.props.user_id, deckName: e.target.value}})
-             .then((response) => console.log(response.data)) //change to setState
+             .then((response) => this.setState({deck: response.data}))
              .catch((err) => console.error(err))
     }
 
