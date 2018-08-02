@@ -16,7 +16,12 @@ class AmazonBar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      penSource: 'https://static2.jetpens.com/images/a/000/000/244.jpg?mark64=aHR0cDovL3d3dy5qZXRwZW5zLmNvbS9pbWFnZXMvYXNzZXRzL3dhdGVybWFyay5wbmc&markalign64=dG9wLHJpZ2h0&markscale=19&q=90&s=c7fc4b892dba3605f098ebbf19d63734'
+      penSource: 'https://cdn1.iconfinder.com/data/icons/education-set-4/512/roller-pencil-512.png',
+      paperSource: 'http://www.free-icons-download.net/images/a-stack-of-paper-icon-92340.png',
+      postitSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/7161-200.png',
+      hiliterSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/231154-200.png',
+      amazonSource: 'https://i0.wp.com/freepngimages.com/wp-content/uploads/2016/10/amazon-logo.png?fit=624%2C329'
+      
     }
     this.handleSelect = this.handleSelect.bind(this)
   }
@@ -39,39 +44,42 @@ class AmazonBar extends React.Component {
   
   render () {
     return (
-      <Nav bsStyle = 'pills' stacked activeKey = {1} onSelect = {this.handleSelect} bsClass='sidebysideLeft nav'>
+      <div class = 'sidebysideLeft'>
+        <img src = {this.state.amazonSource} width = '100' height = '52'/>
+        <Nav bsStyle = 'pills' stacked activeKey = {1} onSelect = {this.handleSelect}>
 
-        <NavItem eventKey = {
-            {
-              productID: 1
-            }
-          }>
-        <img src= {this.state.penSource} width = '100' height = '100'/>
-        </NavItem>
-        <NavItem eventKey = {
-            {
-              productID: 2
-            }
-          }>
-        <img src= {this.state.penSource} width = '100' height = '100'/>        
-        </NavItem>
-        <NavItem eventKey = {
-            {
-              productID: 3
-            }
-          }>
-        <img src= {this.state.penSource} width = '100' height = '100'/>        
-        </NavItem>
-        <NavItem eventKey = {
-            {
-              productID: 4
-            }
-          }>
-        <img src= {this.state.penSource} width = '100' height = '100'/>        
-        </NavItem>
-        
-      
-      </Nav>
+          <NavItem eventKey = {
+              {
+                productID: 'B00347A8NK'
+              }
+            }>
+          <img src= {this.state.penSource} width = '100' height = '100'/>
+          </NavItem>
+          <NavItem eventKey = {
+              {
+                productID: 'B00005C55O'
+              }
+            }>
+          <img src= {this.state.paperSource} width = '100' height = '100'/>        
+          </NavItem>
+          <NavItem eventKey = {
+              {
+                productID: 'B079X87CY1'
+              }
+            }>
+          <img src= {this.state.postitSource} width = '100' height = '100'/>        
+          </NavItem>
+          <NavItem eventKey = {
+              {
+                productID: 'B002BA5WMI'
+              }
+            }>
+          <img src= {this.state.hiliterSource} width = '100' height = '100'/>        
+          </NavItem>
+
+
+        </Nav>
+      </div>
     )
   }
 }
