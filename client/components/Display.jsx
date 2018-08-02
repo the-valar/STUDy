@@ -52,7 +52,7 @@ class Display extends React.Component {
 
   // function that sets state to clicked cafe
   cafeView(cafe) {
-    window.scrollTo(0, 1000);
+    window.scrollTo(0, document.getElementById('search-button').offsetTop);
     axios
       .get('/ratings', {
         params: {
