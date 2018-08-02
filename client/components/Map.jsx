@@ -2,9 +2,7 @@ import React from 'react';
 import {
   Thumbnail,
   Button,
-  Image
 } from 'react-bootstrap';
-import StackGrid from 'react-stack-grid';
 import { compose, withProps, withHandlers, withStateHandlers } from 'recompose';
 import {
   withScriptjs,
@@ -43,7 +41,7 @@ const Map = compose(
   withGoogleMap
 )((props) => {
   let {latitude, longitude} = props.cafes[0].coordinates;
-  
+  let cafeView = props.cafeView;
   return (
     <GoogleMap
       defaultZoom={16}
@@ -65,21 +63,20 @@ const Map = compose(
             >
               {(props.isOpen && props.infoIndex === cafe.index) &&
                 <InfoWindow onCloseClick={props.showInfo}>
-                  {/* style={{height: '300px', width: '200px'}} */}
-                  <StackGrid columnWidth={250} monitorImagesLoaded={true}>
-                    <div>
-                      <Thumbnail
-                        src={cafe.image_url}
-                        height="250"
-                      >
-                        <h3>{cafe.name}</h3>
-                        <p>
-                          {cafe.location.address1}, {cafe.location.city},{' '}
-                          {cafe.location.state}, {cafe.location.zip_code}
-                        </p>
-                      </Thumbnail>
-                    </div>
-                  </StackGrid>
+                  <div>
+                    <h3>{cafe.name}</h3>
+                    <p>
+                      {cafe.location.address1}, {cafe.location.city},{' '}
+                      {cafe.location.state}, {cafe.location.zip_code}
+                    </p>
+                    <Button 
+                      onClick={() => props.cafeView(cafe)}
+                      bsStyle="primary"
+                      bsSize="small"
+                    >
+                      View Details
+                    </Button>
+                  </div>
                 </InfoWindow>}
             </Marker>
           );
