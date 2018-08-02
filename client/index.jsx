@@ -10,7 +10,7 @@ import Display from './components/Display.jsx';
 import './s-alert-default.css';
 import './style.css';
 
-/* CHAT  */
+/* CHAT */
 import Chat from './components/Chat.jsx'
 
 class App extends React.Component {
@@ -18,6 +18,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      rooms: [],
       cafes: [],
       username: '',
       password: '',
@@ -39,6 +40,19 @@ class App extends React.Component {
 
     this.handleYelp = this.handleYelp.bind(this);
     this.renderIndivCafe = this.renderIndivCafe.bind(this);
+
+    this.getGroups = this.getGroups.bind(this);
+  }
+
+  /* CHAT */
+  // TODO: Call function after user is successfully logged in.
+  getGroups() {
+    console.log('clicking get groups function')
+    axios.get('/groups', { params: { user_id: this.props.userId}})
+    .then((response) => {
+      this.setState({rooms: response.data})
+    })
+    .catch((err) => console.log('Error getting groups', err))
   }
 
   handleYelp(data) {
@@ -59,6 +73,8 @@ class App extends React.Component {
     });
   }
 
+
+
   loginUser() {
     axios
       .post('/login', {
@@ -67,7 +83,7 @@ class App extends React.Component {
       })
       .then((response) => {
         // response.data returns userId
-
+        console.log(response)
         this.setState({
           loggedIn: true,
           userId: response.data
@@ -79,6 +95,13 @@ class App extends React.Component {
         Alert.error('Incorrect username or password', {
           position: 'bottom'
         });
+      });
+  }
+
+  loginUser() {
+      this.setState({
+          loggedIn: true,
+          userId: this.state.username
       });
   }
 
@@ -135,6 +158,7 @@ class App extends React.Component {
   render() {
     return (
       <div align="center">
+        <i className="fas fa-envelope-square"></i>
         <Header
           username={this.state.username}
           password={this.state.password}
@@ -146,6 +170,7 @@ class App extends React.Component {
           registerUser={this.registerUser}
           logout={this.logout}
           handleSession={this.handleSession}
+          getGroups={this.getGroups}
         />
 
         <div className="parallax" />
@@ -170,6 +195,19 @@ class App extends React.Component {
         </div>
 
         <Alert stack={{ limit: 1 }} />
+
+
+        {/* CHAT COMPONENT */}
+        {/*  TODO: 
+              - Change this.state.loggedIn to this.state.rooms.length > 0 
+              - Don't passdown password
+
+        */}
+        {
+          this.state.loggedIn === true &&
+          <Chat username={this.state.username} userId={this.state.userId} password={this.state.password}/> 
+        }
+
       </div>
     );
   }

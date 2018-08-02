@@ -109,15 +109,18 @@ class Header extends React.Component {
         <div>
           <Navbar inverse fixedTop>
             <Navbar.Header>
+
               <Navbar.Brand>
                 <a href="/">STUD(y)</a>
               </Navbar.Brand>
             </Navbar.Header>
 
+
+
             <Nav pullRight>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
                 <MenuItem>Signed in as {this.props.username}</MenuItem>
-                <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
+                <MenuItem onClick={this.showCreateChat}>Create/ Join STUD(y) Chat</MenuItem>
                 <MenuItem onClick={this.showFavorites}>Favorites</MenuItem>
                 <MenuItem divider />
                 <MenuItem
@@ -137,6 +140,7 @@ class Header extends React.Component {
             closeFavorites={this.closeFavorites}/>
 
           <CreateChat 
+            getGroups={this.props.getGroups}
             userId={this.props.userId} 
             showCreateChat={this.state.showCreateChat}
             closeCreateChat={this.closeCreateChat}/>
