@@ -190,7 +190,7 @@ app.get('/ratings', (req, res) => {
 
 app.post('/favorites', (req, res) => {
   // req.body should have user_id and location_id as keys
-
+  log(req.body)
   models.addFavorite(req.body, (err, data) => {
     if (err) {
       res.send();
@@ -210,10 +210,21 @@ app.post('/bio', (req, res) => {
   });
 });
 
+app.get('/bio', (req, res) => {
+  console.log(req.query);
+  models.getBio(req.query, (err, data) => {
+    if (err) {
+      res.send();
+    } else {
+      res.send(JSON.stringify(data));
+    }
+  });
+});
+
 
 app.get('/favorites', (req, res) => {
   // req.query should have user_id as a key
-
+  console.warn(req.query);
   models.getFavorite(req.query, (err, data) => {
     if (err) {
       res.send();

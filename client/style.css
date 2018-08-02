@@ -460,3 +460,12 @@ a:focus {
 textarea {
   resize: none;
 }
+/* 
+.bio .bio > div{
+
+} */
+
+.rightSide {
+  display: grid;
+  grid-template-rows:  1fr 1fr;
+}
