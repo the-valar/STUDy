@@ -33,6 +33,7 @@ class Header extends React.Component {
 
     this.showFavorites = this.showFavorites.bind(this);
     this.closeFavorites = this.closeFavorites.bind(this);
+    this.getUserFavorites = this.getUserFavorites.bind(this);
   }
 
   closeLogin() {
@@ -64,6 +65,7 @@ class Header extends React.Component {
   }
 
   showFavorites() {
+    this.getUserFavorites();
     this.setState({
       showFavorites: true
     });
@@ -83,6 +85,27 @@ class Header extends React.Component {
 
         this.props.handleSession(response);
       }
+    });
+    
+    this.getUserFavorites();
+  }
+
+  getUserFavorites() {
+    console.log(this.props.userId);
+    axios
+    .get('/favorites', {
+      params: {
+        user_id: this.props.userId
+      }
+    })
+    .then((response) => {
+      console.log(response.data);
+      this.setState({
+        favorites: response.data
+      });
+    })
+    .catch((err) => {
+      console.error('Error getting favorites', err);
     });
   }
 
@@ -119,7 +142,9 @@ class Header extends React.Component {
           </Navbar>
 
           <Favorites
+            favorites={this.state.favorites}
             userId={this.props.userId}
+            getUserFaves={this.getUserFaves}
             showFavorites={this.state.showFavorites}
             closeFavorites={this.closeFavorites}
           />
