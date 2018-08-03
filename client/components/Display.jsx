@@ -225,7 +225,7 @@ class Display extends React.Component {
         location_id: this.state.currentCafe.id
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -294,6 +294,9 @@ class Display extends React.Component {
               reviews={this.state.currentCafeReviews.data}
               cafe={this.state.currentCafe}
             />
+            <Button onClick={this.addToFave}>
+              Add to Favorites
+            </Button>
             <Grid>
               <Row>
                 <Col xs={6} md={3}>

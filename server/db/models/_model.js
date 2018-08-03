@@ -202,14 +202,13 @@ let getRating = function({ location_id }, cb) {
 
 let addFavorite = function({ user_id, location_id }, cb) {
   var params = [user_id, location_id];
-
   db.getConnection((err, conn) => {
     conn.query(
       `INSERT INTO users_locations VALUES (?, ?)`,
       params,
       (err, results) => {
         if (err) {
-          console.error('Error inserting into favorites', err);
+          console.log('Error inserting into favorites', err);
         } else {
           console.log('Inserted into favorites', results);
           cb(null, results);
@@ -220,10 +219,10 @@ let addFavorite = function({ user_id, location_id }, cb) {
   });
 };
 
-let getFavorite = function({ user_id }, cb) {
+let getFavorite = function(user_id, cb) {
   var command = `SELECT id, name, city, state, address, image1, image2, image3
-                 FROM users_locations
-                 JOIN locations ON locations.id=users_locations.location_id
+                 FROM locations
+                 JOIN users_locations ON locations.id=users_locations.location_id
                  WHERE users_locations.user_id=${user_id}`;
 
   db.getConnection((err, conn) => {

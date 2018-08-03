@@ -161,10 +161,11 @@ app.post('/favorites', (req, res) => {
 
 app.get('/favorites', (req, res) => {
   // req.query should have user_id as a key
-
-  models.getFavorite(req.query, (err, data) => {
+  console.log(req.query.user_id);
+  
+  models.getFavorite(req.query.user_id, (err, data) => {
     if (err) {
-      res.send();
+      console.log('Express server received db error: ', err);
     } else {
       res.send(JSON.stringify(data));
     }

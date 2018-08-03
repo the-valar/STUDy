@@ -159,3 +159,29 @@ a:focus {
   position: relative;
   float: right;
 }
+
+.btn-link.removeCard {
+  color: red;
+  /* margin-left: 5px; */
+  width: 15%;
+}
+
+.madeCardContainer {
+  width: 75%;
+}
+
+.newCardContainer {
+  height: 75px
+}
+
+.newCardFront {
+  display: inline-block;
+  width: 30%;
+  text-align: justify;
+}
+
+.newCardBack {
+  display: inline-block;
+  width: 30%;
+  text-align: justify;
+}
