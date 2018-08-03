@@ -49,7 +49,7 @@ class Profile extends React.Component {
   getBio() {
     axios
       .get(`/bio?user_id=${this.props.userId}`)
-      .then(({ data }) => this.setState({ bio: data[0].bio}));
+      .then(({ data }) => this.setState({ bio: data[0].bio === null ? 'Add a bio!' : data[0].bio}));
     this.getPic();
   }
   getPic() {
