@@ -49,7 +49,7 @@ class CreateChat extends React.Component {
 
   sendInvites() {
     axios.post('/group-invitation', {usersNameArray: this.state.friends, chatgroups_id: this.state.group_id})
-    .then((res) => console.log('Invations send', res))
+    .then((res) => this.setState({group_name: '', group_topic: '', viewInviteFriends: !this.state.viewInviteFriends}))
     .catch((err) => console.log('Error sending invites ', err))
   }
 

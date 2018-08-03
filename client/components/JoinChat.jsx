@@ -7,7 +7,7 @@ class JoinChat extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   render () {
     return (
       <div>
@@ -19,13 +19,24 @@ class JoinChat extends React.Component {
 
           <div>
             <Modal.Body>
-                <ControlLabel>Form your very own stud(y) group! Create a chat room for you and your friends to coordinate study logistics.</ControlLabel>
+               {this.props.selectedRoom.length === 0 ?  (
+                <ControlLabel>Groups available to join:</ControlLabel>
+                ) : (
+                <ControlLabel>Joining Group {this.props.selectedRoom['group_name']}</ControlLabel>
+                )}
                 {this.props.rooms.map((room, i) => {
                   return (
-                    <div onClick = {() => this.props.handleSelectedRoom(room)} key={i}>
-                      {room['group_name']}
+                    <div key={i} className="row">
                       <hr></hr>
-                      {room['group_topic']}
+                      <div className="col-sm-6">
+                      <h5>{room['group_name']}</h5>
+                      <p>Chat Topic: {room['group_topic']}</p>
+                      </div>
+                      <div className="col-sm-6">
+                      <Button type="submit"
+                          value="Submit"
+                          onClick = {() => this.props.handleSelectedRoom(room)}>Join Chat</Button>
+                      </div>
                     </div>
                   )
                 })}

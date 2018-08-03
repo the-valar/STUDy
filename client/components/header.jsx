@@ -165,6 +165,8 @@ class Header extends React.Component {
 
               <Nav pullRight>
 
+                  <NavItem onClick={() => {this.props.renderChat()}}><i className="far fa-comments" style={{marginTop: '4px'}}></i></NavItem>
+
                   {/* CHAT DROP DOWN */}
                   <NavDropdown title="Chat" id="basic-nav-dropdown">
                       <MenuItem onClick={this.showCreateChat}>Create STUD(y) Chat</MenuItem>
@@ -194,7 +196,6 @@ class Header extends React.Component {
                         : <MenuItem onClick={this.toggleShow}>Be a STUD</MenuItem>
                         }
                         <MenuItem onClick={this.props.showReviewFeed}>Review Feed</MenuItem>
-
                         <MenuItem divider />
                         <MenuItem onClick={() => {return this.props.logout()}}>Logout</MenuItem>         
                   </NavDropdown>
@@ -227,7 +228,8 @@ class Header extends React.Component {
             rooms={this.props.rooms}
             showJoinRoom={this.state.showJoinRoom}
             closeJoinRoom={this.closeJoinRoom}
-            handleSelectedRoom={this.props.handleSelectedRoom}/>
+            handleSelectedRoom={this.props.handleSelectedRoom}
+            selectedRoom={this.props.selectedRoom}/>
 
           <Invitation 
             rooms={this.props.rooms}            

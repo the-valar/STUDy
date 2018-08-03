@@ -38,6 +38,7 @@
     "nodemon": "^1.18.2",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
+    "react-chat-widget": "^2.1.4-1",
     "react-dom": "^16.4.1",
     "react-grid-layout": "^0.16.6",
     "react-images-upload": "^1.2.0",

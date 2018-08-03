@@ -198,24 +198,23 @@ class App extends React.Component {
     .catch((err) => console.log('Error getting groups', err)) 
   }
 
-  acceptInvitation(chatgroups_id) {
-    console.log({chatgroups_id: chatgroups_id, user_id: this.state.userId})
+  acceptInvitation(chatgroups_id, id) {
     axios.post('/accept-invitation', {chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    .then(response => console.log('success', response))
+    .then(response =>  {this.rejectInvitation(id)})
     .catch(err => console.log('Error accepting invitation', err))
   }
 
-  rejectInvitation(chatgroups_id) {
-    console.log({chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    axios.delete('/group-invitation', {chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    .then(response => this.getInvitation())
+  rejectInvitation(id) {
+    axios.delete('/group-invitation', {params: {id: id, user_id: this.state.userId}})
+    .then(response => {
+      this.getInvitation()
+      this.getGroups()
+    })
     .catch(err => console.log('Error deleting invitation', err))
   }
 
-  handleSelectedRoom (room) {
-    this.setState({
-      selectedRoom: room
-    })
+  handleSelectedRoom(room) {
+    this.setState({ selectedRoom: room })
   }
 
   render() {
@@ -250,9 +249,9 @@ class App extends React.Component {
     let reviewFeed = <ReviewFeed showReviewFeed={this.showReviewFeed} currentUserId={this.state.userId}/>
 
     let ourHomePage = this.state.showReviewFeed ? reviewFeed : defaultState;
-
     return (
-      <div align="center">
+      <div>
+        <div align="center">
         <Header
           username={this.state.username}
           password={this.state.password}
@@ -273,26 +272,24 @@ class App extends React.Component {
           invitations={this.state.invitations}
           acceptInvitation={this.acceptInvitation}
           rejectInvitation={this.rejectInvitation}
+          selectedRoom={this.state.selectedRoom}
+          renderChat={this.renderChat}
         />
 
         {ourHomePage}
-
+      </div>
+      <div align="right">
         {
           this.state.showChat &&
           <Chat username={this.state.username} userId={this.state.userId} rooms={this.state.rooms} selectedRoom={this.state.selectedRoom}/> 
-        }
 
-        {
-          this.state.loggedIn && 
-            <ButtonToolbar>
-              <Button style={{float: 'right'}} onClick={() => {this.renderChat()}}>
-                Chat with Friends
-              </Button>
-            </ButtonToolbar>
         }
       </div>
+    </div>
     );
   }
 }
+
+// 
 
 ReactDOM.render(<App />, document.getElementById('app'));
