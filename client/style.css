@@ -189,5 +189,6 @@ a:focus {
 /* CAFE MODAL */
 
 .cafeView-modal {
-  width: 70%;
+  width: 75%;
+  height: 95%;
 }
