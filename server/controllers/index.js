@@ -254,7 +254,6 @@ app.get("/ratings", (req, res) => {
 
 app.post("/favorites", (req, res) => {
   // req.body should have user_id and location_id as keys
-  log(req.body);
   models.addFavorite(req.body, (err, data) => {
     if (err) {
       res.send();
