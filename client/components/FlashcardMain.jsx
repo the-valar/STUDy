@@ -16,17 +16,19 @@ class FlashcardMain extends React.Component {
             createdDeck: [],
             selectedDeckName: '',
             disabled: true,
-            deck: {
-                id: 1,
-                name: 'Example Deck',
-                cards: [
-                  {
-                    id: 1,
-                    front: 'Lorem',
-                    back: 'dolor',
-                  }
-                ],
-              }
+            deck: {},
+            options: {
+                topControlBar: ['downRating', 'reset', 'upRating'],
+                bottomControlBar: ['decrement', 'shuffle', 'increment'],
+                buttonTexts: {
+                    upRating: 'Got Right',
+                    downRating: 'Got Wrong',
+                    decrement: 'Previous Card',
+                    increment: 'Next Card',
+                    shuffle: 'Random Card',
+                    reset: 'Reset'
+                }
+            }
         }
         //bind section
         this.toggleStudy = this.toggleStudy.bind(this)
@@ -105,7 +107,7 @@ class FlashcardMain extends React.Component {
             return (
                 //Study selected Deck
                 <div style={{marginBottom: '45px'}} >
-                    <FlashcardApp data = {this.state.deck} />
+                    <FlashcardApp data = {this.state.deck} options = {this.state.options} />
                     <Button onClick = {this.toggleStudy} bsStyle="warning"
                         >Back to Flashcard Choice
                     </Button>
@@ -175,7 +177,7 @@ class FlashcardMain extends React.Component {
         
                         :
                         //Deck Selection
-                        <div style={{width: '70%' }}>
+                        <div style={{width: '42%' }}>
                             <FormControl componentClass='select' onChange={this.handleDeckChange} 
                                 placeholder='select a flashcard deck'>
                                 <option  value=''>select a flashcard deck</option>
