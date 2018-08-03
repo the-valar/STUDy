@@ -420,8 +420,41 @@ let updateMembership = (userId, cb) => {
   })
 }
 
+let addPic = ({user_id, url}, cb) => {
+  console.log(user_id);
+  console.log(url);
+  let sqlStatement = `update users set profile_pic = '${url}' where id = ${user_id}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let getPic = (user_id, cb) => {
+  let sqlStatement = `select profile_pic from users where id = ${user_id}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+
 module.exports = {
   saveSpots: saveSpots,
+  addPic: addPic,
+  getPic: getPic,
   getRelevantFirst: getRelevantFirst,
   getAveragesAndReviewCount: getAveragesAndReviewCount,
   login: login,
