@@ -76,7 +76,7 @@ class ReviewFeedParent extends React.Component {
       })
   }
   componentDidMount() {
-    // this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
+    this.intervalFetchChildren = setInterval(() => this.checkForChildren(), 2000);
     this.checkForChildren();
   }
 

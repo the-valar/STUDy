@@ -9,7 +9,6 @@ config_example.js
 server/db/db.js
 
 // bundle.js
-client/bundle.js
 package-lock.json
 config_example.js
 config.js
