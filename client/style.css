@@ -186,9 +186,13 @@ a:focus {
   text-align: justify;
 }
 
-/* CAFE MODAL */
+/* CAFE SEARCH STYLING */
 
 .cafeView-modal {
   width: 75%;
   height: 95%;
 }
+
+.cafe-card:hover{
+  cursor: pointer;
+ }

@@ -250,7 +250,7 @@ class Display extends React.Component {
                 <StackGrid columnWidth={300} monitorImagesLoaded={true}>
                   {this.props.cafes.map((cafe) => {
                     return (
-                      <div key={cafe.id}>
+                      <div key={cafe.id} className='cafe-card'>
                         <Thumbnail
                           src={cafe.image_url}
                           height="250"
@@ -280,8 +280,6 @@ class Display extends React.Component {
 
                 <div style={{ marginBottom: '5%' }} className="parallax" /></div>
             )}
-
-
           <div>
         {this.props.showIndivCafe ? (
               <Modal
