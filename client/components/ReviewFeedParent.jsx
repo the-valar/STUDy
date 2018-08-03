@@ -84,6 +84,8 @@ class ReviewFeedParent extends React.Component {
 
     let membershipStatus = this.props.review.membership > 0 ? <span className="horse" data-tip data-for={`"${this.props.review.id}"`} role="img" aria-label="stud">🐎</span> : null;
     let children = null;
+    let profPicCSSClass = this.props.review.membership > 0 ? "review-prof-pic review-member" : "review-prof-pic"
+    let profilePic = this.props.review.profile_pic ? <img src={this.props.review.profile_pic} className={profPicCSSClass}/> : <img src="../assets/anon-user.jpeg" className={profPicCSSClass}/>;
 
     if (this.state.hasChildren) {
       children = this.state.children.map((child) => (
@@ -151,9 +153,9 @@ class ReviewFeedParent extends React.Component {
       </div>
       <div className="parent-comment-spacing"></div>
       <div className="parent-comment-text">
-        <h5>{membershipStatus} {this.props.review.username}:</h5>
+        <h5>{profilePic} {membershipStatus} {this.props.review.username}:</h5>
         <ReactTooltip id={`"${this.props.review.id}"`} type="error">
-          <p>{this.props.review.username} is a STUD..<br/>check the settings menu for details on becoming a STUD</p>
+          <p>{this.props.review.username} is a STUD..<br/>Check the settings menu for details on how to be a STUD</p>
         </ReactTooltip>
         <p>{this.props.review.text}</p>
       </div>
