@@ -4,77 +4,105 @@ import {
   NavItem,
   Button,
   Popover,
-  OverlayTrigger
+  OverlayTrigger,
+  Collapse,
+  Well
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import '../style.css';
+import AmazonBarCollapse from './AmazonBarCollapse.jsx'
 
 class AmazonBar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      penSource: 'https://cdn1.iconfinder.com/data/icons/education-set-4/512/roller-pencil-512.png',
-      paperSource: 'http://www.free-icons-download.net/images/a-stack-of-paper-icon-92340.png',
-      postitSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/7161-200.png',
-      hiliterSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/231154-200.png',
-      amazonSource: 'https://i0.wp.com/freepngimages.com/wp-content/uploads/2016/10/amazon-logo.png?fit=624%2C329'
-      
+
+      amazonSource: 'http://merivisfoundation.org/wp-content/uploads/2018/02/Amazon-Logo-Transparent-PNG.png',
+      pens: {
+        source:'https://cdn1.iconfinder.com/data/icons/education-set-4/512/roller-pencil-512.png',
+        productName:'pens',
+        ID:'B00347A8NK',
+        open: false
+      },
+      paper: {
+        source: 'http://www.free-icons-download.net/images/a-stack-of-paper-icon-92340.png',
+        productName: 'paper',
+        productID: 'B00005C55O',
+        open: false
+      },
+      postits: {
+        source: 'https://d30y9cdsu7xlg0.cloudfront.net/png/7161-200.png',
+        productName: 'postits',
+        productID: 'B079X87CY1',
+        open: false
+
+      },
+      highlighters: {
+        source: 'https://d30y9cdsu7xlg0.cloudfront.net/png/231154-200.png',
+        productName: 'highlighters',
+        productID: 'B002BA5WMI',
+        open: false
+      }
     }
     this.handleSelect = this.handleSelect.bind(this)
   }
   handleSelect (key) {
-    console.log (this.props.creditCard)
-    axios
-      .post('/orders', {
-        params: {
-          productID: key.productID,
-          creditCard: this.props.creditCard
-        }
-    }).then (function (response) {
-      console.log (response)
-    }).catch (function (error) {
-      console (error)
-    })
-    console.log (key.productKey)
+    let productObj = Object.assign ({}, this.state[key.productName])
+    productObj.open = !productObj.open;
+    var productToOrder = key.productName
+    console.log ('status of ' + productToOrder+':', productObj)
+    this.setState ({[key.productName]: productObj})
+    console.log ('status of ' + productToOrder + ':', this.state[productToOrder])
+
+//    axios
+//      .post('/orders', {
+//        params: {
+//          productID: key.productID,
+//          creditCard: this.props.creditCard
+//        }
+//    }).then (function (response) {
+//      console.log (response)
+//    }).catch (function (error) {
+//      console (error)
+//    })
   }
 
   
   render () {
     return (
       <div class = 'sidebysideLeft'>
-        <img src = {this.state.amazonSource} width = '100' height = '52'/>
+        <img src = {this.state.amazonSource} width = '100' height = '100'/>
         <Nav bsStyle = 'pills' stacked activeKey = {1} onSelect = {this.handleSelect}>
 
           <NavItem eventKey = {
-              {
-                productID: 'B00347A8NK'
-              }
+                this.state.pens
             }>
-          <img src= {this.state.penSource} width = '100' height = '100'/>
+          <img src= {this.state.pens.source} width = '100' height = '100'/>
+          <AmazonBarCollapse product = {this.state.pens}/>
+
           </NavItem>
           <NavItem eventKey = {
-              {
-                productID: 'B00005C55O'
-              }
+                this.state.paper
             }>
-          <img src= {this.state.paperSource} width = '100' height = '100'/>        
+          <img src= {this.state.paper.source} width = '100' height = '100'/>   
+          <AmazonBarCollapse product = {this.state.paper}/>
+            
           </NavItem>
           <NavItem eventKey = {
-              {
-                productID: 'B079X87CY1'
-              }
+                this.state.postits
             }>
-          <img src= {this.state.postitSource} width = '100' height = '100'/>        
+          <img src= {this.state.postits.source} width = '100' height = '100'/>        
+           <AmazonBarCollapse product = {this.state.postits}/>
           </NavItem>
           <NavItem eventKey = {
-              {
-                productID: 'B002BA5WMI'
-              }
+                this.state.highlighters
             }>
-          <img src= {this.state.hiliterSource} width = '100' height = '100'/>        
+          <img src= {this.state.highlighters.source} width = '100' height = '100'/>  
+          <AmazonBarCollapse product = {this.state.highlighters}/>
+
           </NavItem>
 
 
