@@ -287,13 +287,63 @@ class Display extends React.Component {
                 onHide={() => this.props.renderIndivCafe(false)}
                 dialogClassName="cafeView-modal"
               >
-                <Modal.Header closeButton>
-                  <Modal.Title>{this.state.currentCafe.name}</Modal.Title>
+                <Modal.Header closeButton className="modal-header">
+                  {/* <Modal.Title>{this.state.currentCafe.name}</Modal.Title> */}
                 </Modal.Header>
                 <Modal.Body>
                   <div align="center" style={{ marginBottom: 8 }}>
                     {/* current cafe name & avg star ratings */}
                     <h3>{this.state.currentCafe.name}</h3>
+                    <h4>{(this.state.currentCafe.distance * 0.000621371).toFixed(2)} miles away</h4>
+                    {/* <p>
+                    {this.state.currentCafe.location.address1}
+                    <br/> 
+                    {this.state.currentCafe.location.city},{' '}
+                    {this.state.currentCafe.location.state}
+                    <br/>
+                    {this.state.currentCafe.location.zip_code}
+                  </p> */}
+
+                  <Grid>
+                      <Row>
+                        <Col xs={6} md={4} key={this.state.currentCafe.location.display_address}
+                        >
+                          <p>
+                            <strong>Address:</strong>
+                            <br />
+                            {this.state.currentCafe.location.address1}
+                            {this.state.currentCafe.location.address2 ? (
+                              <span>
+                                {' '}
+                                <br /> {this.state.currentCafe.location.address2}{' '}
+                              </span>
+                            ) : (
+                                ''
+                              )}
+                            {this.state.currentCafe.location.address3 ? (
+                              <span>
+                                {' '}
+                                <br /> {this.state.currentCafe.location.address3}{' '}
+                              </span>
+                            ) : (
+                                ''
+                              )}
+                            <br />
+                            {this.state.currentCafe.location.city},{' '}
+                            {this.state.currentCafe.location.state},{' '}
+                            {this.state.currentCafe.location.zip_code}
+                          </p>
+                        </Col>
+                        <Col xs={6} md={4} key={this.state.currentCafe.phone}>
+                          <p>
+                            <strong>Phone:</strong>
+                            <br />
+                            {this.state.currentCafe.phone}
+                          </p>
+                        </Col>
+                      </Row>
+                    </Grid>
+          
                     <ShowReviews
                       reviews={this.state.currentCafeReviews.data}
                       cafe={this.state.currentCafe}
@@ -380,60 +430,6 @@ class Display extends React.Component {
                       </Carousel.Item>
                     </Carousel>
                     <br />
-
-                    {/* info of current cafe */}
-                    <Grid>
-                      <Row>
-                        <Col
-                          xs={6}
-                          md={4}
-                          key={this.state.currentCafe.location.display_address}
-                        >
-                          <p>
-                            <strong>Address:</strong>
-                            <br />
-                            {this.state.currentCafe.location.address1}
-                            {this.state.currentCafe.location.address2 ? (
-                              <span>
-                                {' '}
-                                <br /> {this.state.currentCafe.location.address2}{' '}
-                              </span>
-                            ) : (
-                                ''
-                              )}
-                            {this.state.currentCafe.location.address3 ? (
-                              <span>
-                                {' '}
-                                <br /> {this.state.currentCafe.location.address3}{' '}
-                              </span>
-                            ) : (
-                                ''
-                              )}
-                            <br />
-                            {this.state.currentCafe.location.city},{' '}
-                            {this.state.currentCafe.location.state},{' '}
-                            {this.state.currentCafe.location.zip_code}
-                          </p>
-                        </Col>
-                        <Col xs={6} md={4} key={this.state.currentCafe.phone}>
-                          <p>
-                            <strong>Phone:</strong>
-                            <br />
-                            {this.state.currentCafe.phone}
-                          </p>
-                        </Col>
-                        <Col xs={6} md={4} key={this.state.currentCafe.distance}>
-                          <p>
-                            <strong>Distance:</strong>
-                            <br />
-                            {(this.state.currentCafe.distance * 0.000621371).toFixed(
-                              2
-                            )}{' '}
-                            miles
-                  </p>
-                        </Col>
-                      </Row>
-                    </Grid>
 
                     <div>
                       <Review

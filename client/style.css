@@ -196,3 +196,7 @@ a:focus {
 .cafe-card:hover{
   cursor: pointer;
  }
+
+ .modal-header {
+  text-align: center;
+}
