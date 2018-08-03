@@ -198,24 +198,20 @@ class App extends React.Component {
     .catch((err) => console.log('Error getting groups', err)) 
   }
 
-  acceptInvitation(chatgroups_id) {
-    console.log({chatgroups_id: chatgroups_id, user_id: this.state.userId})
+  acceptInvitation(chatgroups_id, id) {
     axios.post('/accept-invitation', {chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    .then(response => console.log('success', response))
+    .then(response =>  this.rejectInvitation(id))
     .catch(err => console.log('Error accepting invitation', err))
   }
 
-  rejectInvitation(chatgroups_id) {
-    console.log({chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    axios.delete('/group-invitation', {chatgroups_id: chatgroups_id, user_id: this.state.userId})
+  rejectInvitation(id) {
+    axios.delete('/group-invitation', {params: {id: id, user_id: this.state.userId}})
     .then(response => this.getInvitation())
     .catch(err => console.log('Error deleting invitation', err))
   }
 
-  handleSelectedRoom (room) {
-    this.setState({
-      selectedRoom: room
-    })
+  handleSelectedRoom(room) {
+    this.setState({ selectedRoom: room })
   }
 
   render() {
@@ -273,6 +269,7 @@ class App extends React.Component {
           invitations={this.state.invitations}
           acceptInvitation={this.acceptInvitation}
           rejectInvitation={this.rejectInvitation}
+          selectedRoom={this.state.selectedRoom}
         />
 
         {ourHomePage}

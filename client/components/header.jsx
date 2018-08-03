@@ -227,7 +227,8 @@ class Header extends React.Component {
             rooms={this.props.rooms}
             showJoinRoom={this.state.showJoinRoom}
             closeJoinRoom={this.closeJoinRoom}
-            handleSelectedRoom={this.props.handleSelectedRoom}/>
+            handleSelectedRoom={this.props.handleSelectedRoom}
+            selectedRoom={this.props.selectedRoom}/>
 
           <Invitation 
             rooms={this.props.rooms}            
