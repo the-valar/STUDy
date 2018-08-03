@@ -200,13 +200,16 @@ class App extends React.Component {
 
   acceptInvitation(chatgroups_id, id) {
     axios.post('/accept-invitation', {chatgroups_id: chatgroups_id, user_id: this.state.userId})
-    .then(response =>  this.rejectInvitation(id))
+    .then(response =>  {this.rejectInvitation(id)})
     .catch(err => console.log('Error accepting invitation', err))
   }
 
   rejectInvitation(id) {
     axios.delete('/group-invitation', {params: {id: id, user_id: this.state.userId}})
-    .then(response => this.getInvitation())
+    .then(response => {
+      this.getInvitation()
+      this.getGroups()
+    })
     .catch(err => console.log('Error deleting invitation', err))
   }
 
@@ -246,9 +249,9 @@ class App extends React.Component {
     let reviewFeed = <ReviewFeed showReviewFeed={this.showReviewFeed} currentUserId={this.state.userId}/>
 
     let ourHomePage = this.state.showReviewFeed ? reviewFeed : defaultState;
-
     return (
-      <div align="center">
+      <div>
+        <div align="center">
         <Header
           username={this.state.username}
           password={this.state.password}
@@ -270,26 +273,23 @@ class App extends React.Component {
           acceptInvitation={this.acceptInvitation}
           rejectInvitation={this.rejectInvitation}
           selectedRoom={this.state.selectedRoom}
+          renderChat={this.renderChat}
         />
 
         {ourHomePage}
-
+      </div>
+      <div align="right">
         {
           this.state.showChat &&
           <Chat username={this.state.username} userId={this.state.userId} rooms={this.state.rooms} selectedRoom={this.state.selectedRoom}/> 
-        }
 
-        {
-          this.state.loggedIn && 
-            <ButtonToolbar>
-              <Button style={{float: 'right'}} onClick={() => {this.renderChat()}}>
-                Chat with Friends
-              </Button>
-            </ButtonToolbar>
         }
       </div>
+    </div>
     );
   }
 }
+
+// 
 
 ReactDOM.render(<App />, document.getElementById('app'));
