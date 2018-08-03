@@ -7,7 +7,12 @@
     "start": "webpack -d && node server/controllers/index.js",
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/controllers/index.js",
-    "test": "mocha spec/spec.js"
+    "test": "mocha spec/spec.js",
+    "postinstall": "npm run delCSS",
+    "delCSS": "rm node_modules/react-flashcard-app/css/flashcards.css",
+    "postdelCSS": "touch node_modules/react-flashcard-app/css/flashcards.css",
+    "testDel": "rm node_modules/react-flashcard-app/css/flashcards.css",
+    "posttestDel": "touch node_modules/react-flashcard-app/css/flashcards.css"
   },
   "repository": {
     "type": "git",
