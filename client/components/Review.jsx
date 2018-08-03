@@ -86,11 +86,11 @@ class Review extends React.Component {
                 onChange={this.props.enterReview}
               />
             </FormGroup>
+          <Button onClick={this.props.submitReview}> Submit </Button>
           </div>
 
-          <Button onClick={this.props.submitReview}> Submit </Button>
         </div>
-      )
+      );
     // if user is not logged in, will not render review page
     } else {
       return null;
