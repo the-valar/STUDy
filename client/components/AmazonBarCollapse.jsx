@@ -14,14 +14,14 @@ import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import '../style.css';
 
-var AmazonBarCollapse  = ({product}) => {
+var AmazonBarCollapse  = ({product, handleConfirm}) => {
   return (
     <Collapse in = {product.open}>
       <div>
         <Well>
           Buy {product.productName}?
           <div>
-            <Button>Yes</Button>
+            <Button onClick = {() => {handleConfirm(product)}} >Yes</Button>
           </div>
         </Well>
       </div>

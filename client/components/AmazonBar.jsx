@@ -48,26 +48,30 @@ class AmazonBar extends React.Component {
       }
     }
     this.handleSelect = this.handleSelect.bind(this)
+    this.handleConfirm = this.handleConfirm.bind(this)
   }
   handleSelect (key) {
     let productObj = Object.assign ({}, this.state[key.productName])
     productObj.open = !productObj.open;
-    var productToOrder = key.productName
-    console.log ('status of ' + productToOrder+':', productObj)
     this.setState ({[key.productName]: productObj})
-    console.log ('status of ' + productToOrder + ':', this.state[productToOrder])
+//    console.log (this.props.creditCard)
+//    console.log (this.props.shippingAddress)
 
-//    axios
-//      .post('/orders', {
-//        params: {
-//          productID: key.productID,
-//          creditCard: this.props.creditCard
-//        }
-//    }).then (function (response) {
-//      console.log (response)
-//    }).catch (function (error) {
-//      console (error)
-//    })
+  }
+  
+  handleConfirm (product) {
+      axios
+      .post('/orders', {
+        params: {
+          shippingAddress: this.props.shippingAddress,
+          creditCard: this.props.creditCard,
+          productID: product.productID
+        }
+    }).then (function (response) {
+      console.log (response.data.params)
+    }).catch (function (error) {
+      console (error)
+    })
   }
 
   
@@ -81,27 +85,30 @@ class AmazonBar extends React.Component {
                 this.state.pens
             }>
           <img src= {this.state.pens.source} width = '100' height = '100'/>
-          <AmazonBarCollapse product = {this.state.pens}/>
+          <AmazonBarCollapse product = {this.state.pens} handleConfirm = {this.handleConfirm}/>
 
           </NavItem>
           <NavItem eventKey = {
                 this.state.paper
             }>
           <img src= {this.state.paper.source} width = '100' height = '100'/>   
-          <AmazonBarCollapse product = {this.state.paper}/>
+          <AmazonBarCollapse product = {this.state.paper} handleConfirm = {this.handleConfirm}/>
+
             
           </NavItem>
           <NavItem eventKey = {
                 this.state.postits
             }>
           <img src= {this.state.postits.source} width = '100' height = '100'/>        
-           <AmazonBarCollapse product = {this.state.postits}/>
+           <AmazonBarCollapse product = {this.state.postits} handleConfirm = {this.handleConfirm}/>
+
           </NavItem>
           <NavItem eventKey = {
                 this.state.highlighters
             }>
           <img src= {this.state.highlighters.source} width = '100' height = '100'/>  
-          <AmazonBarCollapse product = {this.state.highlighters}/>
+          <AmazonBarCollapse product = {this.state.highlighters} handleConfirm = {this.handleConfirm}/>
+
 
           </NavItem>
 

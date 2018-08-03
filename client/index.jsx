@@ -264,6 +264,7 @@ class App extends React.Component {
                 loggedIn={this.state.loggedIn}
                 showIndivCafe={this.state.showIndivCafe}
                 renderIndivCafe={this.renderIndivCafe}
+                creditCard={this.state.creditCard}
               />
             </div>
           </div>

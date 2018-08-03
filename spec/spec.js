@@ -1,6 +1,6 @@
 const assert = require('assert')
 const expect = require('chai').expect
-
+const axios = require ('axios')
 describe('Array', function() {
     describe('#indexOf()', function() {
       it('should return -1 when the value is not present', function() {
@@ -22,10 +22,24 @@ describe('Array', function() {
 
 
 
-////Kiernen Test
+////Kiernan Test
 
 
-
+describe ('Amazon Order Bar', function () {
+  describe ('Server Connection', function () {
+    it ('should take in an object that has a product ID', function () {
+      axios.post('/orders', {
+        params: {
+          shippingAddress: {},
+          creditCard: {number : '123456789012345'},
+          productID: ''
+        }
+        }).then (function (response) {
+          expect(response.data).to.equal('Error: Credit Card is not 16 digits long')
+        })
+    })
+  })
+})
 
 
 
