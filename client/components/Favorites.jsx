@@ -19,7 +19,7 @@ class Favorites extends React.Component {
         <div className='favorites'>
               {this.state.favorites.map((cafe) => {
                 return (
-                  <div >
+                  <div className='favItem'>
                       <h4>{cafe.name}</h4>
                       <p>
                         {cafe.address}, {cafe.city}, {cafe.state}
