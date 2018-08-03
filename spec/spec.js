@@ -1,4 +1,5 @@
 const assert = require('assert')
+const expect = require('chai').expect
 
 describe('Array', function() {
     describe('#indexOf()', function() {
@@ -32,3 +33,11 @@ describe('Array', function() {
 
 
 /////Martin Test
+
+describe('New Deck Creation', () => {
+  describe('Save Card', () => {
+    it('should add the front and back as a new card to the array',() => {
+      
+    })
+  })
+})
