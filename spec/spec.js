@@ -36,10 +36,7 @@ describe('Array', function() {
 
 
 /////Martin Test
-// const FlashcardMain = require('./../client/components/FlashcardMain.jsx')
 const db = require('./../server/db/models/_model')
-
-// spy(FlashcardMain.prototype, 'componentDidMount')
 
 describe('database', () => {
   describe('fetch Deck names', () => {
