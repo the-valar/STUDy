@@ -52,7 +52,7 @@ class Display extends React.Component {
 
   // function that sets state to clicked cafe
   cafeView(cafe) {
-    window.scrollTo(0, document.getElementById('search-button').offsetTop);
+    // window.scrollTo(0, document.getElementById('search-button').offsetTop);
     axios
       .get('/ratings', {
         params: {
@@ -295,35 +295,7 @@ class Display extends React.Component {
               <Modal.Title>{this.state.currentCafe.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Carousel bsClass='sidebysideRight carousel'>
-                <Carousel.Item>
-                  <img
-                    style={{ maxWidth: '600px', height: '50%' }}
-                    alt="600x200"
-                    src={this.state.currentCafe.pics[0]}
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    style={{ maxWidth: '600px', height: '50%' }}
-                    alt="600x200"
-                    src={this.state.currentCafe.pics[1]}
-                  />
-                </Carousel.Item>
-                <Carousel.Item>
-                  <img
-                    style={{ maxWidth: '600px', height: '50%' }}
-                    alt="600x200"
-                    src={this.state.currentCafe.pics[2]}
-                  />
-                </Carousel.Item>
-              </Carousel>
-            </Modal.Body>
-          </Modal>
-
-
-          {/* current cafe name & picture */}
-          <div align="center" style={{ marginBottom: 50 }}>
+            <div align="center" style={{ marginBottom: 50 }}>
             {/* current cafe name & avg star ratings */}
             <h3>{this.state.currentCafe.name}</h3>
             <ShowReviews
@@ -482,6 +454,12 @@ class Display extends React.Component {
               />
             </div>
           </div>
+            </Modal.Body>
+          </Modal>
+
+
+          {/* current cafe name & picture */}
+          
 
           {/* list of cafes from search */}
           <Tabs id="search-map" onSelect={this.handleSelect} activeKey={this.state.showMap ? 2 : 1}>
