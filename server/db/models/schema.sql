@@ -1,4 +1,4 @@
-USE sampedb;
+USE Study;
 
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -52,13 +52,22 @@ CREATE TABLE chatgroups (
   id INT PRIMARY KEY AUTO_INCREMENT,
   creator_id INT,
   group_name VARCHAR(255) UNIQUE,
-  group_thumbnail VARCHAR(255),
   group_topic VARCHAR(255),
   FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
-CREATE TABLE users_chatgroups (
+CREATE TABLE chatgroups_users (
   user_id INT,
-  chatgroups_id 
+  chatgroups_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (chatgroups_id) REFERENCES chatgroups(id)
+);
+
+CREATE TABLE chatgroups_invitations (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  chatgroups_id INT, 
+  user_id INT,
+  FOREIGN KEY (chatgroups_id) REFERENCES chatgroups(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
