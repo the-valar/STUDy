@@ -35,7 +35,6 @@ app.use(express.static(__dirname + "/../../client"));
 /* Socket.io Chat Routes */
 /* ===================== */
 
-<<<<<<< HEAD
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
@@ -71,13 +70,10 @@ app.delete('/groups', (req, res) => {
   console.log(group_name)
   // TODO: Create and use model to delete groups by user_id 
 })
-=======
-const io = require("socket.io")(server);
->>>>>>> woops
 
-io.on("connection", function() {
-  console.log("Socket.io is listening");
-});
+// io.on("connection", function() {
+//   console.log("Socket.io is listening");
+// });
 
 /* ===================== */
 /* ===================== */
