@@ -185,3 +185,9 @@ a:focus {
   width: 30%;
   text-align: justify;
 }
+
+/* CAFE MODAL */
+
+.cafeView-modal {
+  width: 70%;
+}

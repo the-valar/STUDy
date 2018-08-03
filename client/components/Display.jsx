@@ -8,7 +8,7 @@ import {
   Carousel,
   Modal,
   Tabs,
-  Tab
+  Tab,
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
@@ -52,7 +52,7 @@ class Display extends React.Component {
 
   // function that sets state to clicked cafe
   cafeView(cafe) {
-    window.scrollTo(0, document.getElementById('search-button').offsetTop);
+    // window.scrollTo(0, document.getElementById('search-button').offsetTop);
     axios
       .get('/ratings', {
         params: {
@@ -286,17 +286,27 @@ class Display extends React.Component {
     } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
       return (
         <div>
-          {/* current cafe name & picture */}
-          <div align="center" style={{ marginBottom: 50 }}>
-            {/* current cafe name & avg star ratings */}
-            <h3>{this.state.currentCafe.name}</h3>
-            <ShowReviews
-              reviews={this.state.currentCafeReviews.data}
-              cafe={this.state.currentCafe}
-            />
-            <Button onClick={this.addToFave}>
+
+          <Modal
+            show={this.props.showIndivCafe}
+            onHide={() => this.props.renderIndivCafe(false)}
+            dialogClassName="cafeView-modal"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.currentCafe.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div align="center" style={{ marginBottom: 50 }}>
+                {/* current cafe name & avg star ratings */}
+                <h3>{this.state.currentCafe.name}</h3>
+                <ShowReviews
+                  reviews={this.state.currentCafeReviews.data}
+                  cafe={this.state.currentCafe}
+                />
+
+            {this.props.loggedIn ? <Button onClick={this.addToFave} style={{marginTop: '5px'}}>
               Add to Favorites
-            </Button>
+            </Button> : null }
             <Grid>
               <Row>
                 <Col xs={6} md={3}>
@@ -445,6 +455,12 @@ class Display extends React.Component {
               />
             </div>
           </div>
+            </Modal.Body>
+          </Modal>
+
+
+          {/* current cafe name & picture */}
+          
 
           {/* list of cafes from search */}
           <Tabs id="search-map" onSelect={this.handleSelect} activeKey={this.state.showMap ? 2 : 1}>

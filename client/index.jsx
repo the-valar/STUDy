@@ -38,11 +38,13 @@ class App extends React.Component {
       flashcardDeckNames: []
     };
 
+    var hello = 'hello';
+
     this.handleYelp = this.handleYelp.bind(this);
 
     this.handleUser = this.handleUser.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
-    
+
     this.handleCreditCardNumber = this.handleCreditCardNumber.bind(this);
     this.handleCreditCardName = this.handleCreditCardName.bind(this);
     this.handleCreditCardCode = this.handleCreditCardCode.bind(this);
@@ -195,6 +197,9 @@ class App extends React.Component {
   showStudyCards() {
     this.setState({showStudyCards: true})
   }
+
+   
+
 
   showMain() {
     this.setState({showStudyCards: false})
