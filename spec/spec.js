@@ -1,8 +1,5 @@
 const assert = require('assert')
 const expect = require('chai').expect
-const React = require('react')
-const { mount } = require('enzyme')
-// const { spy } = require('sinon')
 
 describe('Array', function() {
     describe('#indexOf()', function() {
