@@ -309,8 +309,9 @@ class Display extends React.Component {
             </Button> : null }
             <Grid>
               <Row>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   Coffee/Tea:{' '}
+                  <br />
                   <StarRatings
                     numberOfStars={5}
                     rating={this.state.currentCafeAvgRating.coffeeTea || 0}
@@ -320,8 +321,9 @@ class Display extends React.Component {
                     starEmptyColor="grey"
                   />
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   Atmosphere:{' '}
+                  <br />
                   <StarRatings
                     numberOfStars={5}
                     rating={this.state.currentCafeAvgRating.atmosphere || 0}
@@ -331,8 +333,9 @@ class Display extends React.Component {
                     starEmptyColor="grey"
                   />
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   Comfort:{' '}
+                  <br />
                   <StarRatings
                     numberOfStars={5}
                     rating={this.state.currentCafeAvgRating.comfort || 0}
@@ -342,8 +345,9 @@ class Display extends React.Component {
                     starEmptyColor="grey"
                   />
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   Food:{' '}
+                  <br />
                   <StarRatings
                     numberOfStars={5}
                     rating={this.state.currentCafeAvgRating.food || 0}
