@@ -19,7 +19,7 @@ class Invitation extends React.Component {
 
           <div>
             <Modal.Body>
-                <ControlLabel>View Invitation: </ControlLabel>
+                <ControlLabel>You've received invitations to join a STUD(y) Chat: </ControlLabel>
                 {
                   this.props.invitations.map((invite) => {
                   return (
@@ -29,10 +29,10 @@ class Invitation extends React.Component {
                       </div>
                      <Button type="submit"
                           value="Submit"
-                          onClick={() => {this.props.acceptInvitation(invite.chatgroups_id)}}>Accept Invitation</Button>
+                          onClick={() => {this.props.acceptInvitation(invite.chatgroups_id, invite.id)}}>Accept Invitation</Button>
                      <Button type="submit"
                           value="Submit"
-                          onClick={() => {this.props.rejectInvitation(invite.chatgroups_id)}}>Reject Invitation</Button>
+                          onClick={() => {this.props.rejectInvitation(invite.id)}}>Reject Invitation</Button>
                       <hr></hr>
                     </div>
                   )

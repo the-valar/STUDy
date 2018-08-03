@@ -87,19 +87,12 @@ app.post('/accept-invitation', (req, res) => {
   let { id, chatgroups_id, user_id } = req.body
   models.acceptInvitation(chatgroups_id, user_id, (err, response) => {
     if (err) res.send(err)
-    else {
-      console.log('response', response)
-      res.send(response)
-    //   models.deleteInvitation(id, (err, resp) => {
-    //   if (err) res.send(err)
-    //   else res.send(resp)
-    // })
-    }
+    else res.send(response)
   })
 })
 
 app.delete('/group-invitation', (req, res) => {
-  let { id, chatgroups_id, user_id } = req.body
+  let { id, user_id } = req.query
   models.deleteInvitation(id, (err, resp) => {
     if (err) res.sendStatus(500)
     else res.send(resp)

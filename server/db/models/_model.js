@@ -507,6 +507,7 @@ let acceptInvitation = ( chatgroups_id, user_id, cb ) => {
 }
 
 let deleteInvitation = ( id, cb) => {
+  console.log('id in here', id)
   let sqlStatement = `DELETE FROM chatgroups_invitations WHERE id = ?`
   db.getConnection((err, conn) => {
     conn.query(sqlStatement, id, (err, results) => {
