@@ -26,7 +26,7 @@ class ReviewFeed extends React.Component {
       })
   }
   componentDidMount() {
-    // this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
+    this.intervalFetchReviews = setInterval(() => this.getParentReviews(), 2000);
     this.getParentReviews()
   }
   render() {
