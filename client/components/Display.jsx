@@ -288,21 +288,22 @@ class Display extends React.Component {
         <div>
 
           <Modal
-                    show={this.props.showIndivCafe}
-                    onHide={() => this.props.renderIndivCafe(false)}
+            show={this.props.showIndivCafe}
+            onHide={() => this.props.renderIndivCafe(false)}
+            dialogClassName="cafeView-modal"
           >
             <Modal.Header closeButton>
               <Modal.Title>{this.state.currentCafe.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <div align="center" style={{ marginBottom: 50 }}>
-            {/* current cafe name & avg star ratings */}
-            <h3>{this.state.currentCafe.name}</h3>
-            <ShowReviews
-              reviews={this.state.currentCafeReviews.data}
-              cafe={this.state.currentCafe}
-            />
-            
+              <div align="center" style={{ marginBottom: 50 }}>
+                {/* current cafe name & avg star ratings */}
+                <h3>{this.state.currentCafe.name}</h3>
+                <ShowReviews
+                  reviews={this.state.currentCafeReviews.data}
+                  cafe={this.state.currentCafe}
+                />
+
             {this.props.loggedIn ? <Button onClick={this.addToFave} style={{marginTop: '5px'}}>
               Add to Favorites
             </Button> : null }
