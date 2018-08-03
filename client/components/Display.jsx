@@ -8,7 +8,7 @@ import {
   Carousel,
   Modal,
   Tabs,
-  Tab
+  Tab,
 } from 'react-bootstrap';
 import StackGrid from 'react-stack-grid';
 import ScrollToTop from 'react-scroll-up';
@@ -286,6 +286,42 @@ class Display extends React.Component {
     } else if (this.props.cafes.length > 0 && this.props.showIndivCafe) {
       return (
         <div>
+
+          <Modal
+                    show={this.props.showIndivCafe}
+                    onHide={() => this.props.renderIndivCafe(false)}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.currentCafe.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Carousel bsClass='sidebysideRight carousel'>
+                <Carousel.Item>
+                  <img
+                    style={{ maxWidth: '600px', height: '50%' }}
+                    alt="600x200"
+                    src={this.state.currentCafe.pics[0]}
+                  />
+                </Carousel.Item>
+                <Carousel.Item>
+                  <img
+                    style={{ maxWidth: '600px', height: '50%' }}
+                    alt="600x200"
+                    src={this.state.currentCafe.pics[1]}
+                  />
+                </Carousel.Item>
+                <Carousel.Item>
+                  <img
+                    style={{ maxWidth: '600px', height: '50%' }}
+                    alt="600x200"
+                    src={this.state.currentCafe.pics[2]}
+                  />
+                </Carousel.Item>
+              </Carousel>
+            </Modal.Body>
+          </Modal>
+
+
           {/* current cafe name & picture */}
           <div align="center" style={{ marginBottom: 50 }}>
             {/* current cafe name & avg star ratings */}
@@ -294,9 +330,10 @@ class Display extends React.Component {
               reviews={this.state.currentCafeReviews.data}
               cafe={this.state.currentCafe}
             />
-            <Button onClick={this.addToFave}>
+            
+            {this.props.loggedIn ? <Button onClick={this.addToFave} style={{marginTop: '5px'}}>
               Add to Favorites
-            </Button>
+            </Button> : null }
             <Grid>
               <Row>
                 <Col xs={6} md={3}>
