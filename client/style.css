@@ -95,6 +95,7 @@ a:focus {
 
 
 .picture{
+  display:grid;
   height:200px;
   width:200px;
 }
@@ -434,6 +435,9 @@ a:focus {
 
 .favorites{
   display:grid;
+}
+.favorites > div{
+  transition: all 0.2s ease-in;
 
 }
 .favorites > div:nth-child(odd) {
@@ -441,10 +445,17 @@ a:focus {
 }
 .favorites > div:nth-child(odd):hover {
     background-color: gainsboro;
+    border-top-color: #2b8df2;
+    border-left-color: #2b8df2;
+    box-shadow: 2px 2px 3px rgba(0,0,0,.3);
 }
 
 .favorites > div:nth-child(even):hover {
   background-color: darkgray;
+  border-top-color: #2b8df2;
+  border-left-color: #2b8df2;
+  box-shadow: 2px 2px 3px rgba(0,0,0,.3);
+
 }
 
 .favorites > div:nth-child(even) {
@@ -470,4 +481,18 @@ textarea {
 .rightSide {
   display: grid;
   grid-template-rows:  1fr 1fr;
+}
+
+.fileContainer {
+  background: none;
+  box-shadow: 0 0 0 0;
+  position: relative;
+  border-radius: 10px;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flex-direction: column; */
+  margin: 10px auto;
+  transition: all 0.3s ease-in;
 }
