@@ -19,31 +19,43 @@ class AmazonBar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      penSource: 'https://cdn1.iconfinder.com/data/icons/education-set-4/512/roller-pencil-512.png',
-      paperSource: 'http://www.free-icons-download.net/images/a-stack-of-paper-icon-92340.png',
-      postitSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/7161-200.png',
-      hiliterSource: 'https://d30y9cdsu7xlg0.cloudfront.net/png/231154-200.png',
+
       amazonSource: 'http://merivisfoundation.org/wp-content/uploads/2018/02/Amazon-Logo-Transparent-PNG.png',
-      openStatuses: {
-        paper: false,
-        pens: false,
-        'post-its': false,
-        'high-liters': false
+      pens: {
+        source:'https://cdn1.iconfinder.com/data/icons/education-set-4/512/roller-pencil-512.png',
+        productName:'pens',
+        ID:'B00347A8NK',
+        open: false
       },
-      products: {
-        paper: {},
-        pens: {},
-        'post-its': {},
-        'high-liters': {}
+      paper: {
+        source: 'http://www.free-icons-download.net/images/a-stack-of-paper-icon-92340.png',
+        productName: 'paper',
+        productID: 'B00005C55O',
+        open: false
+      },
+      postits: {
+        source: 'https://d30y9cdsu7xlg0.cloudfront.net/png/7161-200.png',
+        productName: 'postits',
+        productID: 'B079X87CY1',
+        open: false
+
+      },
+      highlighters: {
+        source: 'https://d30y9cdsu7xlg0.cloudfront.net/png/231154-200.png',
+        productName: 'highlighters',
+        productID: 'B002BA5WMI',
+        open: false
       }
     }
     this.handleSelect = this.handleSelect.bind(this)
   }
   handleSelect (key) {
-    console.log (this.props.creditCard)
-    let openObj = Object.assign({}, this.state.openStatuses)
-    openObj[key.productName] = !openObj[key.productName]
-    this.setState ({openStatuses: openObj})
+    let productObj = Object.assign ({}, this.state[key.productName])
+    productObj.open = !productObj.open;
+    var productToOrder = key.productName
+    console.log ('status of ' + productToOrder+':', productObj)
+    this.setState ({[key.productName]: productObj})
+    console.log ('status of ' + productToOrder + ':', this.state[productToOrder])
 
 //    axios
 //      .post('/orders', {
@@ -56,7 +68,6 @@ class AmazonBar extends React.Component {
 //    }).catch (function (error) {
 //      console (error)
 //    })
-    console.log ('Key.productKey', key.productName)
   }
 
   
@@ -67,42 +78,30 @@ class AmazonBar extends React.Component {
         <Nav bsStyle = 'pills' stacked activeKey = {1} onSelect = {this.handleSelect}>
 
           <NavItem eventKey = {
-              {
-                productName: 'pens',
-                productID: 'B00347A8NK'
-              }
+                this.state.pens
             }>
-          <img src= {this.state.penSource} width = '100' height = '100'/>
-          <AmazonBarCollapse openStatus = {this.state.openStatuses['pens']} productName = {'pens'}/>
+          <img src= {this.state.pens.source} width = '100' height = '100'/>
+          <AmazonBarCollapse product = {this.state.pens}/>
 
           </NavItem>
           <NavItem eventKey = {
-              {
-                productName: 'paper',
-                productID: 'B00005C55O'
-              }
+                this.state.paper
             }>
-          <img src= {this.state.paperSource} width = '100' height = '100'/>   
-          <AmazonBarCollapse openStatus = {this.state.openStatuses['pens']} productName = {'pens'}/>
+          <img src= {this.state.paper.source} width = '100' height = '100'/>   
+          <AmazonBarCollapse product = {this.state.paper}/>
             
           </NavItem>
           <NavItem eventKey = {
-              {
-                productName: 'post-its',
-                productID: 'B079X87CY1'
-              }
+                this.state.postits
             }>
-          <img src= {this.state.postitSource} width = '100' height = '100'/>        
-           <AmazonBarCollapse openStatus = {this.state.openStatuses['pens']} productName = {'pens'}/>
+          <img src= {this.state.postits.source} width = '100' height = '100'/>        
+           <AmazonBarCollapse product = {this.state.postits}/>
           </NavItem>
           <NavItem eventKey = {
-              {
-                productName: 'high-lighters',
-                productID: 'B002BA5WMI'
-              }
+                this.state.highlighters
             }>
-          <img src= {this.state.hiliterSource} width = '100' height = '100'/>  
-          <AmazonBarCollapse openStatus = {this.state.openStatuses['pens']} productName = {'pens'}/>
+          <img src= {this.state.highlighters.source} width = '100' height = '100'/>  
+          <AmazonBarCollapse product = {this.state.highlighters}/>
 
           </NavItem>
 

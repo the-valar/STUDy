@@ -14,12 +14,12 @@ import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import '../style.css';
 
-var AmazonBarCollapse  = (props) => {
+var AmazonBarCollapse  = ({product}) => {
   return (
-    <Collapse in = {props.openStatus}>
+    <Collapse in = {product.open}>
       <div>
         <Well>
-          Buy {props.productName}?
+          Buy {product.productName}?
           <div>
             <Button>Yes</Button>
           </div>
