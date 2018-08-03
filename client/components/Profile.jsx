@@ -11,10 +11,12 @@ import {
   Modal
 } from "react-bootstrap";
 
+
 // import './bootstrap.css'
 // import './profile.css'
 // import 'universal-parallax.min.css'
 import Favorites from "./Favorites.jsx";
+import Upload from "./Upload.jsx";
 import axios from "axios";
 
 class Profile extends React.Component {
@@ -25,11 +27,13 @@ class Profile extends React.Component {
       showProfile: false, //keep false by default
       bio: null,
       toggleForm: false,
-      userInput: ""
+      userInput: "",
+      profilePic: null,
     };
 
     this.toggleProfile = this.toggleProfile.bind(this);
     this.getBio = this.getBio.bind(this);
+    this.getPic = this.getPic.bind(this);
     this.renderBio = this.renderBio.bind(this);
     this.sendBio = this.sendBio.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
@@ -46,6 +50,13 @@ class Profile extends React.Component {
     axios
       .get(`/bio?user_id=${this.props.userId}`)
       .then(({ data }) => this.setState({ bio: data[0].bio}));
+    this.getPic();
+  }
+  getPic() {
+    axios
+      .get(`/imgProfile?q=${this.props.userId}`)
+      .then(({data}) =>  this.setState({ profilePic: data === 'nothing' ? 'https://pbs.twimg.com/profile_images/702479650237366272/HyN65Fu7_400x400.jpg' : data}));
+
   }
   sendBio() {
     axios
@@ -116,8 +127,9 @@ class Profile extends React.Component {
             <div className="picture">
               <img
                 className="img-responsive thumbnail"
-                src={this.props.profilePic}
+                src={this.state.profilePic}
               />
+              <Upload userId={this.props.userId} trigger={this.getPic}/>
             </div>
 
             <div className="rightSide">

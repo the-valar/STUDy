@@ -337,8 +337,9 @@ let addPics = function({ pics, location_id }, cb) {
 
 let getFullReviews = function({ location_id, parent_id }, cb) {
   var params = [location_id, parent_id]
-  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id
+  var command = `SELECT r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, u.username
                   FROM comments as c
+                  JOIN users as u ON u.id=c.user_id
                   JOIN locations ON c.location=locations.id
                   JOIN ratings as r ON r.location=locations.id
                   WHERE locations.id=? AND parent_id=?
@@ -359,14 +360,14 @@ let getFullReviews = function({ location_id, parent_id }, cb) {
 };
 
 let getReviewByParentId = ({parentId}, cb) => {
-  let childSqlStatement = `SELECT l.name, l.city, l.state, l.address, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  let childSqlStatement = `SELECT l.name, l.city, l.state, l.address, c.text, c.user_id, c.parent_id, c.id, c.location, u.username, u.membership
   FROM comments as c
   JOIN locations as l ON l.id=c.location
   JOIN users as u ON c.user_id=u.id
   WHERE parent_id=?
   GROUP BY c.text
   ORDER BY c.id`;
-  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username
+  let sqlStatement = `SELECT l.name, l.city, l.state, l.address, r.coffeeTea, r.atmosphere, r.comfort, r.food, c.text, c.user_id, c.parent_id, c.id, c.location, u.username, u.membership
   FROM comments as c
   JOIN locations as l ON l.id=c.location
   JOIN ratings as r ON r.id=c.rating_id
@@ -516,8 +517,40 @@ let deleteInvitation = ( id, cb) => {
   })
 }
 
+let addPic = ({user_id, url}, cb) => {
+  console.log(user_id);
+  console.log(url);
+  let sqlStatement = `update users set profile_pic = '${url}' where id = ${user_id}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
+let getPic = (user_id, cb) => {
+  let sqlStatement = `select profile_pic from users where id = ${user_id}`
+  db.getConnection((err, conn) => {
+    conn.query(sqlStatement, (err, results) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(null, results);
+      }
+      conn.release();
+    })
+  })
+}
+
 module.exports = {
   saveSpots: saveSpots,
+  addPic: addPic,
+  getPic: getPic,
   getRelevantFirst: getRelevantFirst,
   getAveragesAndReviewCount: getAveragesAndReviewCount,
   login: login,
