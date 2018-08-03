@@ -33,7 +33,25 @@ app.get('/logout', (req, res) => {
 
 app.post ('/orders', (req, res) => {
   console.log (req.body)
-  res.send ('order received')
+  let creditCard = req.body.params.creditCard;
+  let productID = req.body.params.productID;
+  let shippingAddress = req.body.params.shippingAddress;
+  if (creditCard.number.length !== 16) {
+    res.send ('Error: Credit Card is not 16 digits long')
+  }
+  if (creditCard.code === '') {
+    res.send ('Error: No Security Code Provided')
+  }  
+  if (creditCard.name === '') {
+    res.send ('Error: No Card Owner Name Provided')
+  }  
+  if (creditCard.year < 2018) {
+    res.send ('Error: Credit Card Expiration Year is past')
+  }
+  if (creditCard.month > 12 || creditCard < 1) {
+    res.send ('Error: Credit Card Expiration Month is not valid')
+  }
+  res.send (req.body)
 })
 
 app.get('/search', (req, res) => {
