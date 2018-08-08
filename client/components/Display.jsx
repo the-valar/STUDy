@@ -15,6 +15,7 @@ import axios from 'axios';
 import ShowReviews from './ShowReviews.jsx';
 import Review from './Review.jsx';
 import '../style.css';
+import HeartButton from './HeartButton.jsx';
 
 class Display extends React.Component {
   constructor(props) {
@@ -28,7 +29,8 @@ class Display extends React.Component {
       submittedReview: false,
       coffeeRating: 0,
       atmosphereRating: 0,
-      comfortRating: 0
+      comfortRating: 0,
+      favorites: []
     };
 
     this.cafeView = this.cafeView.bind(this);
@@ -89,7 +91,8 @@ class Display extends React.Component {
         axios
           .get('/reviews', {
             params: {
-              location_id: cafe.id
+              location_id: cafe.id,
+              parent_id: 0
             }
           })
           .then((reviews) => {
@@ -114,13 +117,16 @@ class Display extends React.Component {
         comfort: this.state.comfortRating,
         food: this.state.foodRating
       })
-      .then(() => {
+      .then((response) => {
+        console.log('the response after posting the rating', response)
         // submits review stars
         axios
           .post('/comments', {
             user_id: this.props.userId,
             location_id: this.state.currentCafe.id,
-            text: this.state.review
+            text: this.state.review,
+            parent_id: 0,
+            rating_id: response.data.insertId
           })
           .then(() => {
             axios
@@ -131,15 +137,24 @@ class Display extends React.Component {
                 }
               })
               .then((res) => {
-                this.setState({
-                  currentCafeAvgRating: res.data[0],
-                  review: '',
-                  submittedReview: true,
-                  coffeeRating: 0,
-                  atmosphereRating: 0,
-                  comfortRating: 0,
-                  foodRating: 0,
-                  addFave: 0
+                axios.get('/reviews', {
+                  params: {
+                    location_id: this.state.currentCafe.id,
+                    parent_id: 0
+                  }
+                })
+                .then((reviews) => {
+                  this.setState({
+                    currentCafeAvgRating: res.data[0],
+                    review: '',
+                    submittedReview: true,
+                    coffeeRating: 0,
+                    atmosphereRating: 0,
+                    comfortRating: 0,
+                    foodRating: 0,
+                    addFave: 0,
+                    currentCafeReviews: reviews
+                  });
                 });
               })
               .catch((err) => {
@@ -207,6 +222,23 @@ class Display extends React.Component {
         console.log(response);
       });
   }
+  componentWillReceiveProps(){
+    if (!this.props.loggedIn) return
+    axios
+    .get('/favorites', {
+      params: {
+        user_id: this.props.userId
+      }
+    })
+    .then((response) => {
+      this.setState({
+        favorites: response.data
+      });
+    })
+    .catch((err) => {
+      console.error('Error getting favorites', err);
+    });
+  }
 
   render() {
     // page shows no search results
@@ -225,7 +257,9 @@ class Display extends React.Component {
                     height="250"
                     onClick={() => this.cafeView(cafe)}
                   >
-                    <h3>{cafe.name}</h3>
+                    <h3>{cafe.name}</h3> 
+                    <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={cafe.id}/>
+
                     <p>
                       {cafe.location.address1}, {cafe.location.city},{' '}
                       {cafe.location.state}, {cafe.location.zip_code}
@@ -257,6 +291,7 @@ class Display extends React.Component {
           <div align="center" style={{ marginBottom: 50 }}>
             {/* current cafe name & avg star ratings */}
             <h3>{this.state.currentCafe.name}</h3>
+            <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={this.state.currentCafe.id}/>
             <ShowReviews
               reviews={this.state.currentCafeReviews.data}
               cafe={this.state.currentCafe}
@@ -420,6 +455,8 @@ class Display extends React.Component {
                     onClick={() => this.cafeView(cafe)}
                   >
                     <h3>{cafe.name}</h3>
+                     <HeartButton favorites={this.state.favorites} user_id={this.props.userId} location_id={cafe.id}/>
+
                     <p>
                       {cafe.location.address1}, {cafe.location.city},{' '}
                       {cafe.location.state}, {cafe.location.zip_code}

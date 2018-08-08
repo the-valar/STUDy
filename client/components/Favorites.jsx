@@ -16,23 +16,17 @@ class Favorites extends React.Component {
   modalBody() {
     if (this.state.favorites.length) {
       return (
-        <div>
-          <Modal.Body>
-            <StackGrid columnWidth={300} monitorImagesLoaded={true}>
+        <div className='favorites'>
               {this.state.favorites.map((cafe) => {
                 return (
-                  <div key={cafe.id}>
-                    <Thumbnail height="250">
-                      <h3>{cafe.name}</h3>
+                  <div className='favItem'>
+                      <h4>{cafe.name}</h4>
                       <p>
                         {cafe.address}, {cafe.city}, {cafe.state}
                       </p>
-                    </Thumbnail>
                   </div>
                 );
               })}
-            </StackGrid>
-          </Modal.Body>
         </div>
       );
     } else {
@@ -62,20 +56,7 @@ class Favorites extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <Modal
-          show={this.props.showFavorites}
-          onHide={this.props.closeFavorites}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Favorites</Modal.Title>
-          </Modal.Header>
-
-          <div>{this.modalBody()}</div>
-        </Modal>
-      </div>
-    );
+    return this.modalBody();
   }
 }
 

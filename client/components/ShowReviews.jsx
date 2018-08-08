@@ -41,8 +41,9 @@ class ShowReviews extends React.Component {
             {this.props.reviews.map((review) => {
               return (
                 <div>
-                  <Grid>
+                  <Grid bsClass="">
                     <Row>
+                      <h5 className="review-modal-user">{review.username}:</h5>
                       <Col xs={6} md={3}>
                         <strong>Coffee/Tea:</strong>{' '}
                         <StarRatings
