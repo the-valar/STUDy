@@ -7,7 +7,7 @@ and **STUD(y)** will return results that are tailored to that specific user.
 
 ## Team
 
-- **Product Owner**: [Daniel Guan (@StrykeBack)](https://github.com/StrykeBack)
+- **Product Owner**: [Daniel Guan (@danguan)](https://github.com/danguan)
 - **Scrum Master**: [Erik Lin (@lin-erik)](https://github.com/lin-erik)
 - **Development Team Members**: [Debbie Lee (@DebbieLittle)](https://github.com/DebbieLittle), [Edward Kye (@ekye121)](https://github.com/ekye121)
 
